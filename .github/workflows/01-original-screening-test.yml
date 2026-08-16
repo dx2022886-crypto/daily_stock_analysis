@@ -1,0 +1,100 @@
+name: 原版自动选股测试
+
+on:
+  workflow_dispatch:
+    inputs:
+      strategy:
+        description: 选股策略
+        required: true
+        default: balanced_alpha
+        type: choice
+        options:
+          - balanced_alpha
+          - blue_chip_income
+          - capital_heat
+          - dual_low
+          - low_volatility_quality
+          - momentum_quality
+          - oversold_reversal
+          - quality_value
+          - shrink_pullback
+          - volume_breakout
+      max_results:
+        description: 最大返回数量
+        required: true
+        default: '10'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  original-screening:
+    name: 原版自动选股测试
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SCREENING_ENABLED: 'true'
+      SCREENING_MARKET: cn
+      SCREENING_STRATEGY: ${{ inputs.strategy || 'balanced_alpha' }}
+      SCREENING_MAX_RESULTS: ${{ inputs.max_results || '10' }}
+      # Keep the LLM resolution compatible with 00-daily-analysis.yml. The
+      # service can infer gemini/<GEMINI_MODEL> when LITELLM_MODEL is unset.
+      LITELLM_MODEL: ${{ vars.LITELLM_MODEL || secrets.LITELLM_MODEL }}
+      LITELLM_FALLBACK_MODELS: ${{ vars.LITELLM_FALLBACK_MODELS || secrets.LITELLM_FALLBACK_MODELS }}
+      LITELLM_CONFIG: ${{ vars.LITELLM_CONFIG || secrets.LITELLM_CONFIG }}
+      LITELLM_CONFIG_YAML: ${{ vars.LITELLM_CONFIG_YAML || secrets.LITELLM_CONFIG_YAML }}
+      LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
+      AGENT_LITELLM_MODEL: ${{ vars.AGENT_LITELLM_MODEL || secrets.AGENT_LITELLM_MODEL }}
+      LLM_TEMPERATURE: ${{ vars.LLM_TEMPERATURE || secrets.LLM_TEMPERATURE }}
+      LLM_CHANNELS: ${{ vars.LLM_CHANNELS || secrets.LLM_CHANNELS }}
+      LLM_GEMINI_PROTOCOL: ${{ vars.LLM_GEMINI_PROTOCOL || secrets.LLM_GEMINI_PROTOCOL }}
+      LLM_GEMINI_API_SURFACE: ${{ vars.LLM_GEMINI_API_SURFACE || secrets.LLM_GEMINI_API_SURFACE }}
+      LLM_GEMINI_BASE_URL: ${{ vars.LLM_GEMINI_BASE_URL || secrets.LLM_GEMINI_BASE_URL }}
+      LLM_GEMINI_API_KEY: ${{ secrets.LLM_GEMINI_API_KEY }}
+      LLM_GEMINI_API_KEYS: ${{ secrets.LLM_GEMINI_API_KEYS }}
+      LLM_GEMINI_MODELS: ${{ vars.LLM_GEMINI_MODELS || secrets.LLM_GEMINI_MODELS }}
+      LLM_GEMINI_ENABLED: ${{ vars.LLM_GEMINI_ENABLED || secrets.LLM_GEMINI_ENABLED }}
+      LLM_GEMINI_EXTRA_HEADERS: ${{ vars.LLM_GEMINI_EXTRA_HEADERS || secrets.LLM_GEMINI_EXTRA_HEADERS }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL || secrets.GEMINI_MODEL || 'gemini-3-flash-preview' }}
+      GEMINI_MODEL_FALLBACK: ${{ vars.GEMINI_MODEL_FALLBACK || secrets.GEMINI_MODEL_FALLBACK || 'gemini-2.5-flash' }}
+      GEMINI_REQUEST_DELAY: '3.0'
+      GENERATION_BACKEND: ${{ vars.GENERATION_BACKEND || secrets.GENERATION_BACKEND }}
+      GENERATION_FALLBACK_BACKEND: ${{ vars.GENERATION_FALLBACK_BACKEND || secrets.GENERATION_FALLBACK_BACKEND || 'litellm' }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v5
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: 安装项目依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: 运行原版自动选股测试
+        id: screening
+        continue-on-error: true
+        run: python scripts/run_original_screening_test.py
+
+      - name: 上传原版选股结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-screening-results
+          path: |
+            reports/screening/original_screening.json
+            reports/screening/original_screening.md
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: 保持失败状态
+        if: steps.screening.outcome == 'failure'
+        run: exit 1
