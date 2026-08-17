@@ -56,9 +56,11 @@ LEADER_WEIGHTS = {
     "sector_leadership": 10.0,
     "risk_following": 10.0,
 }
-THEME_ROLE_PRIORITY = {"MAIN": 3, "SECONDARY": 2, "ROTATION": 1, "WEAK": 0}
+THEME_ROLE_PRIORITY = {"MAIN": 3, "DEGRADED_MAIN": 3, "SECONDARY": 2, "ROTATION": 1, "WEAK": 0}
 
 logger = logging.getLogger("short_term_theme_leader")
+_API_CACHE: dict[str, tuple[list[dict[str, Any]], dict[str, Any]]] = {}
+_API_STATS = {"requests": 0, "cache_hits": 0}
 
 
 def _configure_logging() -> None:
@@ -138,32 +140,60 @@ def _records(frame: Any) -> list[dict[str, Any]]:
     return [row for row in rows if isinstance(row, dict)]
 
 
-def _fetch(function: str, **kwargs: Any) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Call one AKShare endpoint independently, retaining failure metadata."""
+def _fetch(function: str, *, source: str = "akshare", **kwargs: Any) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Call one endpoint once per parameter tuple, retaining failure metadata."""
+    cache_key = json.dumps([function, kwargs], ensure_ascii=False, sort_keys=True, default=str)
+    if cache_key in _API_CACHE:
+        _API_STATS["cache_hits"] += 1
+        rows, metadata = _API_CACHE[cache_key]
+        cached = copy.deepcopy(metadata)
+        cached["cache_hit"] = True
+        return copy.deepcopy(rows), cached
+
+    _API_STATS["requests"] += 1
+    if not hasattr(ak, function):
+        metadata = {
+            "function": function,
+            "source": source,
+            "status": "failed",
+            "rows": 0,
+            "attempts": 0,
+            "params": _json_safe(kwargs),
+            "error": {"type": "AttributeError", "message": f"AKShare function {function} is unavailable"},
+        }
+        _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
+        return [], metadata
+
     last_error: Exception | None = None
     for attempt in range(1, FETCH_RETRIES + 1):
         try:
             frame = getattr(ak, function)(**kwargs)
             rows = _records(frame)
-            return rows, {
+            metadata = {
                 "function": function,
+                "source": source,
                 "status": "success",
                 "rows": len(rows),
                 "attempts": attempt,
                 "params": _json_safe(kwargs),
             }
+            _API_CACHE[cache_key] = (copy.deepcopy(rows), copy.deepcopy(metadata))
+            return rows, metadata
         except Exception as exc:  # Each source must fail independently.
             last_error = exc
             if attempt < FETCH_RETRIES:
-                time.sleep(min(2 ** (attempt - 1), 4))
-    return [], {
+                time.sleep(2 ** (attempt - 1))
+    metadata = {
         "function": function,
+        "source": source,
         "status": "failed",
         "rows": 0,
         "attempts": FETCH_RETRIES,
         "params": _json_safe(kwargs),
         "error": {"type": type(last_error).__name__, "message": str(last_error)},
     }
+    _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
+    return [], metadata
 
 
 def _source_ok(source: dict[str, Any] | None) -> bool:
@@ -220,77 +250,317 @@ def _fetch_market_data(target: date) -> tuple[dict[str, Any], list[dict[str, Any
     data: dict[str, Any] = {"date": date_text}
     sources: list[dict[str, Any]] = []
     for key, function in (("limit_up", "stock_zt_pool_em"), ("broken_board", "stock_zt_pool_zbgc_em")):
-        rows, source = _fetch(function, date=date_text)
+        rows, source = _fetch(function, source="eastmoney", date=date_text)
         data[key] = rows
         data[f"{key}_source"] = source
         sources.append(source)
-    hot_rows, hot_source = _fetch("stock_hot_rank_em")
+    hot_rows, hot_source = _fetch("stock_hot_rank_em", source="eastmoney")
     data["hot"] = hot_rows
     data["hot_source"] = hot_source
     sources.append(hot_source)
+    data["data_coverage"] = {
+        "limit_up_available": _source_ok(data["limit_up_source"]),
+        "broken_board_available": _source_ok(data["broken_board_source"]),
+        "hot_rank_available": _source_ok(data["hot_source"]),
+    }
     return data, sources
 
 
-def _fetch_themes(target_date_text: str) -> tuple[dict[str, dict[str, Any]], dict[str, list[str]], dict[str, list[str]], list[dict[str, Any]]]:
-    """Fetch all concept/industry relationships with per-call diagnostics."""
+def _theme_name(row: dict[str, Any]) -> str:
+    return str(_first(row, "板块名称", "题材名称", "概念名称", "行业名称", "名称", "theme_name", "name") or "").strip()
+
+
+def _theme_symbol(row: dict[str, Any], fallback: str) -> str:
+    # AKShare's EM constituent endpoints historically take the board name,
+    # while other providers expose an index code.  Prefer the name for EM
+    # compatibility and retain code fields for THS/normalized output.
+    return str(_first(row, "板块名称", "行业名称", "名称", "板块代码", "指数代码", "代码", "theme_code", "code", "symbol") or fallback)
+
+
+def _missing_source(function: str, source: str) -> dict[str, Any]:
+    return {
+        "function": function,
+        "source": source,
+        "status": "failed",
+        "rows": 0,
+        "attempts": 0,
+        "params": {},
+        "error": {"type": "AttributeError", "message": f"AKShare function {function} is unavailable"},
+    }
+
+
+def _merge_theme_member(
+    stock_to_themes: dict[str, list[str]],
+    theme_sources: dict[str, dict[str, Any]],
+    code: str,
+    theme: str,
+    source: str,
+    industry: str | None = None,
+) -> None:
+    if not code or not theme:
+        return
+    stock_to_themes.setdefault(code, []).append(theme)
+    record = theme_sources.setdefault(code, {"themes": [], "industries": [], "sources": []})
+    record["themes"].append(theme)
+    if industry:
+        record["industries"].append(industry)
+    record["sources"].append(source)
+
+
+def _fetch_theme_universe(
+    target_date_text: str,
+    market: dict[str, Any] | None = None,
+    candidates: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Build one normalized theme universe with EM, THS and industry fallback."""
+    market = market or {"limit_up": [], "broken_board": [], "hot": []}
+    candidates = candidates or {}
     themes: dict[str, dict[str, Any]] = {}
     stock_to_themes: dict[str, list[str]] = {}
     stock_to_industries: dict[str, list[str]] = {}
+    theme_sources: dict[str, dict[str, Any]] = {}
     sources: list[dict[str, Any]] = []
+    em_concept_ok = False
+    ths_concept_ok = False
+    em_industry_ok = False
+    ths_industry_ok = False
 
-    concept_rows, concept_source = _fetch("stock_board_concept_name_em")
-    sources.append(concept_source)
-    for board in concept_rows:
-        theme = str(_first(board, "板块名称", "名称", "板块", "theme_name") or "").strip()
-        if not theme:
-            continue
-        symbol = str(_first(board, "板块名称", "板块代码", "名称", "theme_name") or theme)
-        entry = themes.setdefault(theme, {"theme_name": theme, "board_code": symbol, "members": [], "member_rows": [], "board_change_pct": None, "hist_available": False, "concept_available": False})
-        members, member_source = _fetch("stock_board_concept_cons_em", symbol=symbol)
-        sources.append(member_source)
-        entry["concept_available"] = _source_ok(member_source)
-        entry["member_rows"] = members
-        entry["members"] = sorted({_row_code(row) for row in members if _row_code(row)})
-        for row in members:
+    def ensure_theme(name: str, symbol: str, theme_type: str, source: str, row: dict[str, Any] | None = None) -> dict[str, Any]:
+        entry = themes.setdefault(name, {
+            "theme_name": name,
+            "theme_type": theme_type,
+            "theme_code": symbol,
+            "source": source,
+            "members": [],
+            "member_rows": [],
+            "board_change_pct": _number(_first(row or {}, "涨跌幅", "涨跌幅(%)", "change_pct")),
+            "hist_available": False,
+            "concept_available": False,
+            "data_quality": "partial" if source != "eastmoney" else "complete",
+            "is_degraded": False,
+        })
+        return entry
+
+    def append_members(entry: dict[str, Any], rows: list[dict[str, Any]], source: str) -> None:
+        existing = set(entry.get("members") or [])
+        for row in rows:
             code = _row_code(row)
-            if code:
-                stock_to_themes.setdefault(code, []).append(theme)
-        hist_rows, hist_source = _fetch(
-            "stock_board_concept_hist_em",
-            symbol=symbol,
-            period="daily",
-            start_date=target_date_text,
-            end_date=target_date_text,
-            adjust="",
-        )
-        sources.append(hist_source)
-        if _source_ok(hist_source) and hist_rows:
-            entry["board_change_pct"] = _number(_first(hist_rows[-1], "涨跌幅", "涨跌幅(%)", "change_pct"))
-            entry["hist_available"] = entry["board_change_pct"] is not None
+            if not code:
+                continue
+            existing.add(code)
+            entry.setdefault("member_rows", []).append(row)
+            _merge_theme_member(stock_to_themes, theme_sources, code, entry["theme_name"], source, _first(row, "所属行业", "行业", "industry"))
+        entry["members"] = sorted(existing)
 
-    industry_rows, industry_source = _fetch("stock_board_industry_name_em")
-    sources.append(industry_source)
-    industries: dict[str, dict[str, Any]] = {}
+    # EastMoney concept source.
+    em_rows, em_name_source = _fetch("stock_board_concept_name_em", source="eastmoney")
+    sources.append(em_name_source)
+    em_concept_ok = _source_ok(em_name_source) and bool(em_rows)
+    if em_concept_ok:
+        for board in em_rows:
+            name = _theme_name(board)
+            if not name:
+                continue
+            symbol = _theme_symbol(board, name)
+            entry = ensure_theme(name, symbol, "CONCEPT", "eastmoney", board)
+            members, member_source = _fetch("stock_board_concept_cons_em", source="eastmoney", symbol=symbol)
+            sources.append(member_source)
+            entry["concept_available"] = _source_ok(member_source)
+            append_members(entry, members, "eastmoney")
+            hist_rows, hist_source = _fetch(
+                "stock_board_concept_hist_em",
+                source="eastmoney",
+                symbol=symbol,
+                period="daily",
+                start_date=target_date_text,
+                end_date=target_date_text,
+                adjust="",
+            )
+            sources.append(hist_source)
+            if _source_ok(hist_source) and hist_rows:
+                entry["board_change_pct"] = _number(_first(hist_rows[-1], "涨跌幅", "涨跌幅(%)", "change_pct"))
+                entry["hist_available"] = entry["board_change_pct"] is not None
+
+    # THS concept fallback/supplement.  Every optional function is checked at runtime.
+    need_ths_concept = not em_concept_ok or not any(item.get("members") for item in themes.values())
+    ths_concept_rows: list[dict[str, Any]] = []
+    if need_ths_concept:
+        for function in ("stock_board_concept_name_ths", "stock_board_concept_index_ths"):
+            if not hasattr(ak, function):
+                sources.append(_missing_source(function, "ths"))
+                continue
+            ths_concept_rows, ths_name_source = _fetch(function, source="ths")
+            sources.append(ths_name_source)
+            if _source_ok(ths_name_source) and ths_concept_rows:
+                ths_concept_ok = True
+                break
+    for board in ths_concept_rows:
+        name = _theme_name(board)
+        if not name:
+            continue
+        symbol = _theme_symbol(board, name)
+        entry = ensure_theme(name, symbol, "CONCEPT", "ths", board)
+        if entry.get("source") == "eastmoney" and entry.get("members"):
+            continue
+        entry["source"] = "ths"
+        entry["data_quality"] = "partial"
+        # Optional constituent APIs are queried only for a bounded set of boards.
+        cons_function = next((candidate for candidate in ("stock_board_concept_cons_ths", "stock_board_cons_ths") if hasattr(ak, candidate)), None)
+        if cons_function and len([item for item in themes.values() if item.get("source") == "ths"]) <= 50:
+            members, member_source = _fetch(cons_function, source="ths", symbol=symbol)
+            sources.append(member_source)
+            append_members(entry, members, "ths")
+
+    # EastMoney industry source, then THS industry fallback.
+    em_industry_rows, em_industry_source = _fetch("stock_board_industry_name_em", source="eastmoney")
+    sources.append(em_industry_source)
+    em_industry_ok = _source_ok(em_industry_source) and bool(em_industry_rows)
+    industry_rows = em_industry_rows
+    industry_source_name = "eastmoney"
+    if not em_industry_ok:
+        industry_rows = []
+        for function in ("stock_board_industry_name_ths", "stock_board_industry_index_ths", "stock_board_industry_summary_ths"):
+            if not hasattr(ak, function):
+                sources.append(_missing_source(function, "ths"))
+                continue
+            industry_rows, industry_list_source = _fetch(function, source="ths")
+            sources.append(industry_list_source)
+            if _source_ok(industry_list_source) and industry_rows:
+                ths_industry_ok = True
+                industry_source_name = "ths"
+                break
     for board in industry_rows:
-        industry = str(_first(board, "板块名称", "名称", "行业名称", "industry") or "").strip()
+        industry = _theme_name(board)
         if not industry:
             continue
-        symbol = str(_first(board, "板块名称", "板块代码", "名称", "industry") or industry)
-        members, member_source = _fetch("stock_board_industry_cons_em", symbol=symbol)
+        symbol = _theme_symbol(board, industry)
+        members, member_source = _fetch(
+            "stock_board_industry_cons_em" if industry_source_name == "eastmoney" else "stock_board_industry_cons_ths",
+            source=industry_source_name,
+            symbol=symbol,
+        ) if (industry_source_name == "eastmoney" and hasattr(ak, "stock_board_industry_cons_em")) or (industry_source_name == "ths" and hasattr(ak, "stock_board_industry_cons_ths")) else ([], _missing_source("stock_board_industry_cons_ths", "ths"))
         sources.append(member_source)
-        industries[industry] = {"rows": members, "available": _source_ok(member_source)}
+        if not _source_ok(member_source):
+            continue
         for row in members:
             code = _row_code(row)
             if code:
                 stock_to_industries.setdefault(code, []).append(industry)
+                _merge_theme_member(stock_to_themes, theme_sources, code, industry, industry_source_name, industry)
+        if industry_source_name == "eastmoney" and hasattr(ak, "stock_board_industry_hist_em"):
+            _, industry_hist_source = _fetch(
+                "stock_board_industry_hist_em",
+                source="eastmoney",
+                symbol=symbol,
+                period="daily",
+                start_date=target_date_text,
+                end_date=target_date_text,
+                adjust="",
+            )
+            sources.append(industry_hist_source)
+
+    # Pool fields provide a cheap stock -> industry supplement even when board
+    # constituent pages are unavailable.
+    pool_rows = list(market.get("limit_up") or []) + list(market.get("broken_board") or [])
+    for candidate in candidates.values():
+        ecology = candidate.get("market_ecology") or {}
+        code = _normalize_code(candidate.get("code"))
+        industry = str(ecology.get("industry") or "").strip()
+        if code and industry:
+            pool_rows.append({"代码": code, "名称": candidate.get("name"), "所属行业": industry})
+    for row in pool_rows:
+        code = _row_code(row)
+        industry = str(_first(row, "所属行业", "行业", "industry") or "").strip()
+        if code and industry:
+            stock_to_industries.setdefault(code, []).append(industry)
+            if not stock_to_themes.get(code):
+                _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
+
+    concept_available = em_concept_ok or ths_concept_ok
+    market_available = bool(
+        _source_ok(market.get("limit_up_source"))
+        or _source_ok(market.get("broken_board_source"))
+        or _source_ok(market.get("hot_source"))
+    )
+    if not concept_available:
+        # Lowest-cost fallback: group available limit-up/broken-board rows by industry.
+        degraded: dict[str, dict[str, Any]] = {}
+        for row in pool_rows:
+            industry = str(_first(row, "所属行业", "行业", "industry") or "").strip()
+            code = _row_code(row)
+            if not industry or not code:
+                continue
+            entry = degraded.setdefault(industry, {
+                "theme_name": industry,
+                "theme_type": "INDUSTRY_DEGRADED",
+                "theme_code": industry,
+                "source": "limit_up_industry_cluster",
+                "members": [],
+                "member_rows": [],
+                "board_change_pct": None,
+                "hist_available": False,
+                "concept_available": True,
+                "data_quality": "degraded",
+                "is_degraded": True,
+            })
+            if code not in entry["members"]:
+                entry["members"].append(code)
+                entry["member_rows"].append(row)
+                _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
+        themes = degraded
 
     for code in stock_to_themes:
         stock_to_themes[code] = sorted(set(stock_to_themes[code]))
     for code in stock_to_industries:
         stock_to_industries[code] = sorted(set(stock_to_industries[code]))
-    # Keep the industry map in the returned payload without making it a second
-    # source of truth for scoring.
-    return themes, stock_to_themes, stock_to_industries, sources
+    for code, record in theme_sources.items():
+        record["themes"] = sorted(set(record["themes"]))
+        record["industries"] = sorted(set(record["industries"]))
+        record["sources"] = sorted(set(record["sources"]))
+
+    em_concept_members_ok = any(item.get("source") == "eastmoney" and item.get("members") for item in themes.values())
+    ths_concept_members_ok = any(item.get("source") == "ths" and item.get("members") for item in themes.values())
+    if em_concept_members_ok and em_concept_ok and em_industry_ok:
+        source_mode = "FULL_EASTMONEY"
+    elif ths_concept_members_ok and ths_concept_ok and ths_industry_ok and not em_concept_ok:
+        source_mode = "FULL_THS"
+    elif themes and any(item.get("is_degraded") for item in themes.values()):
+        source_mode = "INDUSTRY_DEGRADED"
+    elif themes:
+        source_mode = "MIXED"
+    elif market_available:
+        source_mode = "MARKET_ONLY"
+    else:
+        source_mode = "UNAVAILABLE"
+    data_quality = "complete" if source_mode == "FULL_EASTMONEY" else "partial" if source_mode in {"FULL_THS", "MIXED"} else "degraded" if source_mode in {"INDUSTRY_DEGRADED", "MARKET_ONLY"} else "unavailable"
+    source_failures = [item for item in sources if item.get("status") == "failed"]
+    return {
+        "themes": themes,
+        "stock_to_themes": stock_to_themes,
+        "stock_to_industries": stock_to_industries,
+        "theme_sources": theme_sources,
+        "sources": sources,
+        "source_failures": source_failures,
+        "source": "eastmoney" if source_mode == "FULL_EASTMONEY" else "ths" if source_mode == "FULL_THS" else "degraded" if source_mode in {"INDUSTRY_DEGRADED", "MARKET_ONLY"} else "unavailable",
+        "source_mode": source_mode,
+        "data_quality": data_quality,
+        "data_coverage": {
+            "concept_available": concept_available,
+            "industry_available": em_industry_ok or ths_industry_ok,
+            "limit_up_available": _source_ok(market.get("limit_up_source")),
+            "broken_board_available": _source_ok(market.get("broken_board_source")),
+            "hot_rank_available": _source_ok(market.get("hot_source")),
+        },
+    }
+
+
+def _fetch_themes(
+    target_date_text: str,
+    market: dict[str, Any] | None = None,
+    candidates: dict[str, dict[str, Any]] | None = None,
+) -> tuple[dict[str, dict[str, Any]], dict[str, list[str]], dict[str, list[str]], list[dict[str, Any]], dict[str, Any]]:
+    universe = _fetch_theme_universe(target_date_text, market, candidates)
+    return universe["themes"], universe["stock_to_themes"], universe["stock_to_industries"], universe["sources"], universe
 
 
 def _stock_map(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
@@ -328,10 +598,14 @@ def _score_components(components: dict[str, float | None], weights: dict[str, fl
     raw = round(sum(float(value) for value in available.values()), 4) if available else None
     available_weight = round(sum(weights[key] for key in available), 4)
     normalized = round(raw / available_weight * 100, 4) if raw is not None and available_weight else None
+    coverage_ratio = round(available_weight / sum(weights.values()), 4) if weights else 0.0
+    confidence_adjusted = round(normalized * math.sqrt(coverage_ratio), 4) if normalized is not None else None
     return {
         "score_raw": raw,
         "available_weight": available_weight,
+        "coverage_ratio": coverage_ratio,
         "normalized_score": normalized,
+        "confidence_adjusted_score": confidence_adjusted,
         "data_quality": "complete" if len(available) == len(weights) else "partial" if available else "unavailable",
         "components": {key: (round(float(value), 4) if value is not None else None) for key, value in components.items()},
     }
@@ -382,9 +656,16 @@ def _theme_role(score: float | None, rank: int, metrics: dict[str, Any], first_s
     if score is None:
         return None
     gap = (first_score - score) if first_score is not None else math.inf
-    if rank == 1 and score >= 70:
+    coverage = _number(metrics.get("coverage_ratio")) or 0.0
+    degraded = bool(metrics.get("is_degraded")) or metrics.get("data_quality") == "degraded"
+    if degraded and rank == 1 and score >= 50 and ((_number(metrics.get("limit_up_count")) or 0) >= 5 or (_number(metrics.get("highest_board")) or 0) >= 3):
+        metrics["is_degraded_main"] = True
         return "MAIN"
-    if score >= 60 and gap <= 10:
+    if coverage < 0.4:
+        return "ROTATION"
+    if rank == 1 and score >= 70 and coverage >= 0.6:
+        return "MAIN"
+    if score >= 60 and gap <= 10 and coverage >= 0.4:
         return "SECONDARY"
     if score >= 50:
         return "ROTATION"
@@ -396,7 +677,7 @@ def _theme_role(score: float | None, rank: int, metrics: dict[str, Any], first_s
 
 def _theme_sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
     return (
-        -(item.get("theme_score") if item.get("theme_score") is not None else float("-inf")),
+        -(item.get("confidence_adjusted_score") if item.get("confidence_adjusted_score") is not None else float("-inf")),
         -(item.get("limit_up_count") if item.get("limit_up_count") is not None else float("-inf")),
         -(item.get("highest_board") if item.get("highest_board") is not None else float("-inf")),
         -(item.get("candidate_resonance_sum") if item.get("candidate_resonance_sum") is not None else float("-inf")),
@@ -453,8 +734,12 @@ def _build_theme_metrics(
                 ladder["3_plus"] += 1
         metrics: dict[str, Any] = {
             "theme_name": theme,
+            "theme_type": data.get("theme_type", "CONCEPT"),
+            "theme_code": data.get("theme_code"),
+            "source": data.get("source"),
             "candidate_count": len(candidate_codes) if data.get("concept_available") else None,
             "candidate_codes": candidate_codes if data.get("concept_available") else [],
+            "member_count": len(member_codes) if data.get("concept_available") else None,
             "limit_up_count": len(up_codes) if up_codes is not None else None,
             "broken_board_count": len(broken_codes) if broken_codes is not None else None,
             "highest_board": max(board_counts) if board_counts else (0 if up_codes == [] else None),
@@ -471,8 +756,13 @@ def _build_theme_metrics(
                 "broken_board": broken_available,
                 "hot_rank": hot_available,
             },
+            "is_degraded": bool(data.get("is_degraded")),
         }
         score_details = _score_components(_theme_components(metrics), THEME_WEIGHTS)
+        if data.get("data_quality") == "degraded":
+            score_details["data_quality"] = "degraded"
+        elif data.get("data_quality") == "partial" and score_details["data_quality"] == "complete":
+            score_details["data_quality"] = "partial"
         metrics.update(score_details)
         metrics["theme_score"] = score_details["normalized_score"]
         result[theme] = metrics
@@ -514,7 +804,9 @@ def _build_stock_records(
         up_row = up_map.get(code)
         broken_row = broken_map.get(code)
         candidate = candidates.get(code, {})
-        themes = stock_to_themes.get(code, [])
+        # Industries may be present in stock_to_themes for provenance, but
+        # only normalized theme metrics can be selected as a primary theme.
+        themes = [theme for theme in stock_to_themes.get(code, []) if theme in theme_metrics]
         primary = _select_primary_theme(themes, theme_metrics)
         theme = theme_metrics.get(primary or "", {})
         board_count = _board_count(up_row)
@@ -560,7 +852,7 @@ def _leader_components(stock: dict[str, Any], theme_metrics: dict[str, dict[str,
     else:
         position = None
     role = stock.get("primary_theme_role")
-    theme_position = None if not role else {"MAIN": 12.0, "SECONDARY": 9.0, "ROTATION": 6.0, "WEAK": 3.0}.get(role, 0.0) + _clamp((len(stock.get("themes") or []) - 1) * 1.5, 0, 3)
+    theme_position = None if not role else {"MAIN": 12.0, "DEGRADED_MAIN": 10.0, "SECONDARY": 9.0, "ROTATION": 6.0, "WEAK": 3.0}.get(role, 0.0) + _clamp((len(stock.get("themes") or []) - 1) * 1.5, 0, 3)
     rank = _number(stock.get("hot_rank"))
     popularity = _clamp((101 - rank) / 100 * 15, 0, 15) if rank is not None else None
     model_resonance = _clamp((_number(stock.get("resonance_count")) or 0) / 4 * 10, 0, 10)
@@ -588,6 +880,14 @@ def _leader_components(stock: dict[str, Any], theme_metrics: dict[str, dict[str,
 def _stock_role(stock: dict[str, Any], theme_rank: int | None, highest_market_board: int | None) -> str:
     if stock.get("is_broken_board") and (theme_rank or 99) <= 2:
         return "BROKEN_CORE"
+    if not stock.get("themes"):
+        if stock.get("is_limit_up") and stock.get("board_count") == highest_market_board:
+            return "MARKET_LEADER"
+        if stock.get("is_broken_board") and (stock.get("candidate") or stock.get("hot_rank") is not None):
+            return "BROKEN_CORE"
+        if stock.get("candidate") or stock.get("hot_rank") is not None:
+            return "FRONT_CORE"
+        return "OBSERVE"
     if stock.get("is_limit_up") and stock.get("board_count") == highest_market_board and stock.get("primary_theme_role") == "MAIN":
         return "MARKET_LEADER"
     if stock.get("primary_theme_role") in {"MAIN", "SECONDARY"} and theme_rank == 1:
@@ -624,7 +924,9 @@ def _build_leaders(stock_records: dict[str, dict[str, Any]], theme_metrics: dict
     for stock in stock_records.values():
         details = _score_components(_leader_components(stock, theme_metrics, highest), LEADER_WEIGHTS)
         stock.update(details)
-        stock["leader_score"] = details["normalized_score"]
+        stock["leader_score"] = details["confidence_adjusted_score"]
+        stock["leader_data_quality"] = details["data_quality"]
+        stock["leader_source_mode"] = "full_theme" if stock.get("themes") else "market_only"
 
     by_theme: dict[str, list[dict[str, Any]]] = {}
     for stock in stock_records.values():
@@ -646,7 +948,7 @@ def _build_leaders(stock_records: dict[str, dict[str, Any]], theme_metrics: dict
         stock["primary_theme_rank"] = rank
         stock["stock_role"] = _stock_role(stock, rank, highest)
         stock["leader_reasons"] = _leader_reasons(stock, rank, theme_data, highest)
-        if stock.get("themes") and (stock.get("is_limit_up") or stock.get("is_broken_board") or stock.get("candidate") or stock.get("hot_rank") is not None):
+        if stock.get("is_limit_up") or stock.get("is_broken_board") or stock.get("candidate") or stock.get("hot_rank") is not None:
             leaders.append(copy.deepcopy(stock))
     leaders.sort(key=lambda item: (-(item.get("leader_score") if item.get("leader_score") is not None else float("-inf")), item["code"]))
     market_leaders = []
@@ -658,6 +960,8 @@ def _build_leaders(stock_records: dict[str, dict[str, Any]], theme_metrics: dict
             "primary_theme": stock.get("primary_theme"),
             "stock_role": "MARKET_LEADER" if rank == 1 else stock.get("stock_role"),
             "leader_score": stock.get("leader_score"),
+            "leader_data_quality": stock.get("leader_data_quality"),
+            "leader_source_mode": stock.get("leader_source_mode"),
             "board_count": stock.get("board_count"),
             "hot_rank": stock.get("hot_rank"),
             "resonance_count": stock.get("resonance_count"),
@@ -806,8 +1110,12 @@ def main() -> int:
 
     target = _target_date(sentiment, args.target_date)
     original_candidates, candidates = _candidate_map(enriched)
-    themes, stock_to_themes, stock_to_industries, theme_sources = _fetch_themes(target.strftime("%Y%m%d"))
+    # Fetch market pools first so the theme universe can fall back to an
+    # industry cluster when both concept-board providers are unavailable.
     market, market_sources = _fetch_market_data(target)
+    themes, stock_to_themes, stock_to_industries, theme_sources, universe = _fetch_themes(
+        target.strftime("%Y%m%d"), market, candidates
+    )
     theme_metrics = _build_theme_metrics(themes, candidates, stock_to_themes, market)
     stock_records = _build_stock_records(candidates, stock_to_themes, stock_to_industries, theme_metrics, market)
     leaders, market_leaders = _build_leaders(stock_records, theme_metrics)
@@ -820,9 +1128,22 @@ def main() -> int:
         selected = theme_metrics.get(stock.get("primary_theme") or "", {})
         stock["primary_theme_role"] = selected.get("theme_role")
     leaders, market_leaders = _build_leaders(stock_records, theme_metrics)
+    if universe["source_mode"] == "UNAVAILABLE":
+        # Candidate data alone is not a market-data substitute.  Preserve the
+        # candidate pool, but do not manufacture market leaders without any
+        # usable board/hot-rank source.
+        leaders = []
+        market_leaders = []
+    leader_mode = "industry_degraded" if universe["source_mode"] == "INDUSTRY_DEGRADED" else "market_only" if universe["source_mode"] in {"MARKET_ONLY", "UNAVAILABLE"} else "full_theme"
+    for stock in stock_records.values():
+        stock["leader_source_mode"] = leader_mode if universe["source_mode"] == "INDUSTRY_DEGRADED" or not stock.get("themes") else "full_theme"
+    for item in leaders:
+        item["leader_source_mode"] = stock_records.get(item.get("code"), {}).get("leader_source_mode", item.get("leader_source_mode"))
+    for item in market_leaders:
+        item["leader_source_mode"] = stock_records.get(item.get("code"), {}).get("leader_source_mode", item.get("leader_source_mode"))
 
     current = sentiment.get("current") or {}
-    all_sources = theme_sources + market_sources
+    all_sources = universe["sources"] + market_sources
     failures = [source for source in all_sources if source.get("status") == "failed"]
     theme_payload = {
         "phase": "short_term_theme_leader_v1",
@@ -835,16 +1156,30 @@ def main() -> int:
         },
         "stock_to_themes": stock_to_themes,
         "stock_to_industries": stock_to_industries,
+        "theme_sources": universe["theme_sources"],
+        "source_mode": universe["source_mode"],
+        "source": universe["source"],
+        "data_coverage": universe["data_coverage"],
         "theme_metrics": theme_metrics,
         "main_themes": [
-            {"rank": item.get("rank"), "theme": item.get("theme_name"), "theme_score": item.get("theme_score"), "theme_role": item.get("theme_role")}
+            {
+                "rank": item.get("rank"),
+                "theme": item.get("theme_name"),
+                "theme_score": item.get("theme_score"),
+                "confidence_adjusted_score": item.get("confidence_adjusted_score"),
+                "coverage_ratio": item.get("coverage_ratio"),
+                "theme_role": item.get("theme_role"),
+                "data_quality": item.get("data_quality"),
+                "is_degraded_main": bool(item.get("is_degraded_main")),
+            }
             for item in sorted(theme_metrics.values(), key=_theme_sort_key)[:10]
         ],
         "leaders": leaders,
         "market_leaders": market_leaders,
         "sources": all_sources,
         "source_failures": failures,
-        "data_quality": "failed" if all_sources and len(failures) == len(all_sources) else "partial" if failures else "complete",
+        "data_quality": universe["data_quality"],
+        "api_stats": dict(_API_STATS),
     }
     stage3 = _enrich_candidates(enriched, stock_records, theme_metrics)
     market_rank = {item["code"]: item["market_leader_rank"] for item in market_leaders}
