@@ -114,7 +114,122 @@ jobs:
             reports/short_term/candidate_pool_stage5.md
           retention-days: 30
           if-no-files-found: warn
-name: A股短线集合竞价确认
+name: A股短线集合竞价确认name: A股短线集合竞价确认
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: 目标竞价日（YYYYMMDD，留空使用上海当前日期）
+        required: false
+        default: ''
+        type: string
+      stage4_run_id:
+        description: 指定Stage4成功运行ID（留空自动选择最近一次成功运行）
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  short-term-auction-confirmation:
+    name: A股短线集合竞价确认
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SHORT_TERM_AUCTION_DATE: ${{ inputs.target_date || '' }}
+      SHORT_TERM_AUCTION_SNAPSHOT_MODE: live
+      SHORT_TERM_AUCTION_MAX_WAIT_SECONDS: '360'
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v5
+
+      - name: 设置Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: 安装Stage5最小依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install akshare pandas exchange-calendars
+
+      - name: 解析Stage4来源运行
+        id: resolve-stage4
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_RUN_ID: ${{ inputs.stage4_run_id || '' }}
+        run: |
+          set -euo pipefail
+          if [ -n "$REQUESTED_RUN_ID" ]; then
+            run_id="$REQUESTED_RUN_ID"
+          else
+            api_url="${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/05-short-term-weak-to-strong.yml/runs?branch=main&status=completed&per_page=20"
+            run_id="$(curl --fail-with-body --silent --show-error \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "Accept: application/vnd.github+json" \
+              "$api_url" | jq -r '[.workflow_runs[] | select(.conclusion == "success")] | .[0].id // empty')"
+          fi
+          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
+            echo '未找到成功的Stage4运行；请通过stage4_run_id指定一个成功运行。' >&2
+            exit 1
+          fi
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "STAGE4_SOURCE_RUN_ID=$run_id" >> "$GITHUB_ENV"
+          echo "使用Stage4 run_id=$run_id"
+
+      - name: 下载Stage4 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: short-term-weak-to-strong-stage4
+          path: stage4-artifact
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.resolve-stage4.outputs.run_id }}
+
+      - name: 恢复并校验Stage3/Stage4输入
+        run: |
+          set -euo pipefail
+          mkdir -p reports/short_term
+          for filename in theme_leader.json weak_to_strong.json candidate_pool_stage4.json; do
+            source_file="$(find stage4-artifact -type f -name "$filename" -print -quit)"
+            if [ -z "$source_file" ]; then
+              echo "Stage4 artifact缺少 $filename" >&2
+              exit 1
+            fi
+            cp "$source_file" "reports/short_term/$filename"
+          done
+          test -s reports/short_term/theme_leader.json
+          test -s reports/short_term/weak_to_strong.json
+          test -s reports/short_term/candidate_pool_stage4.json
+
+      - name: 记录Stage5实际启动时间
+        run: |
+          echo "SHORT_TERM_WORKFLOW_READY_TIME=$(TZ=Asia/Shanghai date '+%Y-%m-%dT%H:%M:%S%:z')" >> "$GITHUB_ENV"
+
+      - name: 运行第5阶段集合竞价确认
+        run: |
+          python scripts/run_short_term_auction_confirmation.py \
+            --target-date "${{ inputs.target_date || '' }}" \
+            --snapshot-mode live \
+            --stage4-run-id "${{ steps.resolve-stage4.outputs.run_id }}"
+
+      - name: 上传第5阶段结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: short-term-auction-confirmation-stage5
+          path: |
+            reports/short_term/auction_confirmation.json
+            reports/short_term/auction_confirmation.md
+            reports/short_term/candidate_pool_stage5.json
+            reports/short_term/candidate_pool_stage5.md
+          retention-days: 30
+          if-no-files-found: warn
 
 on:
   workflow_dispatch:
