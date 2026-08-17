@@ -267,7 +267,7 @@ def _fetch_market_data(target: date) -> tuple[dict[str, Any], list[dict[str, Any
 
 
 def _theme_name(row: dict[str, Any]) -> str:
-    return str(_first(row, "板块名称", "题材名称", "概念名称", "行业名称", "名称", "theme_name", "name") or "").strip()
+    return str(_first(row, "板块名称", "题材名称", "概念名称", "行业名称", "板块", "行业", "名称", "theme_name", "name") or "").strip()
 
 
 def _theme_symbol(row: dict[str, Any], fallback: str) -> str:
@@ -305,6 +305,38 @@ def _merge_theme_member(
     if industry:
         record["industries"].append(industry)
     record["sources"].append(source)
+
+
+def _build_industry_degraded_themes(
+    pool_rows: list[dict[str, Any]],
+    stock_to_themes: dict[str, list[str]],
+    theme_sources: dict[str, dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """Create actionable temporary themes from complete pool industry text."""
+    degraded: dict[str, dict[str, Any]] = {}
+    for row in pool_rows:
+        industry = str(_first(row, "所属行业", "行业", "industry") or "").strip()
+        code = _row_code(row)
+        if not industry or not code:
+            continue
+        entry = degraded.setdefault(industry, {
+            "theme_name": industry,
+            "theme_type": "INDUSTRY_DEGRADED",
+            "theme_code": industry,
+            "source": "limit_up_industry_cluster",
+            "members": [],
+            "member_rows": [],
+            "board_change_pct": None,
+            "hist_available": False,
+            "concept_available": True,
+            "data_quality": "degraded",
+            "is_degraded": True,
+        })
+        if code not in entry["members"]:
+            entry["members"].append(code)
+            entry["member_rows"].append(row)
+        _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
+    return degraded
 
 
 def _fetch_theme_universe(
@@ -365,7 +397,7 @@ def _fetch_theme_universe(
             entry = ensure_theme(name, symbol, "CONCEPT", "eastmoney", board)
             members, member_source = _fetch("stock_board_concept_cons_em", source="eastmoney", symbol=symbol)
             sources.append(member_source)
-            entry["concept_available"] = _source_ok(member_source)
+            entry["concept_available"] = _source_ok(member_source) and bool(members)
             append_members(entry, members, "eastmoney")
             hist_rows, hist_source = _fetch(
                 "stock_board_concept_hist_em",
@@ -409,6 +441,7 @@ def _fetch_theme_universe(
         if cons_function and len([item for item in themes.values() if item.get("source") == "ths"]) <= 50:
             members, member_source = _fetch(cons_function, source="ths", symbol=symbol)
             sources.append(member_source)
+            entry["concept_available"] = _source_ok(member_source) and bool(members)
             append_members(entry, members, "ths")
 
     # EastMoney industry source, then THS industry fallback.
@@ -473,41 +506,49 @@ def _fetch_theme_universe(
         industry = str(_first(row, "所属行业", "行业", "industry") or "").strip()
         if code and industry:
             stock_to_industries.setdefault(code, []).append(industry)
-            if not stock_to_themes.get(code):
-                _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
+            # Industry is a supplemental mapping.  Keep it even when a
+            # concept provider supplied another (possibly stale) mapping.
+            _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
 
     concept_available = em_concept_ok or ths_concept_ok
+    concept_codes = {
+        code
+        for item in themes.values()
+        if item.get("theme_type") == "CONCEPT"
+        for code in item.get("members") or []
+    }
+    mapped_concept_stock_count = len(concept_codes)
+    concept_mapping_available = mapped_concept_stock_count > 0
     market_available = bool(
         _source_ok(market.get("limit_up_source"))
         or _source_ok(market.get("broken_board_source"))
         or _source_ok(market.get("hot_source"))
     )
-    if not concept_available:
-        # Lowest-cost fallback: group available limit-up/broken-board rows by industry.
-        degraded: dict[str, dict[str, Any]] = {}
-        for row in pool_rows:
-            industry = str(_first(row, "所属行业", "行业", "industry") or "").strip()
-            code = _row_code(row)
-            if not industry or not code:
-                continue
-            entry = degraded.setdefault(industry, {
-                "theme_name": industry,
-                "theme_type": "INDUSTRY_DEGRADED",
-                "theme_code": industry,
-                "source": "limit_up_industry_cluster",
-                "members": [],
-                "member_rows": [],
-                "board_change_pct": None,
-                "hist_available": False,
-                "concept_available": True,
-                "data_quality": "degraded",
-                "is_degraded": True,
-            })
-            if code not in entry["members"]:
-                entry["members"].append(code)
-                entry["member_rows"].append(row)
-                _merge_theme_member(stock_to_themes, theme_sources, code, industry, "zt_pool", industry)
-        themes = degraded
+    pool_industry_available = any(
+        _row_code(row) and str(_first(row, "所属行业", "行业", "industry") or "").strip()
+        for row in pool_rows
+    ) and bool(_source_ok(market.get("limit_up_source")) or _source_ok(market.get("broken_board_source")))
+    market_codes = {
+        _row_code(row)
+        for row in list(market.get("limit_up") or []) + list(market.get("broken_board") or []) + list(market.get("hot") or [])
+        if _row_code(row)
+    } | set(candidates)
+    concept_market_overlap = any(
+        bool(set(item.get("members") or []) & market_codes)
+        for item in themes.values()
+        if item.get("theme_type") == "CONCEPT"
+    )
+    # A successful THS name list is not enough.  If it has no usable stock
+    # mapping, or no overlap with today's observable stocks, use real pool
+    # industries instead of ranking hundreds of empty board names.
+    should_degrade = pool_industry_available and (
+        not concept_mapping_available or not concept_market_overlap
+    )
+    if should_degrade:
+        themes = _build_industry_degraded_themes(pool_rows, stock_to_themes, theme_sources)
+    elif not concept_mapping_available:
+        # Do not retain name-only concepts in the theme universe.
+        themes = {}
 
     for code in stock_to_themes:
         stock_to_themes[code] = sorted(set(stock_to_themes[code]))
@@ -526,7 +567,7 @@ def _fetch_theme_universe(
         source_mode = "FULL_THS"
     elif themes and any(item.get("is_degraded") for item in themes.values()):
         source_mode = "INDUSTRY_DEGRADED"
-    elif themes:
+    elif themes and concept_mapping_available:
         source_mode = "MIXED"
     elif market_available:
         source_mode = "MARKET_ONLY"
@@ -541,11 +582,16 @@ def _fetch_theme_universe(
         "theme_sources": theme_sources,
         "sources": sources,
         "source_failures": source_failures,
+        "concept_available": concept_available,
+        "concept_mapping_available": concept_mapping_available,
+        "mapped_concept_stock_count": mapped_concept_stock_count,
         "source": "eastmoney" if source_mode == "FULL_EASTMONEY" else "ths" if source_mode == "FULL_THS" else "degraded" if source_mode in {"INDUSTRY_DEGRADED", "MARKET_ONLY"} else "unavailable",
         "source_mode": source_mode,
         "data_quality": data_quality,
         "data_coverage": {
             "concept_available": concept_available,
+            "concept_mapping_available": concept_mapping_available,
+            "mapped_concept_stock_count": mapped_concept_stock_count,
             "industry_available": em_industry_ok or ths_industry_ok,
             "limit_up_available": _source_ok(market.get("limit_up_source")),
             "broken_board_available": _source_ok(market.get("broken_board_source")),
@@ -742,6 +788,8 @@ def _build_theme_metrics(
             "member_count": len(member_codes) if data.get("concept_available") else None,
             "limit_up_count": len(up_codes) if up_codes is not None else None,
             "broken_board_count": len(broken_codes) if broken_codes is not None else None,
+            "limit_up_codes": up_codes,
+            "broken_board_codes": broken_codes,
             "highest_board": max(board_counts) if board_counts else (0 if up_codes == [] else None),
             "leader_stock": None,
             "average_change_pct": round(sum(changes) / len(changes), 4) if changes else None,
@@ -765,6 +813,10 @@ def _build_theme_metrics(
             score_details["data_quality"] = "partial"
         metrics.update(score_details)
         metrics["theme_score"] = score_details["normalized_score"]
+        metrics["is_actionable_theme"] = any(
+            (_number(metrics.get(key)) or 0) > 0
+            for key in ("limit_up_count", "broken_board_count", "candidate_count", "hot_stock_count")
+        )
         result[theme] = metrics
 
     ranked = sorted(result.values(), key=_theme_sort_key)
@@ -773,6 +825,16 @@ def _build_theme_metrics(
         item["rank"] = rank
         item["theme_role"] = _theme_role(item.get("theme_score"), rank, item, first_score)
     return result
+
+
+def _theme_detection_valid(theme_metrics: dict[str, dict[str, Any]]) -> bool:
+    """Require observable market strength, not merely a non-empty name list."""
+    return any(
+        bool(item.get("is_actionable_theme"))
+        and (_number(item.get("limit_up_count")) or 0) > 0
+        and (_number(item.get("confidence_adjusted_score")) or 0) > 0
+        for item in theme_metrics.values()
+    )
 
 
 def _build_hot_map(rows: list[dict[str, Any]]) -> tuple[dict[str, int], dict[str, str]]:
@@ -1038,7 +1100,10 @@ def _write_theme_markdown(payload: dict[str, Any]) -> None:
         "| 排名 | 题材 | 分数 | 角色 | 涨停 | 炸板 | 最高板 | 板块涨幅 | 候选数量 | 人气数量 | 龙头 |",
         "| ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
     ]
-    ranked = sorted(payload.get("theme_metrics", {}).values(), key=_theme_sort_key)
+    ranked = sorted(
+        (item for item in payload.get("theme_metrics", {}).values() if item.get("is_actionable_theme")),
+        key=_theme_sort_key,
+    )
     for item in ranked[:10]:
         leader = item.get("leader_stock") or {}
         lines.append(
@@ -1117,6 +1182,7 @@ def main() -> int:
         target.strftime("%Y%m%d"), market, candidates
     )
     theme_metrics = _build_theme_metrics(themes, candidates, stock_to_themes, market)
+    theme_detection_valid = _theme_detection_valid(theme_metrics)
     stock_records = _build_stock_records(candidates, stock_to_themes, stock_to_industries, theme_metrics, market)
     leaders, market_leaders = _build_leaders(stock_records, theme_metrics)
 
@@ -1160,6 +1226,10 @@ def main() -> int:
         "source_mode": universe["source_mode"],
         "source": universe["source"],
         "data_coverage": universe["data_coverage"],
+        "concept_available": universe["concept_available"],
+        "concept_mapping_available": universe["concept_mapping_available"],
+        "mapped_concept_stock_count": universe["mapped_concept_stock_count"],
+        "theme_detection_valid": theme_detection_valid,
         "theme_metrics": theme_metrics,
         "main_themes": [
             {
@@ -1172,7 +1242,10 @@ def main() -> int:
                 "data_quality": item.get("data_quality"),
                 "is_degraded_main": bool(item.get("is_degraded_main")),
             }
-            for item in sorted(theme_metrics.values(), key=_theme_sort_key)[:10]
+            for item in sorted(
+                (item for item in theme_metrics.values() if item.get("is_actionable_theme")),
+                key=_theme_sort_key,
+            )[:10]
         ],
         "leaders": leaders,
         "market_leaders": market_leaders,
