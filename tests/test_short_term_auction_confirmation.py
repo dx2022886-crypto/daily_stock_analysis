@@ -325,3 +325,55 @@ def test_outside_window_has_no_watchlist():
     module = _module()
     state = module._build_state(_record(), [])
     assert module._build_watchlist([state]) == []
+
+
+def test_stage5_role_priority_upgrades_stage4_theme_leader_from_stage3_market_leader():
+    module = _module()
+    records, _ = module._input_pool(
+        {"next_day_watchlist": [{"code": "603330", "stock_role": "THEME_LEADER", "leader_score": 83, "market_leader_rank": 3}]},
+        {"candidates": []},
+        {"market_leaders": [{"code": "603330", "stock_role": "MARKET_LEADER", "leader_score": 92, "market_leader_rank": 1}], "leaders": []},
+    )
+    result = records[0]
+    assert result["stock_role"] == "MARKET_LEADER"
+    assert result["leader_score"] == 92.0
+    assert result["market_leader_rank"] == 1
+    assert {item["source"] for item in result["stock_role_sources"]} >= {"stage4_watchlist", "stage3_market_leaders"}
+
+
+def test_stage5_merge_metrics_and_role_are_monotonic():
+    module = _module()
+    records = {}
+    module._merge_record(records, {"code": "000001", "stock_role": "MARKET_LEADER", "leader_score": 92, "market_leader_rank": 1}, source="stage3_market_leaders")
+    module._merge_record(records, {"code": "000001", "stock_role": "THEME_LEADER", "leader_score": 80, "market_leader_rank": 3}, source="stage4_state")
+    result = records["000001"]
+    assert result["stock_role"] == "MARKET_LEADER"
+    assert result["leader_score"] == 92.0
+    assert result["market_leader_rank"] == 1
+
+
+def test_stage5_front_core_cannot_be_overwritten_by_follower():
+    module = _module()
+    records = {}
+    module._merge_record(records, {"code": "000002", "stock_role": "FRONT_CORE"}, source="stage3_leaders")
+    module._merge_record(records, {"code": "000002", "stock_role": "FOLLOWER"}, source="stage4_state")
+    assert records["000002"]["stock_role"] == "FRONT_CORE"
+
+
+def test_stage5_603330_keeps_market_leader_score_weight_source():
+    module = _module()
+    records, _ = module._input_pool(
+        {
+            "next_day_watchlist": [{"code": "603330", "name": "天洋新材", "stock_role": "THEME_LEADER", "leader_score": 83}],
+            "weak_to_strong_states": [],
+        },
+        {"candidates": []},
+        {
+            "leaders": [{"code": "603330", "stock_role": "THEME_LEADER", "leader_score": 83}],
+            "market_leaders": [{"code": "603330", "stock_role": "MARKET_LEADER", "leader_score": 92, "market_leader_rank": 1}],
+        },
+    )
+    result = records[0]
+    assert result["code"] == "603330"
+    assert result["stock_role"] == "MARKET_LEADER"
+    assert result["leader_score"] == 92.0
