@@ -158,10 +158,12 @@ def _resolve_target_date(raw: str) -> date:
 def _history_dates(target: date, history_days: int) -> list[date]:
     cal = _calendar()
     end_session = cal.date_to_session(target, direction="previous")
-    start_session = cal.previous_session_n(end_session, history_days)
-    sessions = cal.sessions_in_range(start_session, end_session)
-    dates = [session.date() for session in sessions]
-    return dates[-history_days:]
+    sessions = [end_session]
+    # Use the stable single-session API already used by this repository rather
+    # than relying on optional/version-specific ``previous_session_n`` helpers.
+    for _ in range(history_days - 1):
+        sessions.append(cal.previous_session(sessions[-1]))
+    return [session.date() for session in reversed(sessions)]
 
 
 def _load_dates(target: date, history_days: int) -> tuple[list[date], list[date]]:
