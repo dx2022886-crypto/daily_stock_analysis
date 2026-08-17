@@ -17,12 +17,13 @@ import os
 import re
 import sys
 import time
-from datetime import date, datetime, time as dt_time
+from datetime import date, datetime, time as dt_time, timedelta
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
 import akshare as ak
+import exchange_calendars as xcals
 import pandas as pd
 
 
@@ -68,6 +69,78 @@ LEADER_SCORES = {"MARKET_LEADER": 10.0, "THEME_LEADER": 8.0, "FRONT_CORE": 6.0, 
 logger = logging.getLogger("short_term_auction_confirmation")
 _API_CACHE: dict[str, tuple[list[dict[str, Any]], dict[str, Any]]] = {}
 _API_STATS = {"requests": 0, "cache_hits": 0}
+
+
+def _xshg_calendar() -> Any:
+    """Return the exchange-calendars XSHG calendar used for date guards."""
+    return xcals.get_calendar("XSHG")
+
+
+def _is_trading_day(value: date) -> bool:
+    calendar = _xshg_calendar()
+    sessions = calendar.sessions_in_range(pd.Timestamp(value), pd.Timestamp(value))
+    return len(sessions) == 1
+
+
+def _previous_trading_day(value: date) -> date:
+    """Return the latest completed XSHG session strictly before ``value``."""
+    calendar = _xshg_calendar()
+    start = pd.Timestamp(value - timedelta(days=15))
+    end = pd.Timestamp(value - timedelta(days=1))
+    sessions = calendar.sessions_in_range(start, end)
+    if len(sessions) == 0:
+        raise ValueError(f"No previous XSHG session found before {value:%Y-%m-%d}")
+    return sessions[-1].date()
+
+
+def _live_date_guard(target: date, now: datetime, *, snapshot_file: bool = False) -> str | None:
+    """Reject live requests that could accidentally score another trading date."""
+    if snapshot_file:
+        return None
+    current_date = now.astimezone(MARKET_TIMEZONE).date()
+    if target != current_date:
+        return "LIVE_DATE_MISMATCH"
+    if not _is_trading_day(current_date):
+        return "NON_TRADING_DAY"
+    return None
+
+
+def _snapshot_mode_guard(mode: str, snapshot_file: bool) -> str | None:
+    if mode == "snapshot" and not snapshot_file:
+        return "SNAPSHOT_FILE_REQUIRED"
+    return None
+
+
+def _stage4_source_date(stage4: dict[str, Any], stage3: dict[str, Any]) -> date | None:
+    values = (
+        stage4.get("target_date"), stage4.get("date"),
+        stage3.get("target_date"), stage3.get("date"),
+    )
+    for value in values:
+        if not value:
+            continue
+        text = str(value).replace("-", "")[:8]
+        try:
+            return datetime.strptime(text, "%Y%m%d").date()
+        except ValueError:
+            continue
+    return None
+
+
+def _validate_stage4_date(stage4: dict[str, Any], stage3: dict[str, Any], expected: date) -> tuple[bool, date | None]:
+    source_date = _stage4_source_date(stage4, stage3)
+    component_dates = [_stage4_source_date(stage4, {}), _stage4_source_date(stage3, {})]
+    # Both artifacts are expected to describe the same completed session;
+    # one stale component must not be hidden by the other component's date.
+    valid = all(item is not None and item == expected for item in component_dates)
+    return valid, source_date
+
+
+def _workflow_ready_time(now: datetime) -> str:
+    configured = os.getenv("SHORT_TERM_WORKFLOW_READY_TIME", "").strip()
+    if configured:
+        return configured
+    return now.astimezone(MARKET_TIMEZONE).isoformat()
 
 
 def _configure_logging() -> None:
@@ -364,23 +437,34 @@ def _live_snapshot_once(records: list[dict[str, Any]], current: datetime, source
     return {"timestamp": current, "timestamp_text": current.isoformat(), "rows": rows}
 
 
-def _live_snapshots(records: list[dict[str, Any]], now: datetime, sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
-    snapshots: list[dict[str, Any]] = []
-    missed: list[str] = []
+def _snapshot_schedule(now: datetime) -> tuple[list[str], list[datetime]]:
+    """Split auction targets into missed and still-waitable targets."""
     current = now.astimezone(MARKET_TIMEZONE)
-    max_wait = int(os.getenv("SHORT_TERM_AUCTION_MAX_WAIT_SECONDS", "30"))
+    missed: list[str] = []
+    pending: list[datetime] = []
     for hour, minute, second in SNAPSHOT_TARGETS:
         target = datetime.combine(current.date(), dt_time(hour, minute, second), tzinfo=MARKET_TIMEZONE)
         if current < target:
-            wait = (target - current).total_seconds()
-            if wait <= max_wait:
-                time.sleep(wait)
-                current = datetime.now(MARKET_TIMEZONE)
-            else:
+            pending.append(target)
+        else:
+            missed.append(target.isoformat())
+    return missed, pending
+
+
+def _live_snapshots(records: list[dict[str, Any]], now: datetime, sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
+    snapshots: list[dict[str, Any]] = []
+    missed, pending = _snapshot_schedule(now)
+    max_wait = int(os.getenv("SHORT_TERM_AUCTION_MAX_WAIT_SECONDS", "360"))
+    for target in pending:
+        current = datetime.now(MARKET_TIMEZONE)
+        wait = max(0.0, (target - current).total_seconds())
+        if wait > 0:
+            if wait > max_wait:
                 missed.append(target.isoformat())
                 continue
-        current = datetime.now(MARKET_TIMEZONE)
-        if current.time() > dt_time(9, 25):
+            time.sleep(wait)
+            current = datetime.now(MARKET_TIMEZONE)
+        if current.astimezone(MARKET_TIMEZONE).time() > dt_time(9, 25):
             missed.append(target.isoformat())
             break
         snapshots.append(_live_snapshot_once(records, current, sources))
@@ -532,7 +616,13 @@ def _human_reason(state: dict[str, Any]) -> str:
     return f"{theme}{role}，竞价参考涨幅{gap_text}，竞价确认不通过，原因：{risk}。"
 
 
-def _build_state(record: dict[str, Any], snapshots: list[dict[str, Any]], *, theme_source_mode: str = "") -> dict[str, Any]:
+def _build_state(
+    record: dict[str, Any],
+    snapshots: list[dict[str, Any]],
+    *,
+    theme_source_mode: str = "",
+    final_snapshot_only: bool = False,
+) -> dict[str, Any]:
     latest_rows = {_normalize_code(row.get("code")): _canonical_snapshot_row(row) for row in _snapshot_rows(snapshots[-1])} if snapshots else {}
     latest = latest_rows.get(record["code"], {})
     prev_close = _number(record.get("prev_close") or record.get("previous_close") or latest.get("prev_close"))
@@ -570,7 +660,9 @@ def _build_state(record: dict[str, Any], snapshots: list[dict[str, Any]], *, the
                 snapshot_rows.append(_canonical_snapshot_row(row))
     late_real = _late_strength(snapshot_rows, real=True) if any(row.get("auction_reference_price") is not None for row in snapshot_rows) else None
     late_proxy = _late_strength(snapshot_rows, real=False) if any(row.get("proxy_price") is not None for row in snapshot_rows) else None
-    late = late_real if late_real is not None else late_proxy
+    # A 09:25-09:30 run is a single final snapshot.  It cannot establish
+    # late-auction direction, even if the row itself contains real fields.
+    late = None if final_snapshot_only else (late_real if late_real is not None else late_proxy)
     gap = real_gap if real_gap is not None else proxy_gap
     gap_component = _gap_score(gap)
     theme_component = THEME_SCORES.get(record.get("primary_theme_role"))
@@ -594,6 +686,8 @@ def _build_state(record: dict[str, Any], snapshots: list[dict[str, Any]], *, the
         hard_rejects.append("DATA_TOO_LOW")
     hard_rejects = list(dict.fromkeys(hard_rejects))
     grade = _grade(score_details["confidence_adjusted_score"], score_details["coverage_ratio"], data_mode, hard_rejects)
+    if final_snapshot_only and GRADE_ORDER[grade] < GRADE_ORDER["C"]:
+        grade = "C"
     data_confidence = DATA_MODE_CONFIDENCE[data_mode]
     final_score = round(score_details["confidence_adjusted_score"] * data_confidence, 4) if score_details["confidence_adjusted_score"] is not None else None
     state = copy.deepcopy(record)
@@ -621,6 +715,7 @@ def _build_state(record: dict[str, Any], snapshots: list[dict[str, Any]], *, the
         "final_auction_score": final_score,
         "theme_source_mode": theme_source_mode or None,
         "snapshot_count": len(snapshots),
+        "final_snapshot_only": final_snapshot_only,
         **score_details,
     })
     state["human_reason"] = _human_reason(state)
@@ -670,6 +765,58 @@ def _source_mode(states: list[dict[str, Any]]) -> str:
     if modes <= {"QUOTE_PROXY"}:
         return "QUOTE_PROXY"
     return "MIXED"
+
+
+def _data_quality(status: str, states: list[dict[str, Any]], failures: list[dict[str, Any]], *, final_snapshot_only: bool, snapshots: list[dict[str, Any]], snapshot_file: bool) -> str:
+    if final_snapshot_only and snapshots:
+        # One final sample cannot support the normal multi-point auction
+        # confirmation, so available data is explicitly partial.
+        return "partial" if any(item.get("rows") for item in snapshots) else "unavailable"
+    if not snapshot_file and status in {"BEFORE_AUCTION", "OUTSIDE_WINDOW", "NON_TRADING_DAY", "LIVE_DATE_MISMATCH"}:
+        return "unavailable"
+    if states and all(item.get("auction_data_mode") == "UNAVAILABLE" for item in states):
+        return "unavailable"
+    if failures or any(item.get("data_quality") != "complete" for item in states):
+        return "partial"
+    return "complete"
+
+
+def _failure_payload(
+    *,
+    target: date,
+    status: str,
+    snapshot_mode: str,
+    workflow_ready_time: str,
+    stage4_source_run_id: str,
+    stage4_source_date: date | None,
+    expected_previous_trading_date: date | None,
+    input_meta: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    return {
+        "phase": "short_term_auction_confirmation_v1",
+        "market": "cn",
+        "target_date": target.strftime("%Y%m%d"),
+        "timezone": "Asia/Shanghai",
+        "workflow_ready_time": workflow_ready_time,
+        "auction_status": status,
+        "snapshot_mode": snapshot_mode,
+        "source_mode": "UNAVAILABLE",
+        "data_quality": "unavailable",
+        "input_pool_count": 0,
+        "input_pool_meta": input_meta or {},
+        "stage4_source_run_id": stage4_source_run_id or None,
+        "stage4_source_date": stage4_source_date.strftime("%Y%m%d") if stage4_source_date else None,
+        "expected_previous_trading_date": expected_previous_trading_date.strftime("%Y%m%d") if expected_previous_trading_date else None,
+        "missed_snapshots": [],
+        "snapshot_targets": [f"{hour:02d}:{minute:02d}:{second:02d}" for hour, minute, second in SNAPSHOT_TARGETS],
+        "snapshots": [],
+        "auction_states": [],
+        "auction_watchlist": [],
+        "sources": [],
+        "source_failures": [],
+        "api_stats": dict(_API_STATS),
+        "error": {"code": status, "message": status},
+    }
 
 
 def _enrich_stage5(stage4_pool: dict[str, Any], states: dict[str, dict[str, Any]]) -> dict[str, Any]:
@@ -742,6 +889,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--target-date", default=os.getenv("SHORT_TERM_AUCTION_DATE", ""), help="Target trading date in YYYYMMDD.")
     parser.add_argument("--snapshot-file", default=os.getenv("SHORT_TERM_AUCTION_SNAPSHOT_FILE", ""), help="Offline JSON snapshot file.")
     parser.add_argument("--snapshot-mode", default=os.getenv("SHORT_TERM_AUCTION_SNAPSHOT_MODE", "live"), choices=("live", "snapshot"), help="Live sampling or offline snapshot mode.")
+    parser.add_argument("--stage4-run-id", default=os.getenv("STAGE4_SOURCE_RUN_ID", ""), help="GitHub Actions run id that produced the Stage4 artifact.")
     return parser.parse_args()
 
 
@@ -754,6 +902,17 @@ def _target_date(raw: str) -> date:
 def main() -> int:
     _configure_logging()
     args = _parse_args()
+    now = datetime.now(MARKET_TIMEZONE)
+    ready_time = _workflow_ready_time(now)
+    snapshot_path = Path(args.snapshot_file) if args.snapshot_file else None
+    target = _target_date(args.target_date)
+    stage4_source_run_id = str(args.stage4_run_id or "")
+    expected_previous: date | None = None
+    try:
+        expected_previous = _previous_trading_day(target)
+    except Exception:
+        logger.exception("Cannot resolve previous XSHG trading day for %s", target)
+
     try:
         stage3 = _load_json(STAGE3_PATH)
         stage4 = _load_json(STAGE4_PATH)
@@ -761,10 +920,64 @@ def main() -> int:
     except Exception:
         logger.exception("Cannot load stage-3/stage-4 inputs")
         return 1
-    target = _target_date(args.target_date)
+
+    source_date = _stage4_source_date(stage4, stage3)
+    snapshot_error = _snapshot_mode_guard(args.snapshot_mode, bool(snapshot_path))
+    if snapshot_error:
+        payload = _failure_payload(
+            target=target,
+            status=snapshot_error,
+            snapshot_mode=args.snapshot_mode,
+            workflow_ready_time=ready_time,
+            stage4_source_run_id=stage4_source_run_id,
+            stage4_source_date=source_date,
+            expected_previous_trading_date=expected_previous,
+        )
+        _write_json(OUTPUT_JSON_PATH, payload)
+        _write_markdown(payload)
+        _write_json(STAGE5_JSON_PATH, stage4_pool)
+        _write_stage5_markdown(stage4_pool)
+        return 1
+
+    # Live mode must use today's Shanghai date.  This guard runs before any
+    # AKShare call, so a weekend or mismatched target cannot create a fake list.
+    live_error = _live_date_guard(target, now, snapshot_file=bool(snapshot_path))
+    if live_error:
+        payload = _failure_payload(
+            target=target,
+            status=live_error,
+            snapshot_mode=args.snapshot_mode,
+            workflow_ready_time=ready_time,
+            stage4_source_run_id=stage4_source_run_id,
+            stage4_source_date=source_date,
+            expected_previous_trading_date=expected_previous,
+        )
+        _write_json(OUTPUT_JSON_PATH, payload)
+        _write_markdown(payload)
+        _write_json(STAGE5_JSON_PATH, stage4_pool)
+        _write_stage5_markdown(stage4_pool)
+        return 0 if live_error == "NON_TRADING_DAY" else 1
+
+    if not snapshot_path and expected_previous is not None:
+        valid_stage4, source_date = _validate_stage4_date(stage4, stage3, expected_previous)
+        if not valid_stage4:
+            logger.error("STALE_STAGE4_INPUT: source=%s expected=%s", source_date, expected_previous)
+            payload = _failure_payload(
+                target=target,
+                status="STALE_STAGE4_INPUT",
+                snapshot_mode=args.snapshot_mode,
+                workflow_ready_time=ready_time,
+                stage4_source_run_id=stage4_source_run_id,
+                stage4_source_date=source_date,
+                expected_previous_trading_date=expected_previous,
+            )
+            _write_json(OUTPUT_JSON_PATH, payload)
+            _write_markdown(payload)
+            _write_json(STAGE5_JSON_PATH, stage4_pool)
+            _write_stage5_markdown(stage4_pool)
+            return 1
+
     records, input_meta = _input_pool(stage4, stage4_pool, stage3)
-    now = datetime.now(MARKET_TIMEZONE)
-    snapshot_path = Path(args.snapshot_file) if args.snapshot_file else None
     status = _auction_status(now, snapshot_file=bool(snapshot_path))
     sources: list[dict[str, Any]] = []
     missed_snapshots: list[str] = []
@@ -782,25 +995,30 @@ def main() -> int:
     else:
         snapshots = []
     theme_source_mode = str(stage3.get("source_mode") or "")
-    states = [_build_state(record, snapshots, theme_source_mode=theme_source_mode) for record in records]
+    final_snapshot_only = status == "FINAL_SNAPSHOT_ONLY" and not snapshot_path
+    states = [
+        _build_state(record, snapshots, theme_source_mode=theme_source_mode, final_snapshot_only=final_snapshot_only)
+        for record in records
+    ]
     source_mode = _source_mode(states)
     failures = [source for source in sources if source.get("status") == "failed"]
-    if status in {"BEFORE_AUCTION", "OUTSIDE_WINDOW", "FINAL_SNAPSHOT_ONLY"} and not snapshot_path:
-        data_quality = "unavailable"
-    elif states and all(item.get("auction_data_mode") == "UNAVAILABLE" for item in states):
-        data_quality = "unavailable"
-    elif failures or any(item.get("data_quality") != "complete" for item in states):
-        data_quality = "partial"
-    else:
-        data_quality = "complete"
+    data_quality = _data_quality(
+        status, states, failures, final_snapshot_only=final_snapshot_only,
+        snapshots=snapshots, snapshot_file=bool(snapshot_path),
+    )
     watchlist = _build_watchlist(states)
     payload = {
         "phase": "short_term_auction_confirmation_v1",
         "market": "cn",
         "target_date": target.strftime("%Y%m%d"),
         "timezone": "Asia/Shanghai",
+        "workflow_ready_time": ready_time,
         "auction_status": status,
-        "snapshot_mode": "snapshot" if snapshot_path else args.snapshot_mode,
+        "snapshot_mode": "snapshot" if snapshot_path else "live",
+        "final_snapshot_only": final_snapshot_only,
+        "stage4_source_run_id": stage4_source_run_id or None,
+        "stage4_source_date": source_date.strftime("%Y%m%d") if source_date else None,
+        "expected_previous_trading_date": expected_previous.strftime("%Y%m%d") if expected_previous else None,
         "source_mode": source_mode,
         "data_quality": data_quality,
         "input_pool_count": len(records),
