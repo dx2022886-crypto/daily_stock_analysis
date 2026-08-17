@@ -79,6 +79,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
+      - name: 输出 AKShare 版本
+        run: python -c "import akshare as ak; print('AKShare version:', getattr(ak, '__version__', 'unknown'))"
+
       - name: 生成第1阶段短线候选池
         id: candidate-pool
         continue-on-error: true
