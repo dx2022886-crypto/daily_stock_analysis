@@ -44,6 +44,14 @@ AUCTION_OUTPUT_MAX = 5
 SNAPSHOT_TARGETS = ((9, 20, 5), (9, 23, 0), (9, 24, 50))
 GRADE_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3}
 GRADE_SCORE = {"A": 3, "B": 2, "C": 1, "D": 0}
+STOCK_ROLE_PRIORITY = {
+    "MARKET_LEADER": 6,
+    "THEME_LEADER": 5,
+    "FRONT_CORE": 4,
+    "BROKEN_CORE": 3,
+    "FOLLOWER": 2,
+    "OBSERVE": 1,
+}
 DATA_MODE_CONFIDENCE = {"REAL_AUCTION": 1.0, "PARTIAL": 0.85, "QUOTE_PROXY": 0.70, "UNAVAILABLE": 0.0}
 WEIGHTS = {
     "gap_quality": 15.0,
@@ -69,6 +77,48 @@ LEADER_SCORES = {"MARKET_LEADER": 10.0, "THEME_LEADER": 8.0, "FRONT_CORE": 6.0, 
 logger = logging.getLogger("short_term_auction_confirmation")
 _API_CACHE: dict[str, tuple[list[dict[str, Any]], dict[str, Any]]] = {}
 _API_STATS = {"requests": 0, "cache_hits": 0}
+
+
+def _stronger_stock_role(existing: str | None, incoming: str | None) -> str | None:
+    """Merge roles by strength so source ordering cannot downgrade a role."""
+    if not incoming:
+        return existing
+    if not existing:
+        return incoming
+    if STOCK_ROLE_PRIORITY.get(incoming, 0) > STOCK_ROLE_PRIORITY.get(existing, 0):
+        return incoming
+    return existing
+
+
+def _merge_stock_role(record: dict[str, Any], incoming: str | None, source: str, incoming_sources: list[dict[str, Any]] | None = None) -> None:
+    if not incoming:
+        return
+    sources = record.setdefault("stock_role_sources", [])
+    for item in incoming_sources or []:
+        if isinstance(item, dict) and item not in sources:
+            sources.append(copy.deepcopy(item))
+    entry = {"source": source, "role": incoming}
+    if entry not in sources:
+        sources.append(entry)
+    existing = record.get("stock_role")
+    merged = _stronger_stock_role(existing, incoming)
+    if merged != existing:
+        record["stock_role"] = merged
+        record["stock_role_source"] = source
+    elif record.get("stock_role_source") is None:
+        record["stock_role_source"] = source
+
+
+def _merge_leader_metrics(record: dict[str, Any], leader_score: Any, market_leader_rank: Any) -> None:
+    incoming_score = _number(leader_score)
+    existing_score = _number(record.get("leader_score"))
+    if incoming_score is not None and (existing_score is None or incoming_score > existing_score):
+        record["leader_score"] = incoming_score
+
+    incoming_rank = _number(market_leader_rank)
+    existing_rank = _number(record.get("market_leader_rank"))
+    if incoming_rank is not None and (existing_rank is None or incoming_rank < existing_rank):
+        record["market_leader_rank"] = int(incoming_rank) if incoming_rank.is_integer() else incoming_rank
 
 
 def _xshg_calendar() -> Any:
@@ -306,16 +356,30 @@ def _record_value(record: dict[str, Any], analysis: dict[str, Any], key: str) ->
     return value if value is not None else analysis.get(key)
 
 
-def _merge_record(records: dict[str, dict[str, Any]], item: dict[str, Any], *, stage4_member: bool = False) -> None:
+def _merge_record(records: dict[str, dict[str, Any]], item: dict[str, Any], *, stage4_member: bool = False, source: str = "unknown", default_role: str | None = None) -> None:
     code = _normalize_code(item.get("code") or item.get("symbol") or item.get("股票代码"))
     if not code:
         return
     analysis = item.get("weak_to_strong_analysis") if isinstance(item.get("weak_to_strong_analysis"), dict) else {}
-    current = records.setdefault(code, {"code": code, "stage4_watchlist_member": False})
+    current = records.setdefault(code, {"code": code, "stage4_watchlist_member": False, "stock_role_sources": []})
     current["stage4_watchlist_member"] = bool(current.get("stage4_watchlist_member") or stage4_member)
+    incoming_role = _record_value(item, analysis, "stock_role") or default_role
+    previous_role = current.get("stock_role")
+    _merge_stock_role(current, incoming_role, source, item.get("stock_role_sources"))
+    incoming_role_source = item.get("stock_role_source") or analysis.get("stock_role_source")
+    if incoming_role_source and incoming_role and current.get("stock_role") == incoming_role and (
+        previous_role is None
+        or STOCK_ROLE_PRIORITY.get(incoming_role, 0) > STOCK_ROLE_PRIORITY.get(previous_role, 0)
+    ):
+        current["stock_role_source"] = incoming_role_source
+    _merge_leader_metrics(
+        current,
+        _record_value(item, analysis, "leader_score"),
+        _record_value(item, analysis, "market_leader_rank"),
+    )
     for key in (
-        "name", "primary_theme", "primary_theme_rank", "primary_theme_score", "primary_theme_role", "stock_role",
-        "leader_score", "market_leader_rank", "resonance_count", "setup_type", "setup_grade",
+        "name", "primary_theme", "primary_theme_rank", "primary_theme_score", "primary_theme_role",
+        "resonance_count", "setup_type", "setup_grade",
         "weak_to_strong_score", "final_weak_to_strong_score", "is_limit_up", "is_broken_board",
         "is_limit_down", "board_count", "break_count", "prev_close", "previous_close",
         "prev_volume", "volume_5d", "previous_volume", "prev_day_limit_down", "theme_collapsed",
@@ -335,25 +399,25 @@ def _input_pool(stage4: dict[str, Any], stage4_pool: dict[str, Any], stage3: dic
     watchlist_codes: set[str] = set()
     for item in stage4.get("next_day_watchlist", []) or []:
         if isinstance(item, dict):
-            _merge_record(records, item, stage4_member=True)
+            _merge_record(records, item, stage4_member=True, source="stage4_watchlist")
             code = _normalize_code(item.get("code"))
             if code:
                 watchlist_codes.add(code)
     eligible_roles = {"MARKET_LEADER", "THEME_LEADER", "FRONT_CORE", "BROKEN_CORE"}
     for item in stage4.get("weak_to_strong_states", []) or []:
         if isinstance(item, dict) and item.get("stock_role") in eligible_roles:
-            _merge_record(records, item)
+            _merge_record(records, item, source="stage4_state")
     for item in stage3.get("market_leaders", []) or []:
         if isinstance(item, dict):
-            _merge_record(records, item)
+            _merge_record(records, item, source="stage3_market_leaders", default_role="MARKET_LEADER")
     for item in stage3.get("leaders", []) or []:
         if isinstance(item, dict) and item.get("stock_role") in eligible_roles:
-            _merge_record(records, item)
+            _merge_record(records, item, source="stage3_leaders")
     for item in stage4_pool.get("candidates", []) or []:
         if isinstance(item, dict):
             analysis = item.get("weak_to_strong_analysis") or {}
             if analysis.get("stock_role") in eligible_roles:
-                _merge_record(records, item)
+                _merge_record(records, item, source="stage4_candidate_pool")
 
     def sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
         grade = str(item.get("setup_grade") or "D")
