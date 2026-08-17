@@ -6,7 +6,7 @@ import importlib
 import json
 import sys
 import types
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 
 def _module():
@@ -20,7 +20,27 @@ def _module():
         pandas = types.ModuleType("pandas")
         pandas.Timestamp = type("Timestamp", (), {})
         sys.modules["pandas"] = pandas
+    try:
+        import exchange_calendars  # noqa: F401
+    except ModuleNotFoundError:
+        sys.modules["exchange_calendars"] = types.ModuleType("exchange_calendars")
     return importlib.import_module("scripts.run_short_term_auction_confirmation")
+
+
+def _fake_xshg(module):
+    class Calendar:
+        def sessions_in_range(self, start, end):
+            import pandas as pd
+            current = start.date()
+            final = end.date()
+            days = []
+            while current <= final:
+                if current.weekday() < 5:
+                    days.append(pd.Timestamp(current))
+                current += timedelta(days=1)
+            return pd.DatetimeIndex(days)
+
+    module.xcals = types.SimpleNamespace(get_calendar=lambda name: Calendar())
 
 
 def _record(code="000001", **overrides):
@@ -241,3 +261,67 @@ def test_source_mode_distinguishes_real_proxy_and_unavailable():
     assert module._source_mode([real]) == "REAL_AUCTION"
     assert module._source_mode([module._build_state(_record(), [_proxy_snapshot(module)])]) == "QUOTE_PROXY"
     assert module._source_mode([proxy]) == "UNAVAILABLE"
+
+
+def test_live_target_date_must_match_current_shanghai_date():
+    module = _module()
+    now = datetime.fromisoformat("2026-08-18T09:20:00+08:00")
+    assert module._live_date_guard(date(2026, 8, 17), now) == "LIVE_DATE_MISMATCH"
+
+
+def test_live_weekend_is_non_trading_day_without_a_request():
+    module = _module()
+    _fake_xshg(module)
+    now = datetime.fromisoformat("2026-08-22T09:20:00+08:00")
+    assert module._live_date_guard(date(2026, 8, 22), now) == "NON_TRADING_DAY"
+
+
+def test_previous_trading_day_for_monday_is_friday():
+    module = _module()
+    _fake_xshg(module)
+    assert module._previous_trading_day(date(2026, 8, 24)) == date(2026, 8, 21)
+
+
+def test_stale_stage4_input_is_detected():
+    module = _module()
+    valid, source = module._validate_stage4_date(
+        {"target_date": "20260820"}, {"target_date": "20260820"}, date(2026, 8, 21)
+    )
+    assert valid is False
+    assert source == date(2026, 8, 20)
+
+
+def test_snapshot_mode_requires_a_snapshot_file():
+    module = _module()
+    assert module._snapshot_mode_guard("snapshot", False) == "SNAPSHOT_FILE_REQUIRED"
+    assert module._snapshot_mode_guard("snapshot", True) is None
+
+
+def test_auction_schedule_at_0921_waits_for_remaining_targets():
+    module = _module()
+    missed, pending = module._snapshot_schedule(datetime.fromisoformat("2026-08-18T09:21:00+08:00"))
+    assert missed == ["2026-08-18T09:20:05+08:00"]
+    assert [item.strftime("%H:%M:%S") for item in pending] == ["09:23:00", "09:24:50"]
+
+
+def test_auction_schedule_at_0924_waits_for_final_target():
+    module = _module()
+    missed, pending = module._snapshot_schedule(datetime.fromisoformat("2026-08-18T09:24:00+08:00"))
+    assert [item.strftime("%H:%M:%S") for item in pending] == ["09:24:50"]
+    assert len(missed) == 2
+
+
+def test_final_snapshot_only_is_partial_and_grade_is_capped_at_c():
+    module = _module()
+    snapshots = [_snapshot(module, price=10.2, matched=2000)]
+    state = module._build_state(_record(), snapshots, final_snapshot_only=True)
+    assert state["final_snapshot_only"] is True
+    assert state["late_auction_strength"] is None
+    assert module._data_quality("FINAL_SNAPSHOT_ONLY", [state], [], final_snapshot_only=True, snapshots=snapshots, snapshot_file=False) == "partial"
+    assert module.GRADE_ORDER[state["auction_grade"]] >= module.GRADE_ORDER["C"]
+
+
+def test_outside_window_has_no_watchlist():
+    module = _module()
+    state = module._build_state(_record(), [])
+    assert module._build_watchlist([state]) == []
