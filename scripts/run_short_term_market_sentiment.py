@@ -450,6 +450,7 @@ def _day_metrics(previous_day: dict[str, Any] | None, day: dict[str, Any]) -> di
     ladder = _ladder(day)
     premium = _premium(day)
     promotion = _promotion_rates(previous_day, day)
+    promotion_data_quality = _promotion_data_quality(promotion)
     return {
         "date": day["date"].strftime("%Y%m%d"),
         "limit_up_count": limit_up_count,
@@ -459,11 +460,44 @@ def _day_metrics(previous_day: dict[str, Any] | None, day: dict[str, Any]) -> di
         **ladder,
         **premium,
         "promotion_rates": promotion,
+        "promotion_data_quality": promotion_data_quality,
     }
 
 
 def _clamp(value: float, low: float, high: float) -> float:
     return max(low, min(high, value))
+
+
+def _promotion_data_quality(promotion_rates: dict[str, dict[str, Any] | None]) -> dict[str, Any]:
+    """Describe whether the three promotion-rate levels are usable."""
+    levels = ("1_to_2", "2_to_3", "3_plus")
+    available = [
+        level
+        for level in levels
+        if isinstance(promotion_rates.get(level), dict)
+        and _number(promotion_rates[level].get("rate")) is not None
+    ]
+    missing = [level for level in levels if level not in available]
+    if not available:
+        return {
+            "status": "unavailable",
+            "available_levels": [],
+            "missing_levels": list(levels),
+            "message": "晋级数据不可用；promotion 不计分。",
+        }
+    if missing:
+        return {
+            "status": "partial",
+            "available_levels": available,
+            "missing_levels": missing,
+            "message": "部分晋级层级不可用；promotion 仅使用可用层级。",
+        }
+    return {
+        "status": "complete",
+        "available_levels": available,
+        "missing_levels": [],
+        "message": "三项晋级数据均可用。",
+    }
 
 
 def _score_components(metrics: dict[str, Any]) -> dict[str, float | None]:
@@ -484,18 +518,33 @@ def _score_components(metrics: dict[str, Any]) -> dict[str, float | None]:
     broken_rate = _number(metrics.get("broken_board_rate"))
     premium = _number(metrics.get("yesterday_premium_mean"))
     integrity = _number(metrics.get("ladder_integrity"))
+    promotion_rates = metrics.get("promotion_rates")
+    if not isinstance(promotion_rates, dict):
+        promotion_rates = {}
+    promotion_levels = ("1_to_2", "2_to_3", "3_plus")
+    promotion_items = [promotion_rates.get(level) for level in promotion_levels]
     rates = [
         _number(item.get("rate"))
-        for item in (metrics.get("promotion_rates") or {}).values()
+        for item in promotion_items
         if isinstance(item, dict)
     ]
     rates = [rate for rate in rates if rate is not None]
+    if all(item is None for item in promotion_items):
+        promotion_score = None
+    elif rates:
+        # A successful source with zero eligible samples returns a concrete
+        # 0.0 rate from _promotion_rates; that is a real zero, not missing data.
+        promotion_score = round(_clamp(sum(rates) / len(rates) / 100 * 20, 0, 20), 4)
+    else:
+        # A malformed or incomplete level without a usable rate is unavailable,
+        # so it must not be silently converted into a zero score.
+        promotion_score = None
     return {
         "breadth": round(_clamp(limit_up / 80 * 20, 0, 20), 4) if limit_up is not None else None,
         "damage_control": round(_clamp(15 * (1 - limit_down / 30), 0, 15), 4) if limit_down is not None else None,
         "seal_quality": round(_clamp(15 * (1 - broken_rate / 100), 0, 15), 4) if broken_rate is not None else None,
         "yesterday_premium": round(_clamp((premium + 5) / 10 * 15, 0, 15), 4) if premium is not None else None,
-        "promotion": round(_clamp(sum(rates) / len(rates) / 100 * 20, 0, 20), 4) if rates else 0.0,
+        "promotion": promotion_score,
         "ladder": round(_clamp(integrity / 100 * 15, 0, 15), 4) if integrity is not None else None,
     }
 
@@ -590,6 +639,12 @@ def _load_candidate_pool(target_date: str, current: dict[str, Any], previous: di
     today_broken = {_code(row) for row in _records_for(current, "broken_board") if _code(row)}
     today_down = {_code(row) for row in _records_for(current, "limit_down") if _code(row)}
     previous_change = _previous_change_map(current)
+    data_available = {
+        "limit_up": _frame_status(current, "limit_up") == "success",
+        "broken_board": _frame_status(current, "broken_board") == "success",
+        "limit_down": _frame_status(current, "limit_down") == "success",
+        "previous_limit_up": _frame_status(current, "previous_limit_up") == "success",
+    }
     enriched = []
     for candidate in payload.get("candidates") or []:
         if not isinstance(candidate, dict):
@@ -613,6 +668,7 @@ def _load_candidate_pool(target_date: str, current: dict[str, Any], previous: di
             "industry": _row_value(current_row, ("所属行业", "行业", "industry")) if current_row else None,
             "yesterday_board_count": _board_count(previous_row) if previous_row else None,
             "yesterday_current_change_pct": previous_change.get(candidate_code),
+            "data_available": dict(data_available),
         }
         enriched.append(item)
     payload["candidates"] = enriched
@@ -647,6 +703,7 @@ def _write_sentiment_markdown(payload: dict[str, Any]) -> None:
         f"- 情绪评分：`{_display(current.get('sentiment_score'))}` / 100",
         f"- 情绪阶段：`{_display(current.get('sentiment_phase'))}`（`{_display(current.get('sentiment_phase_code'))}`）",
         f"- 较上一日变化：`{_display(current.get('sentiment_change'))}`",
+        f"- 晋级数据质量：`{_display((current.get('promotion_data_quality') or {}).get('message'))}`",
         f"- 涨停家数：`{_display(current.get('limit_up_count'))}`",
         f"- 跌停家数：`{_display(current.get('limit_down_count'))}`",
         f"- 炸板家数：`{_display(current.get('broken_board_count'))}`",
