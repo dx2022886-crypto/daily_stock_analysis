@@ -1,0 +1,106 @@
+name: A股短线情绪与涨停生态
+
+on:
+  workflow_dispatch:
+    inputs:
+      per_strategy_results:
+        description: 每套原版模型最多返回数量
+        required: true
+        default: '10'
+        type: string
+      max_pool_results:
+        description: 候选池最多输出数量
+        required: true
+        default: '30'
+        type: string
+      history_days:
+        description: 情绪历史交易日数量
+        required: true
+        default: '5'
+        type: string
+      target_date:
+        description: 目标交易日（YYYYMMDD，留空自动识别）
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  short-term-market-sentiment:
+    name: A股短线情绪与涨停生态
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      SCREENING_ENABLED: 'true'
+      SCREENING_MARKET: cn
+      SHORT_TERM_PER_STRATEGY_RESULTS: ${{ inputs.per_strategy_results || '10' }}
+      SHORT_TERM_MAX_POOL_RESULTS: ${{ inputs.max_pool_results || '30' }}
+      SHORT_TERM_SENTIMENT_HISTORY_DAYS: ${{ inputs.history_days || '5' }}
+      SHORT_TERM_SENTIMENT_DATE: ${{ inputs.target_date || '' }}
+      LITELLM_MODEL: ${{ vars.LITELLM_MODEL || secrets.LITELLM_MODEL }}
+      LITELLM_FALLBACK_MODELS: ${{ vars.LITELLM_FALLBACK_MODELS || secrets.LITELLM_FALLBACK_MODELS }}
+      LITELLM_CONFIG: ${{ vars.LITELLM_CONFIG || secrets.LITELLM_CONFIG }}
+      LITELLM_CONFIG_YAML: ${{ vars.LITELLM_CONFIG_YAML || secrets.LITELLM_CONFIG_YAML }}
+      LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
+      AGENT_LITELLM_MODEL: ${{ vars.AGENT_LITELLM_MODEL || secrets.AGENT_LITELLM_MODEL }}
+      LLM_TEMPERATURE: ${{ vars.LLM_TEMPERATURE || secrets.LLM_TEMPERATURE }}
+      LLM_CHANNELS: ${{ vars.LLM_CHANNELS || secrets.LLM_CHANNELS }}
+      LLM_GEMINI_PROTOCOL: ${{ vars.LLM_GEMINI_PROTOCOL || secrets.LLM_GEMINI_PROTOCOL }}
+      LLM_GEMINI_API_SURFACE: ${{ vars.LLM_GEMINI_API_SURFACE || secrets.LLM_GEMINI_API_SURFACE }}
+      LLM_GEMINI_BASE_URL: ${{ vars.LLM_GEMINI_BASE_URL || secrets.LLM_GEMINI_BASE_URL }}
+      LLM_GEMINI_API_KEY: ${{ secrets.LLM_GEMINI_API_KEY }}
+      LLM_GEMINI_API_KEYS: ${{ secrets.LLM_GEMINI_API_KEYS }}
+      LLM_GEMINI_MODELS: ${{ vars.LLM_GEMINI_MODELS || secrets.LLM_GEMINI_MODELS }}
+      LLM_GEMINI_ENABLED: ${{ vars.LLM_GEMINI_ENABLED || secrets.LLM_GEMINI_ENABLED }}
+      LLM_GEMINI_EXTRA_HEADERS: ${{ vars.LLM_GEMINI_EXTRA_HEADERS || secrets.LLM_GEMINI_EXTRA_HEADERS }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL || secrets.GEMINI_MODEL || 'gemini-3-flash-preview' }}
+      GEMINI_MODEL_FALLBACK: ${{ vars.GEMINI_MODEL_FALLBACK || secrets.GEMINI_MODEL_FALLBACK || 'gemini-2.5-flash' }}
+      GEMINI_REQUEST_DELAY: '3.0'
+      GENERATION_BACKEND: ${{ vars.GENERATION_BACKEND || secrets.GENERATION_BACKEND }}
+      GENERATION_FALLBACK_BACKEND: ${{ vars.GENERATION_FALLBACK_BACKEND || secrets.GENERATION_FALLBACK_BACKEND || 'litellm' }}
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v5
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: 安装项目依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: 生成第1阶段短线候选池
+        id: candidate-pool
+        continue-on-error: true
+        run: python scripts/run_short_term_candidate_pool.py
+
+      - name: 生成第2阶段市场情绪与涨停生态
+        run: python scripts/run_short_term_market_sentiment.py
+
+      - name: 上传第2阶段结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: short-term-sentiment-stage2
+          path: |
+            reports/short_term/candidate_pool.json
+            reports/short_term/candidate_pool.md
+            reports/short_term/market_sentiment.json
+            reports/short_term/market_sentiment.md
+            reports/short_term/candidate_pool_enriched.json
+            reports/short_term/candidate_pool_enriched.md
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: 保持第1阶段失败状态
+        if: steps.candidate-pool.outcome == 'failure'
+        run: exit 1
