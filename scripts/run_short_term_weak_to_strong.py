@@ -48,6 +48,14 @@ WEIGHTS = {
     "next_day_space": 10.0,
 }
 CORE_SCORES = {"MARKET_LEADER": 20.0, "THEME_LEADER": 17.0, "FRONT_CORE": 14.0, "BROKEN_CORE": 12.0, "FOLLOWER": 5.0, "OBSERVE": 0.0}
+STOCK_ROLE_PRIORITY = {
+    "MARKET_LEADER": 6,
+    "THEME_LEADER": 5,
+    "FRONT_CORE": 4,
+    "BROKEN_CORE": 3,
+    "FOLLOWER": 2,
+    "OBSERVE": 1,
+}
 THEME_SCORES = {"MAIN": 15.0, "SECONDARY": 11.0, "ROTATION": 6.0, "WEAK": 2.0}
 GRADE_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3}
 PHASE_ADJUSTMENTS = {"冰点": -8.0, "修复": 5.0, "启动": 6.0, "发酵": 2.0, "高潮": -6.0, "分歧": 8.0, "退潮": -8.0}
@@ -64,6 +72,44 @@ ENVIRONMENT_RULES = {
 logger = logging.getLogger("short_term_weak_to_strong")
 _API_CACHE: dict[str, tuple[list[dict[str, Any]], dict[str, Any]]] = {}
 _API_STATS = {"requests": 0, "cache_hits": 0}
+
+
+def _stronger_stock_role(existing: str | None, incoming: str | None) -> str | None:
+    """Merge roles without allowing a later, weaker source to downgrade one."""
+    if not incoming:
+        return existing
+    if not existing:
+        return incoming
+    if STOCK_ROLE_PRIORITY.get(incoming, 0) > STOCK_ROLE_PRIORITY.get(existing, 0):
+        return incoming
+    return existing
+
+
+def _merge_stock_role(record: dict[str, Any], incoming: str | None, source: str) -> None:
+    if incoming:
+        sources = record.setdefault("stock_role_sources", [])
+        entry = {"source": source, "role": incoming}
+        if entry not in sources:
+            sources.append(entry)
+        existing = record.get("stock_role")
+        merged = _stronger_stock_role(existing, incoming)
+        if merged != existing:
+            record["stock_role"] = merged
+            record["stock_role_source"] = source
+        elif record.get("stock_role_source") is None:
+            record["stock_role_source"] = source
+
+
+def _merge_leader_metrics(record: dict[str, Any], leader_score: Any, market_leader_rank: Any) -> None:
+    incoming_score = _number(leader_score)
+    existing_score = _number(record.get("leader_score"))
+    if incoming_score is not None and (existing_score is None or incoming_score > existing_score):
+        record["leader_score"] = incoming_score
+
+    incoming_rank = _integer(market_leader_rank)
+    existing_rank = _integer(record.get("market_leader_rank"))
+    if incoming_rank is not None and (existing_rank is None or incoming_rank < existing_rank):
+        record["market_leader_rank"] = incoming_rank
 
 
 def _configure_logging() -> None:
@@ -373,42 +419,52 @@ def _recent_counts(code: str, target: date, sources: list[dict[str, Any]]) -> tu
 def _stage3_stock_maps(stage3: dict[str, Any], theme: dict[str, Any]) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
     records: dict[str, dict[str, Any]] = {}
     candidates = [item for item in stage3.get("candidates", []) if isinstance(item, dict)]
-    for item in candidates:
+
+    def merge_item(item: dict[str, Any], source: str, *, default_role: str | None = None, candidate: bool = False) -> None:
         code = _normalize_code(item.get("code"))
         if not code:
-            continue
+            return
         analysis = item.get("theme_analysis") or {}
         ecology = item.get("market_ecology") or {}
-        records[code] = {
-            "code": code,
-            "name": item.get("name") or "",
-            "primary_theme": analysis.get("primary_theme"),
-            "primary_theme_rank": analysis.get("primary_theme_rank"),
-            "primary_theme_score": analysis.get("primary_theme_score"),
-            "primary_theme_role": analysis.get("primary_theme_role"),
-            "stock_role": analysis.get("stock_role") or "OBSERVE",
-            "leader_score": analysis.get("leader_score"),
-            "market_leader_rank": analysis.get("market_leader_rank"),
+        record = records.setdefault(code, {"code": code, "candidate": False, "themes": [], "stock_role_sources": []})
+        record["candidate"] = bool(record.get("candidate") or candidate)
+        field_values = {
+            "name": item.get("name"),
+            "primary_theme": analysis.get("primary_theme") or item.get("primary_theme"),
+            "primary_theme_rank": analysis.get("primary_theme_rank") or item.get("primary_theme_rank"),
+            "primary_theme_score": analysis.get("primary_theme_score") or item.get("primary_theme_score"),
+            "primary_theme_role": analysis.get("primary_theme_role") or item.get("primary_theme_role"),
             "resonance_count": item.get("resonance_count"),
-            "is_limit_up": ecology.get("is_limit_up"),
-            "is_broken_board": ecology.get("is_broken_board"),
-            "is_limit_down": ecology.get("is_limit_down"),
-            "board_count": ecology.get("board_count"),
-            "break_count": ecology.get("break_count"),
-            "themes": item.get("themes") or [],
-            "candidate": True,
+            "is_limit_up": ecology.get("is_limit_up") if ecology.get("is_limit_up") is not None else item.get("is_limit_up"),
+            "is_broken_board": ecology.get("is_broken_board") if ecology.get("is_broken_board") is not None else item.get("is_broken_board"),
+            "is_limit_down": ecology.get("is_limit_down") if ecology.get("is_limit_down") is not None else item.get("is_limit_down"),
+            "board_count": ecology.get("board_count") if ecology.get("board_count") is not None else item.get("board_count"),
+            "break_count": ecology.get("break_count") if ecology.get("break_count") is not None else item.get("break_count"),
+            "themes": item.get("themes"),
         }
+        for key, value in field_values.items():
+            if value is not None and (record.get(key) in (None, "", [])):
+                record[key] = copy.deepcopy(value)
+        incoming_role = analysis.get("stock_role") or item.get("stock_role") or default_role
+        _merge_stock_role(record, incoming_role, source)
+        _merge_leader_metrics(
+            record,
+            analysis.get("leader_score") if analysis.get("leader_score") is not None else item.get("leader_score"),
+            analysis.get("market_leader_rank") if analysis.get("market_leader_rank") is not None else item.get("market_leader_rank"),
+        )
+
+    # Merge in the documented order, but use priority-based role and metric
+    # merges so this order can never downgrade a stronger source.
+    for item in candidates:
+        merge_item(item, "stage3_candidate", default_role="OBSERVE", candidate=True)
     for item in theme.get("leaders", []) or []:
         if not isinstance(item, dict):
             continue
-        code = _normalize_code(item.get("code"))
-        if not code:
+        merge_item(item, "stage3_leaders")
+    for item in theme.get("market_leaders", []) or []:
+        if not isinstance(item, dict):
             continue
-        record = records.setdefault(code, {"code": code, "candidate": False, "themes": item.get("themes") or []})
-        for key in ("name", "primary_theme", "primary_theme_rank", "primary_theme_role", "stock_role", "leader_score", "market_leader_rank", "resonance_count", "is_limit_up", "is_broken_board", "is_limit_down", "board_count", "break_count", "themes"):
-            if item.get(key) is not None:
-                record[key] = item.get(key)
-        record["candidate"] = bool(record.get("candidate"))
+        merge_item(item, "stage3_market_leaders", default_role="MARKET_LEADER")
     return records, candidates
 
 
@@ -663,7 +719,7 @@ def _watchlist(states: list[dict[str, Any]], environment: dict[str, Any]) -> lis
     candidates.sort(key=lambda item: (GRADE_ORDER[item.get("setup_grade", "D")], -(item.get("final_weak_to_strong_score") or 0), item.get("market_leader_rank") if item.get("market_leader_rank") is not None else 999, item.get("primary_theme_rank") if item.get("primary_theme_rank") is not None else 999, -(item.get("leader_score") or 0), item.get("code", "")))
     result: list[dict[str, Any]] = []
     for rank, item in enumerate(candidates[: int(environment.get("max_watchlist_size") or 10)], start=1):
-        result.append({key: item.get(key) for key in ("code", "name", "setup_grade", "setup_type", "final_weak_to_strong_score", "primary_theme", "primary_theme_role", "stock_role", "leader_score", "weak_signals", "strength_foundation", "risk_penalties", "tomorrow_plan")})
+        result.append({key: item.get(key) for key in ("code", "name", "setup_grade", "setup_type", "final_weak_to_strong_score", "primary_theme", "primary_theme_role", "stock_role", "stock_role_source", "stock_role_sources", "leader_score", "market_leader_rank", "weak_signals", "strength_foundation", "risk_penalties", "tomorrow_plan")})
         result[-1]["rank"] = rank
     return result[:10]
 
@@ -678,6 +734,13 @@ def _enrich_stage4(stage3: dict[str, Any], states: dict[str, dict[str, Any]], wa
             continue
         item = copy.deepcopy(original)
         state = states.get(_normalize_code(item.get("code")), {})
+        theme_analysis = item.setdefault("theme_analysis", {})
+        for key in ("stock_role", "stock_role_source", "stock_role_sources", "leader_score", "market_leader_rank"):
+            if state.get(key) is not None:
+                theme_analysis[key] = copy.deepcopy(state.get(key))
+        item["stock_role"] = state.get("stock_role")
+        item["stock_role_source"] = state.get("stock_role_source")
+        item["stock_role_sources"] = copy.deepcopy(state.get("stock_role_sources") or [])
         item["weak_to_strong_analysis"] = {
             "weak_to_strong_score": state.get("weak_to_strong_score"),
             "risk_penalty_total": state.get("risk_penalty_total"),
@@ -689,6 +752,11 @@ def _enrich_stage4(stage3: dict[str, Any], states: dict[str, dict[str, Any]], wa
             "sentiment_adjustment": state.get("sentiment_adjustment"),
             "tomorrow_plan": state.get("tomorrow_plan"),
             "next_day_watchlist_rank": ranks.get(_normalize_code(item.get("code"))),
+            "stock_role": state.get("stock_role"),
+            "stock_role_source": state.get("stock_role_source"),
+            "stock_role_sources": copy.deepcopy(state.get("stock_role_sources") or []),
+            "leader_score": state.get("leader_score"),
+            "market_leader_rank": state.get("market_leader_rank"),
         }
         output.append(item)
     result["candidates"] = output
