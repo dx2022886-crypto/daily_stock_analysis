@@ -581,7 +581,11 @@ def _grade(score: float | None, risks: dict[str, float], stock: dict[str, Any]) 
     if "LIMIT_DOWN" in risks or "A_SHAPE" in risks:
         return "D"
     if any(key in risks for key in ("BROKEN_TREND", "FOLLOWER_ONLY", "WEAK_THEME", "MULTI_DAY_DECLINE")):
-        grade = min(grade, "C", key=lambda value: GRADE_ORDER[value])
+        # These risks cap the rating at C: A/B may be downgraded to C, while
+        # an existing D must remain D.  GRADE_ORDER is worst-to-best in the
+        # comparison direction, so use an explicit cap instead of min().
+        if GRADE_ORDER[grade] < GRADE_ORDER["C"]:
+            grade = "C"
     return grade
 
 
