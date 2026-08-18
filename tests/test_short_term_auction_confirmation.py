@@ -360,6 +360,108 @@ def test_stage5_front_core_cannot_be_overwritten_by_follower():
     assert records["000002"]["stock_role"] == "FRONT_CORE"
 
 
+def test_realtime_fetch_bypasses_cache_for_three_requests():
+    module = _module()
+    calls = []
+
+    def fake_quote(**kwargs):
+        calls.append(kwargs)
+        return [{"code": kwargs.get("symbol"), "最新价": 10 + len(calls)}]
+
+    module.ak.stock_bid_ask_em = fake_quote
+    module._API_CACHE.clear()
+    module._fetch("stock_bid_ask_em", symbol="000001", use_cache=False)
+    module._fetch("stock_bid_ask_em", symbol="000001", use_cache=False)
+    module._fetch("stock_bid_ask_em", symbol="000001", use_cache=False)
+    assert len(calls) == 3
+    assert module._API_CACHE == {}
+
+
+def test_historical_fetch_still_uses_cache():
+    module = _module()
+    calls = []
+
+    def fake_history(**kwargs):
+        calls.append(kwargs)
+        return [{"value": len(calls)}]
+
+    module.ak.test_historical_endpoint = fake_history
+    module._API_CACHE.clear()
+    first, first_source = module._fetch("test_historical_endpoint", use_cache=True, date="20260818")
+    second, second_source = module._fetch("test_historical_endpoint", use_cache=True, date="20260818")
+    assert len(calls) == 1
+    assert first == second
+    assert first_source.get("cache_hit") is not True
+    assert second_source["cache_hit"] is True
+
+
+def test_three_live_snapshots_have_unique_request_ids_and_actual_times():
+    module = _module()
+    spot_calls = []
+    bid_calls = []
+
+    def fake_spot(**kwargs):
+        spot_calls.append(kwargs)
+        return [{"代码": "000001", "昨收": 10, "最新价": 10.1}]
+
+    def fake_bid(**kwargs):
+        bid_calls.append(kwargs)
+        return [{"买一价": 10.09, "卖一价": 10.11}]
+
+    module.ak.stock_zh_a_spot_em = fake_spot
+    module.ak.stock_bid_ask_em = fake_bid
+    module._API_CACHE.clear()
+    sources = []
+    base = datetime.fromisoformat("2026-08-18T09:20:05+08:00")
+    snapshots = [
+        module._live_snapshot_once([_record()], base + timedelta(seconds=index), sources, target_time=base, snapshot_id=f"snap-{index}")
+        for index in range(3)
+    ]
+    assert len(spot_calls) == 3
+    assert len(bid_calls) == 3
+    assert len({item["snapshot_id"] for item in snapshots}) == 3
+    assert all(item["actual_fetch_time"] for item in snapshots)
+    assert all(item.get("cache_reused") is False for item in snapshots)
+    assert all(item["snapshot_id"] for item in sources)
+
+
+def test_same_actual_time_or_cache_reuse_invalidates_late_strength():
+    module = _module()
+    snapshots = []
+    for price, timestamp in ((10.1, "2026-08-18T09:20:05+08:00"), (10.25, "2026-08-18T09:24:50+08:00")):
+        snapshot = _snapshot(module, price=price, timestamp=timestamp)
+        snapshot["cache_reused"] = True
+        snapshots.append(snapshot)
+    state = module._build_state(_record(), snapshots)
+    assert state["late_auction_strength"] is None
+    assert "LATE_AUCTION_DATA_INVALID" in state["hard_reject_reasons"]
+    assert module._snapshot_quality(snapshots)["quality"] == "POOR"
+    assert module.GRADE_ORDER[state["auction_grade"]] >= module.GRADE_ORDER["C"]
+
+
+def test_snapshot_delay_and_quality_bands_are_explicit():
+    module = _module()
+    delayed = {
+        "snapshot_id": "20260818_092005",
+        "target_time": "2026-08-18T09:20:05+08:00",
+        "actual_fetch_time": "2026-08-18T09:20:21.500+08:00",
+        "delay_seconds": 16.5,
+        "snapshot_delayed": True,
+        "independent_request": True,
+    }
+    assert delayed["delay_seconds"] > 15
+    assert delayed["snapshot_delayed"] is True
+    good = [
+        {"snapshot_id": f"snap-{i}", "actual_fetch_time": f"2026-08-18T09:2{i}:00+08:00", "independent_request": True}
+        for i in (0, 1, 2)
+    ]
+    partial = good[:2]
+    poor = [{"snapshot_id": "snap-0", "actual_fetch_time": "2026-08-18T09:20:05+08:00", "cache_reused": True}]
+    assert module._snapshot_quality(good)["quality"] == "GOOD"
+    assert module._snapshot_quality(partial)["quality"] == "PARTIAL"
+    assert module._snapshot_quality(poor)["quality"] == "POOR"
+
+
 def test_stage5_603330_keeps_market_leader_score_weight_source():
     module = _module()
     records, _ = module._input_pool(
@@ -377,3 +479,4 @@ def test_stage5_603330_keeps_market_leader_score_weight_source():
     assert result["code"] == "603330"
     assert result["stock_role"] == "MARKET_LEADER"
     assert result["leader_score"] == 92.0
+
