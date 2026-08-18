@@ -1,5 +1,9 @@
 name: A股短线集合竞价确认
 
+concurrency:
+  group: short-term-stage5-auction
+  cancel-in-progress: false
+
 on:
   workflow_dispatch:
     inputs:
@@ -15,7 +19,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -96,6 +100,7 @@ jobs:
           echo "SHORT_TERM_WORKFLOW_READY_TIME=$(TZ=Asia/Shanghai date '+%Y-%m-%dT%H:%M:%S%:z')" >> "$GITHUB_ENV"
 
       - name: 运行第5阶段集合竞价确认
+        id: auction-confirmation
         run: |
           python scripts/run_short_term_auction_confirmation.py \
             --target-date "${{ inputs.target_date || '' }}" \
@@ -114,3 +119,34 @@ jobs:
             reports/short_term/candidate_pool_stage5.md
           retention-days: 30
           if-no-files-found: warn
+
+      - name: Prepare latest Stage5 reports
+        if: steps.auction-confirmation.outcome == 'success'
+        run: |
+          set -euo pipefail
+          python scripts/persist_stage5_reports.py \
+            --source-dir reports/short_term \
+            --latest-dir reports/short_term/latest_stage5 \
+            --history-root reports/short_term/history/stage5
+          target_date="$(python -c 'import json; print(json.load(open("reports/short_term/auction_confirmation.json", encoding="utf-8"))["target_date"])')"
+          echo "TARGET_DATE=$target_date" >> "$GITHUB_ENV"
+
+      - name: Commit latest Stage5 reports
+        if: steps.auction-confirmation.outcome == 'success'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/short_term/latest_stage5 reports/short_term/history/stage5
+          if git diff --cached --quiet; then
+            echo "No Stage5 report changes"
+            exit 0
+          fi
+          git commit -m "data: update stage5 auction confirmation ${TARGET_DATE}"
+          if ! git pull --rebase origin main; then
+            echo "Resolving Stage5 report rebase conflict in favor of this run's generated reports"
+            git checkout --theirs -- reports/short_term/latest_stage5 reports/short_term/history/stage5/${TARGET_DATE}
+            git add reports/short_term/latest_stage5 reports/short_term/history/stage5/${TARGET_DATE}
+            GIT_EDITOR=true git -c core.editor=true rebase --continue
+          fi
+          git push origin main
