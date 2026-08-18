@@ -259,12 +259,25 @@ def _source_ok(source: dict[str, Any] | None) -> bool:
     return bool(source and source.get("status") == "success")
 
 
-def _fetch(function: str, *, source: str = "akshare", symbol: str | None = None, **kwargs: Any) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def _fetch(
+    function: str,
+    *,
+    source: str = "akshare",
+    symbol: str | None = None,
+    use_cache: bool = True,
+    **kwargs: Any,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Fetch one API endpoint, optionally using the static-data cache.
+
+    Live auction/quote snapshots must pass ``use_cache=False``.  That path
+    deliberately neither reads nor writes ``_API_CACHE`` so a prior 09:20
+    response can never be reused at 09:23 or 09:24:50.
+    """
     params = dict(kwargs)
     if symbol is not None:
         params["symbol"] = symbol
     cache_key = json.dumps([function, params], ensure_ascii=False, sort_keys=True, default=str)
-    if cache_key in _API_CACHE:
+    if use_cache and cache_key in _API_CACHE:
         _API_STATS["cache_hits"] += 1
         rows, metadata = _API_CACHE[cache_key]
         cached = copy.deepcopy(metadata)
@@ -276,9 +289,11 @@ def _fetch(function: str, *, source: str = "akshare", symbol: str | None = None,
         metadata = {
             "function": function, "source": source, "symbol": symbol, "status": "failed", "rows": 0,
             "attempts": 0, "params": _json_safe(params),
+            "cache_hit": False,
             "error": {"type": "AttributeError", "message": f"AKShare function {function} is unavailable"},
         }
-        _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
+        if use_cache:
+            _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
         return [], metadata
 
     last_error: Exception | None = None
@@ -288,9 +303,10 @@ def _fetch(function: str, *, source: str = "akshare", symbol: str | None = None,
             rows = _records(frame)
             metadata = {
                 "function": function, "source": source, "symbol": symbol, "status": "success",
-                "rows": len(rows), "attempts": attempt, "params": _json_safe(params),
+                "rows": len(rows), "attempts": attempt, "params": _json_safe(params), "cache_hit": False,
             }
-            _API_CACHE[cache_key] = (copy.deepcopy(rows), copy.deepcopy(metadata))
+            if use_cache:
+                _API_CACHE[cache_key] = (copy.deepcopy(rows), copy.deepcopy(metadata))
             return rows, metadata
         except Exception as exc:  # Each endpoint is isolated.
             last_error = exc
@@ -299,9 +315,11 @@ def _fetch(function: str, *, source: str = "akshare", symbol: str | None = None,
     metadata = {
         "function": function, "source": source, "symbol": symbol, "status": "failed", "rows": 0,
         "attempts": FETCH_RETRIES, "params": _json_safe(params),
+        "cache_hit": False,
         "error": {"type": type(last_error).__name__, "message": str(last_error)},
     }
-    _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
+    if use_cache:
+        _API_CACHE[cache_key] = ([], copy.deepcopy(metadata))
     return [], metadata
 
 
@@ -329,6 +347,14 @@ def _parse_timestamp(value: Any, default_date: date | None = None) -> datetime |
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=MARKET_TIMEZONE)
     return parsed.astimezone(MARKET_TIMEZONE)
+
+
+def _timestamp_text(value: datetime | None) -> str | None:
+    return value.astimezone(MARKET_TIMEZONE).isoformat(timespec="milliseconds") if value else None
+
+
+def _snapshot_id(target: datetime) -> str:
+    return target.astimezone(MARKET_TIMEZONE).strftime("%Y%m%d_%H%M%S")
 
 
 def _auction_status(now: datetime, *, snapshot_file: bool = False) -> str:
@@ -462,9 +488,27 @@ def _load_snapshot_file(path: Path) -> list[dict[str, Any]]:
     for index, snapshot in enumerate(raw_snapshots):
         if not isinstance(snapshot, dict):
             continue
-        timestamp = _parse_timestamp(snapshot.get("timestamp") or snapshot.get("time"))
+        timestamp = _parse_timestamp(snapshot.get("actual_fetch_time") or snapshot.get("timestamp") or snapshot.get("time"))
         rows = _snapshot_rows(snapshot)
-        result.append({"timestamp": timestamp, "timestamp_text": snapshot.get("timestamp") or snapshot.get("time") or f"snapshot-{index + 1}", "rows": rows})
+        target = _parse_timestamp(snapshot.get("target_time"), timestamp.date() if timestamp else None)
+        actual = _parse_timestamp(snapshot.get("actual_fetch_time"), timestamp.date() if timestamp else None) or timestamp
+        snapshot_id = str(snapshot.get("snapshot_id") or (_snapshot_id(target) if target else f"snapshot-{index + 1}"))
+        delay = _number(snapshot.get("delay_seconds"))
+        if delay is None and target and actual:
+            delay = max(0.0, (actual - target).total_seconds())
+        result.append({
+            "timestamp": actual or timestamp,
+            "timestamp_text": snapshot.get("timestamp") or _timestamp_text(actual) or snapshot.get("time") or f"snapshot-{index + 1}",
+            "target_time": _timestamp_text(target),
+            "actual_fetch_time": _timestamp_text(actual),
+            "delay_seconds": round(delay, 3) if delay is not None else None,
+            "snapshot_delayed": bool(snapshot.get("snapshot_delayed") or (delay is not None and delay > 15)),
+            "snapshot_confidence": _number(snapshot.get("snapshot_confidence")) or (0.5 if delay is not None and delay > 15 else 1.0),
+            "snapshot_id": snapshot_id,
+            "cache_reused": bool(snapshot.get("cache_reused") or snapshot.get("cache_hit")),
+            "independent_request": snapshot.get("independent_request", True),
+            "rows": rows,
+        })
     return sorted(result, key=lambda item: item.get("timestamp") or datetime.min.replace(tzinfo=MARKET_TIMEZONE))
 
 
@@ -482,8 +526,20 @@ def _flatten_bid_ask(rows: list[dict[str, Any]]) -> dict[str, Any]:
     return result
 
 
-def _live_snapshot_once(records: list[dict[str, Any]], current: datetime, sources: list[dict[str, Any]]) -> dict[str, Any]:
-    spot_rows, spot_source = _fetch("stock_zh_a_spot_em", source="eastmoney")
+def _live_snapshot_once(
+    records: list[dict[str, Any]],
+    current: datetime,
+    sources: list[dict[str, Any]],
+    *,
+    target_time: datetime | None = None,
+    snapshot_id: str | None = None,
+) -> dict[str, Any]:
+    # Every live snapshot is an independent request.  In particular, do not
+    # let the static-data cache turn three clock samples into one old sample.
+    target_time = target_time or current
+    snapshot_id = snapshot_id or _snapshot_id(target_time)
+    spot_rows, spot_source = _fetch("stock_zh_a_spot_em", source="eastmoney", use_cache=False)
+    spot_source.update({"snapshot_id": snapshot_id, "request_id": snapshot_id})
     sources.append(spot_source)
     spot_map = {_normalize_code(_first(row, "代码", "股票代码", "code")): row for row in spot_rows}
     rows: list[dict[str, Any]] = []
@@ -492,13 +548,38 @@ def _live_snapshot_once(records: list[dict[str, Any]], current: datetime, source
         row = dict(spot_map.get(code) or {})
         row.setdefault("code", code)
         if hasattr(ak, "stock_bid_ask_em"):
-            bid_rows, bid_source = _fetch("stock_bid_ask_em", source="eastmoney", symbol=code)
+            bid_rows, bid_source = _fetch("stock_bid_ask_em", source="eastmoney", symbol=code, use_cache=False)
+            bid_source.update({"snapshot_id": snapshot_id, "request_id": snapshot_id})
             sources.append(bid_source)
             row.update(_flatten_bid_ask(bid_rows))
         else:
-            sources.append({"function": "stock_bid_ask_em", "source": "eastmoney", "symbol": code, "status": "failed", "rows": 0, "attempts": 0, "error": {"type": "AttributeError", "message": "AKShare function stock_bid_ask_em is unavailable"}})
+            sources.append({"function": "stock_bid_ask_em", "source": "eastmoney", "symbol": code, "status": "failed", "rows": 0, "attempts": 0, "snapshot_id": snapshot_id, "request_id": snapshot_id, "error": {"type": "AttributeError", "message": "AKShare function stock_bid_ask_em is unavailable"}})
         rows.append(row)
-    return {"timestamp": current, "timestamp_text": current.isoformat(), "rows": rows}
+    actual = datetime.now(MARKET_TIMEZONE)
+    delay = max(0.0, (actual - target_time).total_seconds())
+    snapshot_delayed = delay > 15
+    actual_text = _timestamp_text(actual)
+    target_text = _timestamp_text(target_time)
+    for source in sources:
+        if source.get("snapshot_id") == snapshot_id:
+            source.update({"target_time": target_text, "actual_fetch_time": actual_text})
+    snapshot = {
+        "timestamp": actual,
+        "timestamp_text": actual_text,
+        "target_time": target_text,
+        "actual_fetch_time": actual_text,
+        "delay_seconds": round(delay, 3),
+        "snapshot_delayed": snapshot_delayed,
+        # Delayed samples remain visible but carry reduced sample confidence;
+        # the existing score weights are intentionally unchanged.
+        "snapshot_confidence": 0.5 if snapshot_delayed else 1.0,
+        "snapshot_id": snapshot_id,
+        "request_id": snapshot_id,
+        "cache_reused": any(source.get("cache_hit") for source in sources if source.get("snapshot_id") == snapshot_id),
+        "independent_request": True,
+        "rows": rows,
+    }
+    return snapshot
 
 
 def _snapshot_schedule(now: datetime) -> tuple[list[str], list[datetime]]:
@@ -518,7 +599,7 @@ def _snapshot_schedule(now: datetime) -> tuple[list[str], list[datetime]]:
 def _live_snapshots(records: list[dict[str, Any]], now: datetime, sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str]]:
     snapshots: list[dict[str, Any]] = []
     missed, pending = _snapshot_schedule(now)
-    max_wait = int(os.getenv("SHORT_TERM_AUCTION_MAX_WAIT_SECONDS", "360"))
+    max_wait = int(os.getenv("SHORT_TERM_AUCTION_MAX_WAIT_SECONDS", "900"))
     for target in pending:
         current = datetime.now(MARKET_TIMEZONE)
         wait = max(0.0, (target - current).total_seconds())
@@ -531,7 +612,7 @@ def _live_snapshots(records: list[dict[str, Any]], now: datetime, sources: list[
         if current.astimezone(MARKET_TIMEZONE).time() > dt_time(9, 25):
             missed.append(target.isoformat())
             break
-        snapshots.append(_live_snapshot_once(records, current, sources))
+        snapshots.append(_live_snapshot_once(records, current, sources, target_time=target, snapshot_id=_snapshot_id(target)))
     return snapshots, missed
 
 
@@ -577,13 +658,25 @@ def _gap_score(gap: float | None) -> float | None:
     return 3.0
 
 
+def _late_data_is_independent(rows: list[dict[str, Any]], *, price_key: str) -> bool:
+    """Require multiple independently fetched snapshots before a trend score."""
+    candidates = [row for row in rows if row.get(price_key) is not None]
+    if len(candidates) < 2:
+        return False
+    if any(bool(row.get("_snapshot_cache_reused") or row.get("cache_reused") or row.get("cache_hit")) for row in candidates):
+        return False
+    actual_times = {str(row.get("_snapshot_actual_fetch_time") or row.get("actual_fetch_time") or row.get("timestamp") or "") for row in candidates}
+    request_ids = {str(row.get("_snapshot_request_id") or row.get("request_id") or row.get("snapshot_id") or "") for row in candidates}
+    return len(actual_times - {""}) >= 2 and len(request_ids - {""}) >= 2
+
+
 def _late_strength(rows: list[dict[str, Any]], *, real: bool) -> float | None:
     canonical = [_canonical_snapshot_row(row) for row in rows]
-    canonical = [row for row in canonical if row.get("auction_reference_price" if real else "proxy_price") is not None]
-    if len(canonical) < 2:
+    price_key = "auction_reference_price" if real else "proxy_price"
+    canonical = [row for row in canonical if row.get(price_key) is not None]
+    if not _late_data_is_independent(canonical, price_key=price_key):
         return None
     first, last = canonical[-2], canonical[-1]
-    price_key = "auction_reference_price" if real else "proxy_price"
     price_change = (last[price_key] / first[price_key] - 1) * 100 if first[price_key] else None
     volume_key = "auction_matched_volume" if real else "proxy_volume"
     volume_change = None
@@ -602,6 +695,52 @@ def _late_strength(rows: list[dict[str, Any]], *, real: bool) -> float | None:
     elif side in {"卖", "卖方", "sell", "s"}:
         score -= 4
     return round(_clamp(score, 0, 20) * (1.0 if real else 0.70), 4)
+
+
+def _snapshot_quality(snapshots: list[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize whether the live samples were independent and timely."""
+    unique_ids: set[str] = set()
+    independent_pairs: set[tuple[str, str]] = set()
+    cache_reused_count = 0
+    delays: list[float] = []
+    for index, snapshot in enumerate(snapshots):
+        request_id = str(snapshot.get("request_id") or snapshot.get("snapshot_id") or f"snapshot-{index + 1}")
+        actual = str(snapshot.get("actual_fetch_time") or snapshot.get("timestamp_text") or snapshot.get("timestamp") or "")
+        if snapshot.get("delay_seconds") is not None:
+            delay = _number(snapshot.get("delay_seconds"))
+            if delay is not None:
+                delays.append(delay)
+        reused = bool(
+            snapshot.get("cache_reused")
+            or snapshot.get("cache_hit")
+            or any(source.get("cache_hit") for source in snapshot.get("sources", []) if isinstance(source, dict))
+        )
+        if reused:
+            cache_reused_count += 1
+        if request_id not in unique_ids:
+            unique_ids.add(request_id)
+            if not reused and snapshot.get("independent_request", True) and actual:
+                independent_pairs.add((request_id, actual))
+    independent_ids = {item[0] for item in independent_pairs}
+    independent_actuals = {item[1] for item in independent_pairs}
+    # A repeated actual timestamp is not an independent sample even if a
+    # caller supplied different labels for the snapshots.
+    independent_count = min(len(independent_ids), len(independent_actuals))
+    max_delay = round(max(delays), 3) if delays else None
+    if cache_reused_count or independent_count <= 1:
+        quality = "POOR"
+    elif independent_count == 2 or (max_delay is not None and max_delay > 15):
+        quality = "PARTIAL"
+    else:
+        quality = "GOOD"
+    return {
+        "expected_count": len(SNAPSHOT_TARGETS),
+        "captured_count": len(snapshots),
+        "independent_request_count": independent_count,
+        "cache_reused_count": cache_reused_count,
+        "max_delay_seconds": max_delay,
+        "quality": quality,
+    }
 
 
 def _weighted_score(components: dict[str, float | None]) -> dict[str, Any]:
@@ -686,6 +825,7 @@ def _build_state(
     *,
     theme_source_mode: str = "",
     final_snapshot_only: bool = False,
+    snapshot_quality: str | None = None,
 ) -> dict[str, Any]:
     latest_rows = {_normalize_code(row.get("code")): _canonical_snapshot_row(row) for row in _snapshot_rows(snapshots[-1])} if snapshots else {}
     latest = latest_rows.get(record["code"], {})
@@ -717,16 +857,29 @@ def _build_state(
         previous_volume = _number(record.get("prev_volume") or record.get("previous_volume") or record.get("volume_5d"))
         if previous_volume and previous_volume > 0:
             proxy_volume_strength = round(_clamp(latest["proxy_volume"] / previous_volume * 20, 0, 20), 4)
-    snapshot_rows = []
-    for snapshot in snapshots:
+    snapshot_rows: list[dict[str, Any]] = []
+    for index, snapshot in enumerate(snapshots):
+        actual_fetch_time = str(snapshot.get("actual_fetch_time") or snapshot.get("timestamp_text") or snapshot.get("timestamp") or f"snapshot-{index + 1}")
+        request_id = str(snapshot.get("request_id") or snapshot.get("snapshot_id") or actual_fetch_time)
+        cache_reused = bool(snapshot.get("cache_reused") or snapshot.get("cache_hit"))
         for row in _snapshot_rows(snapshot):
             if _normalize_code(row.get("code") or row.get("代码")) == record["code"]:
-                snapshot_rows.append(_canonical_snapshot_row(row))
-    late_real = _late_strength(snapshot_rows, real=True) if any(row.get("auction_reference_price") is not None for row in snapshot_rows) else None
-    late_proxy = _late_strength(snapshot_rows, real=False) if any(row.get("proxy_price") is not None for row in snapshot_rows) else None
+                canonical = _canonical_snapshot_row(row)
+                canonical["_snapshot_actual_fetch_time"] = actual_fetch_time
+                canonical["_snapshot_request_id"] = request_id
+                canonical["_snapshot_cache_reused"] = cache_reused
+                snapshot_rows.append(canonical)
+    has_real_history = any(row.get("auction_reference_price") is not None for row in snapshot_rows)
+    has_proxy_history = any(row.get("proxy_price") is not None for row in snapshot_rows)
+    late_real = _late_strength(snapshot_rows, real=True) if has_real_history else None
+    late_proxy = _late_strength(snapshot_rows, real=False) if has_proxy_history else None
+    late_invalid = (
+        (has_real_history and len([row for row in snapshot_rows if row.get("auction_reference_price") is not None]) >= 2 and late_real is None)
+        or (not has_real_history and has_proxy_history and len([row for row in snapshot_rows if row.get("proxy_price") is not None]) >= 2 and late_proxy is None)
+    )
     # A 09:25-09:30 run is a single final snapshot.  It cannot establish
     # late-auction direction, even if the row itself contains real fields.
-    late = None if final_snapshot_only else (late_real if late_real is not None else late_proxy)
+    late = None if final_snapshot_only else (late_real if has_real_history else late_proxy)
     gap = real_gap if real_gap is not None else proxy_gap
     gap_component = _gap_score(gap)
     theme_component = THEME_SCORES.get(record.get("primary_theme_role"))
@@ -746,11 +899,16 @@ def _build_state(
     }
     score_details = _weighted_score(components)
     hard_rejects = _hard_rejects(record, {"gap_pct": real_gap, "proxy_gap_pct": proxy_gap}, late)
+    if late_invalid and not final_snapshot_only:
+        hard_rejects.append("LATE_AUCTION_DATA_INVALID")
     if score_details["coverage_ratio"] < 0.30:
         hard_rejects.append("DATA_TOO_LOW")
     hard_rejects = list(dict.fromkeys(hard_rejects))
     grade = _grade(score_details["confidence_adjusted_score"], score_details["coverage_ratio"], data_mode, hard_rejects)
     if final_snapshot_only and GRADE_ORDER[grade] < GRADE_ORDER["C"]:
+        grade = "C"
+    effective_snapshot_quality = snapshot_quality or _snapshot_quality(snapshots).get("quality")
+    if effective_snapshot_quality == "POOR" and GRADE_ORDER[grade] < GRADE_ORDER["C"]:
         grade = "C"
     data_confidence = DATA_MODE_CONFIDENCE[data_mode]
     final_score = round(score_details["confidence_adjusted_score"] * data_confidence, 4) if score_details["confidence_adjusted_score"] is not None else None
@@ -779,6 +937,13 @@ def _build_state(
         "final_auction_score": final_score,
         "theme_source_mode": theme_source_mode or None,
         "snapshot_count": len(snapshots),
+        "snapshot_quality": effective_snapshot_quality,
+        "snapshot_delayed": bool(snapshots and snapshots[-1].get("snapshot_delayed")),
+        "snapshot_confidence": snapshots[-1].get("snapshot_confidence") if snapshots else None,
+        "actual_fetch_time": snapshots[-1].get("actual_fetch_time") if snapshots else None,
+        "target_time": snapshots[-1].get("target_time") if snapshots else None,
+        "delay_seconds": snapshots[-1].get("delay_seconds") if snapshots else None,
+        "snapshot_id": snapshots[-1].get("snapshot_id") if snapshots else None,
         "final_snapshot_only": final_snapshot_only,
         **score_details,
     })
@@ -836,7 +1001,7 @@ def _data_quality(status: str, states: list[dict[str, Any]], failures: list[dict
         # One final sample cannot support the normal multi-point auction
         # confirmation, so available data is explicitly partial.
         return "partial" if any(item.get("rows") for item in snapshots) else "unavailable"
-    if not snapshot_file and status in {"BEFORE_AUCTION", "OUTSIDE_WINDOW", "NON_TRADING_DAY", "LIVE_DATE_MISMATCH"}:
+    if not snapshot_file and status in {"BEFORE_AUCTION", "OUTSIDE_WINDOW", "NON_TRADING_DAY", "LIVE_DATE_MISMATCH"} and not snapshots:
         return "unavailable"
     if states and all(item.get("auction_data_mode") == "UNAVAILABLE" for item in states):
         return "unavailable"
@@ -874,6 +1039,7 @@ def _failure_payload(
         "missed_snapshots": [],
         "snapshot_targets": [f"{hour:02d}:{minute:02d}:{second:02d}" for hour, minute, second in SNAPSHOT_TARGETS],
         "snapshots": [],
+        "snapshot_quality": _snapshot_quality([]),
         "auction_states": [],
         "auction_watchlist": [],
         "sources": [],
@@ -922,6 +1088,7 @@ def _write_markdown(payload: dict[str, Any]) -> None:
         f"- 竞价状态：`{_display(payload.get('auction_status'))}`",
         f"- 数据源模式：`{_display(payload.get('source_mode'))}`",
         f"- 数据质量：`{_display(payload.get('data_quality'))}`",
+        f"- 采样质量：`{_display((payload.get('snapshot_quality') or {}).get('quality'))}`",
         f"- 输入观察数：`{_display(payload.get('input_pool_count'))}`",
         "",
         "## Auction Watchlist Top5",
@@ -1051,17 +1218,25 @@ def main() -> int:
         except Exception as exc:
             snapshots = []
             sources.append({"function": "snapshot_file", "symbol": None, "status": "failed", "rows": 0, "attempts": 1, "error": {"type": type(exc).__name__, "message": str(exc)}})
-    elif status == "AUCTION_WINDOW":
+    elif status in {"BEFORE_AUCTION", "AUCTION_WINDOW"}:
         snapshots, missed_snapshots = _live_snapshots(records, now, sources)
     elif status == "FINAL_SNAPSHOT_ONLY":
-        snapshots = [_live_snapshot_once(records, now, sources)]
+        final_target = datetime.combine(now.date(), dt_time(9, 24, 50), tzinfo=MARKET_TIMEZONE)
+        snapshots = [_live_snapshot_once(records, now, sources, target_time=final_target, snapshot_id=_snapshot_id(final_target))]
         missed_snapshots = [f"{now.date().isoformat()} 09:20:05", f"{now.date().isoformat()} 09:23:00"]
     else:
         snapshots = []
     theme_source_mode = str(stage3.get("source_mode") or "")
     final_snapshot_only = status == "FINAL_SNAPSHOT_ONLY" and not snapshot_path
+    snapshot_quality = _snapshot_quality(snapshots)
     states = [
-        _build_state(record, snapshots, theme_source_mode=theme_source_mode, final_snapshot_only=final_snapshot_only)
+        _build_state(
+            record,
+            snapshots,
+            theme_source_mode=theme_source_mode,
+            final_snapshot_only=final_snapshot_only,
+            snapshot_quality=snapshot_quality["quality"],
+        )
         for record in records
     ]
     source_mode = _source_mode(states)
@@ -1089,7 +1264,22 @@ def main() -> int:
         "input_pool_meta": input_meta,
         "missed_snapshots": missed_snapshots,
         "snapshot_targets": [f"{hour:02d}:{minute:02d}:{second:02d}" for hour, minute, second in SNAPSHOT_TARGETS],
-        "snapshots": [{"timestamp": item.get("timestamp_text"), "stock_count": len(item.get("rows") or [])} for item in snapshots],
+        "snapshot_quality": snapshot_quality,
+        "snapshots": [
+            {
+                "snapshot_id": item.get("snapshot_id"),
+                "target_time": item.get("target_time"),
+                "actual_fetch_time": item.get("actual_fetch_time"),
+                "delay_seconds": item.get("delay_seconds"),
+                "snapshot_delayed": bool(item.get("snapshot_delayed")),
+                "snapshot_confidence": item.get("snapshot_confidence"),
+                "cache_reused": bool(item.get("cache_reused")),
+                "independent_request": bool(item.get("independent_request", True)),
+                "timestamp": item.get("timestamp_text"),
+                "stock_count": len(item.get("rows") or []),
+            }
+            for item in snapshots
+        ],
         "auction_states": states,
         "auction_watchlist": watchlist,
         "sources": sources,
@@ -1107,3 +1297,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
