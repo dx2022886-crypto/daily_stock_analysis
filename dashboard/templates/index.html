@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A股短线决策中心">
+  <title>A股短线决策中心</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#eef2f6; --card:#fff; --ink:#17202a; --muted:#687582; --line:#dce3ea; --navy:#102536; --blue:#1e6aa8; --green:#19714a; --amber:#a06112; --red:#a52a32; --shadow:0 5px 18px rgba(18,38,56,.08); }
+    @media (prefers-color-scheme: dark) { :root { --bg:#11181e; --card:#1a242c; --ink:#edf3f7; --muted:#aab7c1; --line:#34424c; --navy:#0b1924; --blue:#6cb5ed; --green:#69d0a1; --amber:#e5ad60; --red:#ff8c93; --shadow:0 5px 18px rgba(0,0,0,.25); } }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    .shell { width:min(1180px,100%); margin:0 auto; }
+    .hero { background:var(--navy); color:#fff; padding:24px 16px 20px; }
+    .hero h1 { margin:0; font-size:clamp(1.65rem,5vw,2.4rem); letter-spacing:.03em; }
+    .hero p { margin:5px 0 14px; color:#b9cfdd; font-size:.92rem; }
+    .hero-meta { display:flex; flex-wrap:wrap; gap:8px 18px; color:#d8e5ec; font-size:.88rem; }
+    main { padding:14px 12px 38px; }
+    .decision { margin:0 0 14px; padding:14px 16px; border-left:4px solid var(--blue); background:var(--card); border-radius:10px; box-shadow:var(--shadow); font-weight:600; }
+    .warning { border-left-color:var(--red); color:var(--red); }
+    .grid { display:grid; grid-template-columns:1fr; gap:14px; }
+    .card { min-width:0; padding:16px; background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); }
+    .card h2 { margin:0 0 12px; font-size:1.15rem; }
+    .card h2 small { color:var(--muted); font-weight:400; font-size:.76rem; }
+    .metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .metric { padding:10px; border-radius:9px; background:color-mix(in srgb,var(--bg) 72%,var(--card)); }
+    .metric .label { color:var(--muted); font-size:.78rem; }
+    .metric .value { margin-top:2px; font-size:1.25rem; font-weight:700; overflow-wrap:anywhere; }
+    .phase { display:inline-flex; align-items:center; padding:4px 10px; border-radius:999px; background:#dbeafe; color:#164e78; font-weight:700; }
+    .phase.risk { background:#fee2e2; color:var(--red); }
+    .phase.warn { background:#fef3c7; color:var(--amber); }
+    .status-line { color:var(--muted); font-size:.9rem; }
+    .table-wrap { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { width:100%; min-width:620px; border-collapse:collapse; font-size:.9rem; }
+    th,td { padding:9px 8px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; white-space:nowrap; }
+    th { color:var(--muted); font-size:.78rem; font-weight:600; }
+    .tag { display:inline-block; margin:2px 3px 2px 0; padding:2px 7px; border-radius:999px; background:#e7eef5; color:var(--ink); font-size:.76rem; }
+    .tag.strong { background:#d8f2e5; color:var(--green); font-weight:700; }
+    .tag.risk { background:#fee2e2; color:var(--red); }
+    .empty { color:var(--muted); padding:8px 0; }
+    .quality { font-weight:800; letter-spacing:.04em; }
+    .quality.good { color:var(--green); }
+    .quality.partial { color:var(--amber); }
+    .quality.poor { color:var(--red); }
+    footer { padding:0 16px 28px; color:var(--muted); font-size:.78rem; text-align:center; }
+    @media (min-width:760px) { main { padding:20px 20px 44px; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .wide { grid-column:1/-1; } .metrics { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="shell">
+    <h1>A股短线决策中心</h1>
+    <p>Short-Term Trading Decision Dashboard</p>
+    <div class="hero-meta"><span id="market-date">交易日期：—</span><span id="updated-at">更新时间：—</span><span id="current-stage">数据阶段：—</span></div>
+  </div></header>
+  <main class="shell">
+    <div id="decision" class="decision">正在读取最新阶段数据…</div>
+    <div class="grid">
+      <section class="card wide"><h2>今日市场状态 <small>Stage2</small></h2><div id="market"></div></section>
+      <section class="card"><h2>今日主线 <small>Stage3</small></h2><div id="themes"></div></section>
+      <section class="card"><h2>龙头核心 <small>Stage3</small></h2><div id="leaders"></div></section>
+      <section class="card wide"><h2>Stage1 候选池 <small>Top30 · 模型共振</small></h2><div id="stage1"></div></section>
+      <section class="card"><h2>Stage4 弱转强观察池</h2><div id="stage4"></div></section>
+      <section class="card"><h2>Stage5 集合竞价确认</h2><div id="stage5"></div></section>
+    </div>
+  </main>
+  <footer>仅展示观察、确认、淘汰和等待开盘确认状态；不构成买卖建议。</footer>
+  <script>
+    const esc = (value) => String(value === null || value === undefined || value === "" ? "—" : value)
+      .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+    const json = (value) => esc(JSON.stringify(value ?? [], null, 0));
+    const cell = (value) => `<td>${esc(value)}</td>`;
+    const empty = (text="暂无最新数据") => `<div class="empty">${esc(text)}</div>`;
+    const roleTag = (role) => `<span class="tag ${role === "MARKET_LEADER" ? "strong" : ""}">${esc(role)}</span>`;
+    const qualityTag = (quality) => {
+      const normalized = String(quality || "UNKNOWN").toUpperCase();
+      const klass = normalized === "GOOD" ? "good" : normalized === "PARTIAL" ? "partial" : normalized === "POOR" ? "poor" : "";
+      return `<span class="quality ${klass}">${esc(normalized)}</span>`;
+    };
+    const render = (data) => {
+      const market = data.market || {};
+      const status = data.pipeline_status || {};
+      document.title = "A股短线决策中心";
+      document.getElementById("market-date").textContent = `交易日期：${market.date || "—"}`;
+      document.getElementById("updated-at").textContent = `更新时间：${data.generated_at || "—"}`;
+      document.getElementById("current-stage").textContent = `数据阶段：${status.current_stage || "—"}`;
+      document.getElementById("decision").textContent = data.decision_state || "暂无最新数据";
+      document.getElementById("market").innerHTML = market.available ? `<div class="metrics">
+        <div class="metric"><div class="label">情绪阶段</div><div class="value"><span class="phase ${(market.sentiment_phase === "退潮" || market.sentiment_phase === "冰点") ? "risk" : market.sentiment_phase === "分歧" ? "warn" : ""}">${esc(market.sentiment_phase || "UNKNOWN")}</span></div></div>
+        <div class="metric"><div class="label">市场情绪分</div><div class="value">${esc(market.sentiment_score)}</div></div>
+        <div class="metric"><div class="label">涨停 / 跌停</div><div class="value">${esc(market.limit_up_count)} / ${esc(market.limit_down_count)}</div></div>
+        <div class="metric"><div class="label">炸板 / 炸板率</div><div class="value">${esc(market.broken_board_count)} / ${esc(market.broken_board_rate)}</div></div>
+        <div class="metric"><div class="label">最高板</div><div class="value">${esc(market.highest_board)}</div></div>
+        <div class="metric"><div class="label">昨日涨停溢价</div><div class="value">${esc(market.yesterday_premium_median)}</div></div>
+        <div class="metric"><div class="label">数据状态</div><div class="value">${esc(market.data_quality)}</div></div>
+      </div>` : empty();
+
+      const themes = data.themes || [];
+      document.getElementById("themes").innerHTML = themes.length ? `<div class="table-wrap"><table><thead><tr><th>题材</th><th>角色</th><th>分数</th><th>置信分</th><th>覆盖</th><th>状态</th></tr></thead><tbody>${themes.map(item => `<tr>${cell(item.theme)}${cell(item.theme_role)}${cell(item.theme_score)}${cell(item.confidence_adjusted)}${cell(item.coverage)}${item.degraded ? '<td><span class="tag risk">degraded</span></td>' : '<td>正常</td>'}</tr>`).join("")}</tbody></table></div>` : empty();
+
+      const leaders = data.leaders || [];
+      document.getElementById("leaders").innerHTML = leaders.length ? `<div class="table-wrap"><table><thead><tr><th>代码</th><th>名称</th><th>主题</th><th>角色</th><th>leader_score</th><th>排名</th></tr></thead><tbody>${leaders.map(item => `<tr>${cell(item.code)}${cell(item.name)}${cell(item.primary_theme || item.theme)}<td>${roleTag(item.stock_role)}</td>${cell(item.leader_score)}${cell(item.market_leader_rank)}</tr>`).join("")}</tbody></table></div>` : empty();
+
+      const candidates = data.stage1_candidates || [];
+      document.getElementById("stage1").innerHTML = candidates.length ? `<div class="table-wrap"><table><thead><tr><th>排名</th><th>代码</th><th>名称</th><th>共振数</th><th>入选模型</th><th>平均原始分</th></tr></thead><tbody>${candidates.map(item => `<tr>${cell(item.rank)}${cell(item.code)}${cell(item.name)}<td>${Number(item.resonance_count || 0) >= 2 ? '<span class="tag strong">' + esc(item.resonance_count) + ' 套</span>' : esc(item.resonance_count)}</td><td>${(item.strategies || []).map(esc).join("、") || "—"}</td>${cell(item.average_score)}</tr>`).join("")}</tbody></table></div>` : empty();
+
+      const watchlist = data.stage4_watchlist || [];
+      const core = data.stage4_core_states || [];
+      document.getElementById("stage4").innerHTML = watchlist.length ? `<div class="table-wrap"><table><thead><tr><th>排名</th><th>代码</th><th>名称</th><th>主题</th><th>角色</th><th>类型</th><th>分数</th><th>评级</th></tr></thead><tbody>${watchlist.map(item => `<tr>${cell(item.rank)}${cell(item.code)}${cell(item.name)}${cell(item.theme)}<td>${roleTag(item.stock_role)}</td>${cell(item.setup_type)}${cell(item.weak_to_strong_score)}${cell(item.grade)}</tr>`).join("")}</tbody></table></div>` : `<div class="empty">今日暂无正式弱转强观察标的</div>${core.length ? `<p class="status-line">核心状态股</p><div class="table-wrap"><table><thead><tr><th>代码</th><th>名称</th><th>主题</th><th>角色</th><th>类型</th><th>分数</th><th>评级</th></tr></thead><tbody>${core.map(item => `<tr>${cell(item.code)}${cell(item.name)}${cell(item.theme)}<td>${roleTag(item.stock_role)}</td>${cell(item.setup_type)}${cell(item.weak_to_strong_score)}${cell(item.grade)}</tr>`).join("")}</tbody></table></div>` : ""}`;
+
+      const auction = data.stage5 || {};
+      if (!auction.available) { document.getElementById("stage5").innerHTML = empty("等待下一交易日集合竞价确认"); return; }
+      const warning = auction.quality_warning ? '<div class="decision warning">竞价数据质量不足，请降低结果可信度</div>' : "";
+      const rows = (auction.candidates || []).map(item => `<tr>${cell(item.rank)}${cell(item.code)}${cell(item.name)}${cell(item.theme)}<td>${roleTag(item.stock_role)}</td>${cell(item.auction_score)}${cell(item.auction_grade)}${cell(item.data_mode)}${cell(item.coverage)}${cell((item.hard_reject_reasons || []).join("、"))}${cell(item.qualified ? "是" : "否")}</tr>`).join("");
+      document.getElementById("stage5").innerHTML = `${warning}<div class="metrics"><div class="metric"><div class="label">采样质量</div><div class="value">${qualityTag(auction.snapshot_quality_label)}</div></div><div class="metric"><div class="label">已捕获</div><div class="value">${esc(auction.captured_count)}</div></div><div class="metric"><div class="label">独立请求</div><div class="value">${esc(auction.independent_request_count)}</div></div><div class="metric"><div class="label">缓存复用</div><div class="value">${esc(auction.cache_reused_count)}</div></div><div class="metric"><div class="label">数据模式</div><div class="value">${esc(auction.auction_data_mode)}</div></div></div>${rows ? `<div class="table-wrap"><table><thead><tr><th>排名</th><th>代码</th><th>名称</th><th>主题</th><th>角色</th><th>竞价分</th><th>评级</th><th>模式</th><th>覆盖</th><th>硬否决</th><th>通过</th></tr></thead><tbody>${rows}</tbody></table></div>` : empty("暂无通过的竞价观察标的")}`;
+    };
+    fetch("dashboard_data.json", {cache:"no-store"}).then(response => { if (!response.ok) throw new Error(response.status); return response.json(); }).then(render).catch(() => { document.getElementById("decision").textContent = "暂无最新数据，等待阶段结果生成"; });
+  </script>
+</body>
+</html>
