@@ -25,7 +25,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   short-term-weak-to-strong:
@@ -121,6 +121,25 @@ jobs:
             reports/short_term/candidate_pool_stage4.md
           retention-days: 30
           if-no-files-found: warn
+
+      - name: 持久化第1-4阶段 latest
+        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success' && steps.theme-leader.outcome == 'success' && steps.weak-to-strong.outcome == 'success'
+        run: python scripts/persist_stage_reports.py --stages stage1 stage2 stage3 stage4
+
+      - name: 提交第1-4阶段 latest
+        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success' && steps.theme-leader.outcome == 'success' && steps.weak-to-strong.outcome == 'success'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/short_term/latest_stage1 reports/short_term/latest_stage2 reports/short_term/latest_stage3 reports/short_term/latest_stage4 reports/short_term/history/stage1 reports/short_term/history/stage2 reports/short_term/history/stage3 reports/short_term/history/stage4
+          if git diff --cached --quiet; then
+            echo "No Stage1-Stage4 report changes"
+            exit 0
+          fi
+          git commit -m "data: update stage1-stage4 latest"
+          git pull --rebase origin main
+          git push origin main
 
       - name: 保持前置阶段失败状态
         if: steps.candidate-pool.outcome == 'failure' || steps.market-sentiment.outcome == 'failure' || steps.theme-leader.outcome == 'failure' || steps.weak-to-strong.outcome == 'failure'

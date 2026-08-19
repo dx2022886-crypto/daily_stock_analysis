@@ -25,7 +25,7 @@ on:
         type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   short-term-market-sentiment:
@@ -100,6 +100,25 @@ jobs:
             reports/short_term/candidate_pool_enriched.md
           retention-days: 30
           if-no-files-found: warn
+
+      - name: 持久化第1-2阶段 latest
+        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success'
+        run: python scripts/persist_stage_reports.py --stages stage1 stage2
+
+      - name: 提交第1-2阶段 latest
+        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/short_term/latest_stage1 reports/short_term/latest_stage2 reports/short_term/history/stage1 reports/short_term/history/stage2
+          if git diff --cached --quiet; then
+            echo "No Stage1-Stage2 report changes"
+            exit 0
+          fi
+          git commit -m "data: update stage1-stage2 latest"
+          git pull --rebase origin main
+          git push origin main
 
       - name: 保持第1阶段失败状态
         if: steps.candidate-pool.outcome == 'failure'
