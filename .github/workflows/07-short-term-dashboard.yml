@@ -36,6 +36,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: 安装 dashboard 测试依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest anyio fastapi httpx starlette
+
+      - name: 运行 dashboard 离线测试
+        run: python -m pytest tests/test_dashboard_builder.py -q
+
+      - name: Python 语法检查
+        run: python -m py_compile dashboard/build_dashboard.py scripts/persist_stage_reports.py
+
       - name: 生成 dashboard 数据和页面
         run: python dashboard/build_dashboard.py
 
