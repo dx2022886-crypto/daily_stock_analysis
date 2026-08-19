@@ -242,6 +242,20 @@ python main.py --webui-only
 
 访问 `http://127.0.0.1:8000` 即可使用。认证、智能导入、搜索补全、历史报告复制、云服务器访问等细节见 [本地 WebUI 管理界面](docs/full-guide.md#本地-webui-管理界面)。
 
+## 📊 A股短线决策仪表盘
+
+短线系统的 Stage1～Stage5 最新结果会聚合到纯静态 GitHub Pages 页面：
+
+- 生成入口：`dashboard/build_dashboard.py`
+- 页面文件：`docs/index.html`
+- 统一数据：`docs/dashboard_data.json`
+
+首次启用 GitHub Pages：进入仓库 **Settings → Pages → Deploy from a branch**，选择 `main` 分支和 `/docs` 目录并保存。启用后通常可通过以下地址访问：
+
+`https://dx2022886-crypto.github.io/daily_stock_analysis/`
+
+仪表盘只展示观察、确认、淘汰和等待开盘确认状态，不生成买入建议，也不替代各阶段原始报告。
+
 ## 🤖 Agent 策略问股
 
 配置任意可用 AI API Key 后，Web `/chat` 页面即可使用策略问股；如需显式关闭可设置 `AGENT_MODE=false`。
