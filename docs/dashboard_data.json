@@ -1,0 +1,62 @@
+{
+  "decision_state": "暂无最新数据，等待阶段结果生成",
+  "generated_at": "2026-08-19T17:05:03+00:00",
+  "leaders": [],
+  "market": {
+    "available": false,
+    "broken_board_count": null,
+    "broken_board_rate": null,
+    "data_available": false,
+    "data_quality": "unavailable",
+    "date": null,
+    "highest_board": null,
+    "highest_board_stocks": [],
+    "limit_down_count": null,
+    "limit_up_count": null,
+    "sentiment_phase": "UNKNOWN",
+    "sentiment_phase_code": "UNKNOWN",
+    "sentiment_score": null,
+    "updated_at": null,
+    "yesterday_premium_median": null
+  },
+  "pipeline_status": {
+    "current_stage": null,
+    "latest_dirs": {
+      "stage1": "/Users/stormxi/Documents/视频/daily_stock_analysis/reports/short_term/latest_stage1",
+      "stage2": "/Users/stormxi/Documents/视频/daily_stock_analysis/reports/short_term/latest_stage2",
+      "stage3": "/Users/stormxi/Documents/视频/daily_stock_analysis/reports/short_term/latest_stage3",
+      "stage4": "/Users/stormxi/Documents/视频/daily_stock_analysis/reports/short_term/latest_stage4",
+      "stage5": "/Users/stormxi/Documents/视频/daily_stock_analysis/reports/short_term/latest_stage5"
+    },
+    "stages": {
+      "stage1": false,
+      "stage2": false,
+      "stage3": false,
+      "stage4": false,
+      "stage5": false
+    },
+    "updated_at": {
+      "stage1": null,
+      "stage2": null,
+      "stage3": null,
+      "stage4": null,
+      "stage5": null
+    }
+  },
+  "stage1_candidates": [],
+  "stage4_core_states": [],
+  "stage4_watchlist": [],
+  "stage5": {
+    "auction_data_mode": "UNKNOWN",
+    "available": false,
+    "cache_reused_count": null,
+    "candidates": [],
+    "captured_count": null,
+    "data_quality": "unavailable",
+    "independent_request_count": null,
+    "quality_warning": true,
+    "snapshot_quality": {},
+    "snapshot_quality_label": "UNKNOWN"
+  },
+  "themes": []
+}
