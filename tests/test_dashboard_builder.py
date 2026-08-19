@@ -155,3 +155,49 @@ def test_missing_all_latest_dirs_still_generates_utf8_page_and_complete_shape(tm
     html = (output / "index.html").read_text(encoding="utf-8")
     assert "A股短线决策中心" in html
     assert "dashboard_data.json" in html
+
+
+def test_candidate_pool_and_leaders_are_capped_for_mobile_dashboard(tmp_path):
+    reports = tmp_path / "reports" / "short_term"
+    _seed_all_stages(reports)
+
+    data = build_dashboard(reports_root=reports, output_dir=tmp_path / "docs")
+
+    assert len(data["stage1_candidates"]) <= 30
+    assert len(data["leaders"]) <= 10
+
+
+def test_dashboard_data_json_has_required_top_level_fields(tmp_path):
+    reports = tmp_path / "reports" / "short_term"
+    output = tmp_path / "docs"
+    _seed_all_stages(reports)
+
+    build_dashboard(reports_root=reports, output_dir=output)
+    persisted = json.loads((output / "dashboard_data.json").read_text(encoding="utf-8"))
+
+    assert set(persisted) >= {"generated_at", "market", "themes", "leaders", "stage1_candidates", "stage4_watchlist", "stage4_core_states", "stage5", "pipeline_status"}
+
+
+def test_stage5_missing_state_has_waiting_message_in_static_template(tmp_path):
+    reports = tmp_path / "reports" / "short_term"
+    output = tmp_path / "docs"
+    _seed_all_stages(reports)
+    for path in (reports / "latest_stage5").iterdir():
+        path.unlink()
+    (reports / "latest_stage5").rmdir()
+
+    build_dashboard(reports_root=reports, output_dir=output)
+    html = (output / "index.html").read_text(encoding="utf-8")
+
+    assert "等待下一交易日集合竞价确认" in html
+
+
+def test_poor_quality_warning_is_present_in_static_template(tmp_path):
+    reports = tmp_path / "reports" / "short_term"
+    output = tmp_path / "docs"
+    _seed_all_stages(reports, poor_stage5=True)
+
+    build_dashboard(reports_root=reports, output_dir=output)
+    html = (output / "index.html").read_text(encoding="utf-8")
+
+    assert "竞价数据质量不足，请降低结果可信度" in html
