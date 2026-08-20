@@ -13,6 +13,9 @@ on:
         required: true
         default: '30'
         type: string
+  schedule:
+    # Weekdays at 09:20 UTC = 17:20 Beijing time = 16:20 Laos time.
+    - cron: '20 9 * * 1-5'
 
 permissions:
   contents: write

@@ -23,6 +23,11 @@ on:
         required: false
         default: ''
         type: string
+  workflow_run:
+    workflows:
+      - A股短线情绪与涨停生态
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -30,6 +35,7 @@ permissions:
 jobs:
   short-term-theme-leader:
     name: A股短线主线与龙头
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 150
     env:
