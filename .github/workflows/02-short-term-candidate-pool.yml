@@ -14,8 +14,8 @@ on:
         default: '30'
         type: string
   schedule:
-    # Temporary test: 20:10 Laos = 21:10 Beijing = 13:10 UTC.
-    - cron: '10 13 * * 1-5'
+    # Weekdays at 09:20 UTC = 17:20 Beijing time = 16:20 Laos time.
+    - cron: '20 9 * * 1-5'
 
 permissions:
   contents: write
