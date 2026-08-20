@@ -139,7 +139,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add reports/short_term/latest_stage5 reports/short_term/history/stage5
+          git add -f reports/short_term/latest_stage5 reports/short_term/history/stage5
           if git diff --cached --quiet; then
             echo "No Stage5 report changes"
             exit 0
@@ -148,7 +148,7 @@ jobs:
           if ! git pull --rebase origin main; then
             echo "Resolving Stage5 report rebase conflict in favor of this run's generated reports"
             git checkout --theirs -- reports/short_term/latest_stage5 reports/short_term/history/stage5/${TARGET_DATE}
-            git add reports/short_term/latest_stage5 reports/short_term/history/stage5/${TARGET_DATE}
+            git add -f reports/short_term/latest_stage5 reports/short_term/history/stage5/${TARGET_DATE}
             GIT_EDITOR=true git -c core.editor=true rebase --continue
           fi
           git push origin main
