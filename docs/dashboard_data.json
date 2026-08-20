@@ -1,6 +1,6 @@
 {
-  "decision_state": "主线与龙头已确认，等待弱转强筛选",
-  "generated_at": "2026-08-20T07:50:30+00:00",
+  "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
+  "generated_at": "2026-08-20T08:20:29+00:00",
   "leaders": [
     {
       "code": "000505",
@@ -149,7 +149,7 @@
     "yesterday_premium_median": -4.6967
   },
   "pipeline_status": {
-    "current_stage": "stage3",
+    "current_stage": "stage4",
     "latest_dirs": {
       "stage1": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage1",
       "stage2": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage2",
@@ -161,14 +161,14 @@
       "stage1": true,
       "stage2": true,
       "stage3": true,
-      "stage4": false,
+      "stage4": true,
       "stage5": false
     },
     "updated_at": {
       "stage1": "2026-08-20T15:03:17+08:00",
       "stage2": "2026-08-20T15:04:53+08:00",
       "stage3": "2026-08-20T15:50:07+08:00",
-      "stage4": null,
+      "stage4": "2026-08-20T16:20:07+08:00",
       "stage5": null
     }
   },
@@ -476,8 +476,110 @@
       ]
     }
   ],
-  "stage4_core_states": [],
-  "stage4_watchlist": [],
+  "stage4_core_states": [
+    {
+      "code": "000963",
+      "grade": "D",
+      "name": "华东医药",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 54.8549
+    },
+    {
+      "code": "002532",
+      "grade": "D",
+      "name": "天山铝业",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 54.84
+    },
+    {
+      "code": "002001",
+      "grade": "D",
+      "name": "新和成",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 54.0705
+    },
+    {
+      "code": "000807",
+      "grade": "D",
+      "name": "云铝股份",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 53.7306
+    },
+    {
+      "code": "600428",
+      "grade": "D",
+      "name": "中远海特",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 54.7032
+    },
+    {
+      "code": "000933",
+      "grade": "D",
+      "name": "神火股份",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 53.3932
+    },
+    {
+      "code": "300035",
+      "grade": "D",
+      "name": "中科电气",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 47.0
+    },
+    {
+      "code": "600598",
+      "grade": "D",
+      "name": "北大荒",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 47.0
+    },
+    {
+      "code": "601600",
+      "grade": "D",
+      "name": "中国铝业",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 47.0
+    },
+    {
+      "code": "000725",
+      "grade": "D",
+      "name": "京东方A",
+      "setup_type": "NONE",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 47.0
+    }
+  ],
+  "stage4_watchlist": [
+    {
+      "code": "600172",
+      "grade": "C",
+      "name": "黄河旋风",
+      "rank": 1,
+      "setup_type": "TREND_CORE_PULLBACK",
+      "stock_role": "FRONT_CORE",
+      "theme": null,
+      "weak_to_strong_score": 56.7495
+    }
+  ],
   "stage5": {
     "auction_data_mode": "UNKNOWN",
     "available": false,
