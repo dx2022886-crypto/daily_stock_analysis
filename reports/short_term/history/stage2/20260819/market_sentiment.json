@@ -1,0 +1,669 @@
+{
+  "current": {
+    "broken_board_count": 12,
+    "broken_board_rate": 25.0,
+    "date": "20260819",
+    "highest_board": 3,
+    "highest_board_stocks": [
+      {
+        "board_count": 3,
+        "break_count": 0,
+        "code": "600127",
+        "first_limit_time": "092502",
+        "industry": "农产品加",
+        "last_limit_time": "092502",
+        "name": "金健米业"
+      },
+      {
+        "board_count": 3,
+        "break_count": 1,
+        "code": "603395",
+        "first_limit_time": "092502",
+        "industry": "农化制品",
+        "last_limit_time": "093208",
+        "name": "红四方"
+      },
+      {
+        "board_count": 3,
+        "break_count": 0,
+        "code": "000505",
+        "first_limit_time": "093133",
+        "industry": "农产品加",
+        "last_limit_time": "093133",
+        "name": "京粮控股"
+      }
+    ],
+    "ladder_counts": {
+      "1": 29,
+      "2": 4,
+      "3": 3,
+      "4": 0,
+      "5": 0,
+      "6_plus": 0
+    },
+    "ladder_integrity": 100.0,
+    "ladder_missing_levels": [],
+    "limit_down_count": 118,
+    "limit_up_count": 36,
+    "promotion_data_quality": {
+      "available_levels": [
+        "1_to_2",
+        "2_to_3",
+        "3_plus"
+      ],
+      "message": "三项晋级数据均可用。",
+      "missing_levels": [],
+      "status": "complete"
+    },
+    "promotion_rates": {
+      "1_to_2": {
+        "eligible": 61,
+        "promoted": 4,
+        "rate": 6.5574
+      },
+      "2_to_3": {
+        "eligible": 13,
+        "promoted": 3,
+        "rate": 23.0769
+      },
+      "3_plus": {
+        "eligible": 5,
+        "promoted": 0,
+        "rate": 0.0
+      }
+    },
+    "score_components": {
+      "breadth": 9.0,
+      "damage_control": 0,
+      "ladder": 15,
+      "promotion": 1.9756,
+      "seal_quality": 11.25,
+      "yesterday_premium": 3.6633
+    },
+    "sentiment_change": -32.2283,
+    "sentiment_phase": "退潮",
+    "sentiment_phase_code": "RETREAT",
+    "sentiment_score": 40.8889,
+    "yesterday_limit_up_count": 79,
+    "yesterday_premium_mean": -2.5578,
+    "yesterday_premium_median": -4.6967,
+    "yesterday_red_rate": 29.1139
+  },
+  "data_cutoff": "15:05 Asia/Shanghai",
+  "data_quality": "complete",
+  "history": [
+    {
+      "broken_board_count": 36,
+      "broken_board_rate": 37.8947,
+      "date": "20260813",
+      "highest_board": 5,
+      "highest_board_stocks": [
+        {
+          "board_count": 5,
+          "break_count": 0,
+          "code": "603758",
+          "first_limit_time": "092503",
+          "industry": "汽车零部",
+          "last_limit_time": "092503",
+          "name": "秦安股份"
+        }
+      ],
+      "ladder_counts": {
+        "1": 37,
+        "2": 13,
+        "3": 2,
+        "4": 6,
+        "5": 1,
+        "6_plus": 0
+      },
+      "ladder_integrity": 100.0,
+      "ladder_missing_levels": [],
+      "limit_down_count": 4,
+      "limit_up_count": 59,
+      "promotion_data_quality": {
+        "available_levels": [
+          "1_to_2",
+          "2_to_3",
+          "3_plus"
+        ],
+        "message": "三项晋级数据均可用。",
+        "missing_levels": [],
+        "status": "complete"
+      },
+      "promotion_rates": {
+        "1_to_2": {
+          "eligible": 76,
+          "promoted": 12,
+          "rate": 15.7895
+        },
+        "2_to_3": {
+          "eligible": 7,
+          "promoted": 2,
+          "rate": 28.5714
+        },
+        "3_plus": {
+          "eligible": 9,
+          "promoted": 7,
+          "rate": 77.7778
+        }
+      },
+      "score_components": {
+        "breadth": 14.75,
+        "damage_control": 13.0,
+        "ladder": 15,
+        "promotion": 8.1426,
+        "seal_quality": 9.3158,
+        "yesterday_premium": 9.4141
+      },
+      "sentiment_change": null,
+      "sentiment_phase": "发酵",
+      "sentiment_phase_code": "FERMENTATION",
+      "sentiment_score": 69.6225,
+      "yesterday_limit_up_count": 93,
+      "yesterday_premium_mean": 1.2761,
+      "yesterday_premium_median": -1.4737,
+      "yesterday_red_rate": 44.086
+    },
+    {
+      "broken_board_count": 19,
+      "broken_board_rate": 23.1707,
+      "date": "20260814",
+      "highest_board": 5,
+      "highest_board_stocks": [
+        {
+          "board_count": 5,
+          "break_count": 5,
+          "code": "300862",
+          "first_limit_time": "101357",
+          "industry": "通用设备",
+          "last_limit_time": "130951",
+          "name": "蓝盾光电"
+        }
+      ],
+      "ladder_counts": {
+        "1": 52,
+        "2": 5,
+        "3": 5,
+        "4": 0,
+        "5": 1,
+        "6_plus": 0
+      },
+      "ladder_integrity": 80.0,
+      "ladder_missing_levels": [
+        4
+      ],
+      "limit_down_count": 10,
+      "limit_up_count": 63,
+      "promotion_data_quality": {
+        "available_levels": [
+          "1_to_2",
+          "2_to_3",
+          "3_plus"
+        ],
+        "message": "三项晋级数据均可用。",
+        "missing_levels": [],
+        "status": "complete"
+      },
+      "promotion_rates": {
+        "1_to_2": {
+          "eligible": 37,
+          "promoted": 5,
+          "rate": 13.5135
+        },
+        "2_to_3": {
+          "eligible": 13,
+          "promoted": 5,
+          "rate": 38.4615
+        },
+        "3_plus": {
+          "eligible": 9,
+          "promoted": 1,
+          "rate": 11.1111
+        }
+      },
+      "score_components": {
+        "breadth": 15.75,
+        "damage_control": 10.0,
+        "ladder": 12.0,
+        "promotion": 4.2057,
+        "seal_quality": 11.5244,
+        "yesterday_premium": 7.5912
+      },
+      "sentiment_change": -8.5512,
+      "sentiment_phase": "分歧",
+      "sentiment_phase_code": "DIVERGENCE",
+      "sentiment_score": 61.0713,
+      "yesterday_limit_up_count": 59,
+      "yesterday_premium_mean": 0.0608,
+      "yesterday_premium_median": -2.2137,
+      "yesterday_red_rate": 40.678
+    },
+    {
+      "broken_board_count": 12,
+      "broken_board_rate": 10.1695,
+      "date": "20260817",
+      "highest_board": 4,
+      "highest_board_stocks": [
+        {
+          "board_count": 4,
+          "break_count": 0,
+          "code": "603330",
+          "first_limit_time": "092503",
+          "industry": "塑料",
+          "last_limit_time": "092503",
+          "name": "天洋新材"
+        },
+        {
+          "board_count": 4,
+          "break_count": 9,
+          "code": "002081",
+          "first_limit_time": "093054",
+          "industry": "装修装饰",
+          "last_limit_time": "104212",
+          "name": "金 螳 螂"
+        },
+        {
+          "board_count": 4,
+          "break_count": 0,
+          "code": "002172",
+          "first_limit_time": "094915",
+          "industry": "医疗服务",
+          "last_limit_time": "094915",
+          "name": "澳洋健康"
+        }
+      ],
+      "ladder_counts": {
+        "1": 91,
+        "2": 10,
+        "3": 2,
+        "4": 3,
+        "5": 0,
+        "6_plus": 0
+      },
+      "ladder_integrity": 100.0,
+      "ladder_missing_levels": [],
+      "limit_down_count": 1,
+      "limit_up_count": 106,
+      "promotion_data_quality": {
+        "available_levels": [
+          "1_to_2",
+          "2_to_3",
+          "3_plus"
+        ],
+        "message": "三项晋级数据均可用。",
+        "missing_levels": [],
+        "status": "complete"
+      },
+      "promotion_rates": {
+        "1_to_2": {
+          "eligible": 52,
+          "promoted": 10,
+          "rate": 19.2308
+        },
+        "2_to_3": {
+          "eligible": 5,
+          "promoted": 2,
+          "rate": 40.0
+        },
+        "3_plus": {
+          "eligible": 6,
+          "promoted": 3,
+          "rate": 50.0
+        }
+      },
+      "score_components": {
+        "breadth": 20,
+        "damage_control": 14.5,
+        "ladder": 15,
+        "promotion": 7.2821,
+        "seal_quality": 13.4746,
+        "yesterday_premium": 12.8263
+      },
+      "sentiment_change": 22.0117,
+      "sentiment_phase": "发酵",
+      "sentiment_phase_code": "FERMENTATION",
+      "sentiment_score": 83.083,
+      "yesterday_limit_up_count": 63,
+      "yesterday_premium_mean": 3.5509,
+      "yesterday_premium_median": 2.3967,
+      "yesterday_red_rate": 65.0794
+    },
+    {
+      "broken_board_count": 23,
+      "broken_board_rate": 22.549,
+      "date": "20260818",
+      "highest_board": 4,
+      "highest_board_stocks": [
+        {
+          "board_count": 4,
+          "break_count": 1,
+          "code": "600613",
+          "first_limit_time": "092502",
+          "industry": "化学制药",
+          "last_limit_time": "104923",
+          "name": "神奇制药"
+        }
+      ],
+      "ladder_counts": {
+        "1": 61,
+        "2": 13,
+        "3": 4,
+        "4": 1,
+        "5": 0,
+        "6_plus": 0
+      },
+      "ladder_integrity": 100.0,
+      "ladder_missing_levels": [],
+      "limit_down_count": 5,
+      "limit_up_count": 79,
+      "promotion_data_quality": {
+        "available_levels": [
+          "1_to_2",
+          "2_to_3",
+          "3_plus"
+        ],
+        "message": "三项晋级数据均可用。",
+        "missing_levels": [],
+        "status": "complete"
+      },
+      "promotion_rates": {
+        "1_to_2": {
+          "eligible": 91,
+          "promoted": 12,
+          "rate": 13.1868
+        },
+        "2_to_3": {
+          "eligible": 10,
+          "promoted": 4,
+          "rate": 40.0
+        },
+        "3_plus": {
+          "eligible": 5,
+          "promoted": 1,
+          "rate": 20.0
+        }
+      },
+      "score_components": {
+        "breadth": 19.75,
+        "damage_control": 12.5,
+        "ladder": 15,
+        "promotion": 4.8791,
+        "seal_quality": 11.6177,
+        "yesterday_premium": 9.3704
+      },
+      "sentiment_change": -9.9658,
+      "sentiment_phase": "分歧",
+      "sentiment_phase_code": "DIVERGENCE",
+      "sentiment_score": 73.1172,
+      "yesterday_limit_up_count": 107,
+      "yesterday_premium_mean": 1.2469,
+      "yesterday_premium_median": -0.1356,
+      "yesterday_red_rate": 47.6636
+    },
+    {
+      "broken_board_count": 12,
+      "broken_board_rate": 25.0,
+      "date": "20260819",
+      "highest_board": 3,
+      "highest_board_stocks": [
+        {
+          "board_count": 3,
+          "break_count": 0,
+          "code": "600127",
+          "first_limit_time": "092502",
+          "industry": "农产品加",
+          "last_limit_time": "092502",
+          "name": "金健米业"
+        },
+        {
+          "board_count": 3,
+          "break_count": 1,
+          "code": "603395",
+          "first_limit_time": "092502",
+          "industry": "农化制品",
+          "last_limit_time": "093208",
+          "name": "红四方"
+        },
+        {
+          "board_count": 3,
+          "break_count": 0,
+          "code": "000505",
+          "first_limit_time": "093133",
+          "industry": "农产品加",
+          "last_limit_time": "093133",
+          "name": "京粮控股"
+        }
+      ],
+      "ladder_counts": {
+        "1": 29,
+        "2": 4,
+        "3": 3,
+        "4": 0,
+        "5": 0,
+        "6_plus": 0
+      },
+      "ladder_integrity": 100.0,
+      "ladder_missing_levels": [],
+      "limit_down_count": 118,
+      "limit_up_count": 36,
+      "promotion_data_quality": {
+        "available_levels": [
+          "1_to_2",
+          "2_to_3",
+          "3_plus"
+        ],
+        "message": "三项晋级数据均可用。",
+        "missing_levels": [],
+        "status": "complete"
+      },
+      "promotion_rates": {
+        "1_to_2": {
+          "eligible": 61,
+          "promoted": 4,
+          "rate": 6.5574
+        },
+        "2_to_3": {
+          "eligible": 13,
+          "promoted": 3,
+          "rate": 23.0769
+        },
+        "3_plus": {
+          "eligible": 5,
+          "promoted": 0,
+          "rate": 0.0
+        }
+      },
+      "score_components": {
+        "breadth": 9.0,
+        "damage_control": 0,
+        "ladder": 15,
+        "promotion": 1.9756,
+        "seal_quality": 11.25,
+        "yesterday_premium": 3.6633
+      },
+      "sentiment_change": -32.2283,
+      "sentiment_phase": "退潮",
+      "sentiment_phase_code": "RETREAT",
+      "sentiment_score": 40.8889,
+      "yesterday_limit_up_count": 79,
+      "yesterday_premium_mean": -2.5578,
+      "yesterday_premium_median": -4.6967,
+      "yesterday_red_rate": 29.1139
+    }
+  ],
+  "history_days": 5,
+  "market": "cn",
+  "phase": "short_term_market_sentiment_v1",
+  "source_failures": [],
+  "sources": [
+    {
+      "attempts": 1,
+      "date": "20260812",
+      "function": "stock_zt_pool_em",
+      "rows": 92,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260812",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 13,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260812",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 0,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260812",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 58,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260813",
+      "function": "stock_zt_pool_em",
+      "rows": 59,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260813",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 36,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260813",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 4,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260813",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 93,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260814",
+      "function": "stock_zt_pool_em",
+      "rows": 63,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260814",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 19,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260814",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 10,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260814",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 59,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260817",
+      "function": "stock_zt_pool_em",
+      "rows": 106,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260817",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 12,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260817",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 1,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260817",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 63,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260818",
+      "function": "stock_zt_pool_em",
+      "rows": 79,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260818",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 23,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260818",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 5,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260818",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 107,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260819",
+      "function": "stock_zt_pool_em",
+      "rows": 36,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260819",
+      "function": "stock_zt_pool_zbgc_em",
+      "rows": 12,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260819",
+      "function": "stock_zt_pool_dtgc_em",
+      "rows": 118,
+      "status": "success"
+    },
+    {
+      "attempts": 1,
+      "date": "20260819",
+      "function": "stock_zt_pool_previous_em",
+      "rows": 79,
+      "status": "success"
+    }
+  ],
+  "target_date": "20260819"
+}
