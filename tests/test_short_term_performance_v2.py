@@ -10,6 +10,7 @@ import sys
 import types
 
 import pandas as pd
+import pytest
 
 from scripts import profile_short_term_pipeline as profile
 from scripts import run_short_term_candidate_pool as candidate_pool
@@ -142,3 +143,167 @@ def test_short_term_retry_policy_is_bounded() -> None:
     assert daily._fast_failure_attempt_limit("RemoteDisconnected") == 2
     assert daily._fast_failure_attempt_limit("HTTP 403") == 2
     assert daily._fast_failure_attempt_limit("HTTP 429") == 2
+
+
+def _snapshot_fixture(*, rows: int = 120, target_date: str = "20260820") -> pd.DataFrame:
+    frame = pd.DataFrame(
+        {
+            "code": [f"{index:06d}" for index in range(rows)],
+            "name": [f"Fixture {index}" for index in range(rows)],
+            "price": [10.0] * rows,
+            "volume_ratio": [1.0] * rows,
+        }
+    )
+    frame.attrs["snapshot_source"] = "em_datacenter"
+    frame.attrs["snapshot_target_date"] = target_date
+    frame.attrs["snapshot_data_as_of"] = target_date
+    frame.attrs["snapshot_fetched_at"] = "2026-08-20T07:00:00.000+00:00"
+    return frame
+
+
+def test_failed_shared_snapshot_is_memoized_for_all_strategy_calls(monkeypatch) -> None:
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "false")
+    monkeypatch.setattr(snapshot, "_SOURCE_HEALTH", {})
+    context = ShortTermRunContext(target_date="20260820")
+    calls: list[str] = []
+
+    def fail(source: str) -> pd.DataFrame:
+        calls.append(source)
+        raise TimeoutError(f"{source} timeout")
+
+    monkeypatch.setattr(snapshot, "fetch_cn_snapshot", fail)
+    loader = lambda: snapshot.fetch_snapshot_with_fallback(
+        ["em_datacenter", "sina", "efinance", "akshare_em"],
+        required_columns=["code", "volume_ratio"],
+        run_context=context,
+    )
+    with pytest.raises(RuntimeError):
+        context.load_snapshot(loader)
+    for _ in range(4):
+        with pytest.raises(RuntimeError):
+            context.load_snapshot(loader)
+
+    assert calls == ["em_datacenter", "sina", "efinance", "akshare_em"]
+    assert context.snapshot_fetch_failed is True
+    assert context.metrics()["snapshot_source_attempts"] == 4
+
+
+def test_em_datacenter_timeout_is_longer_than_other_snapshot_sources(monkeypatch) -> None:
+    monkeypatch.setenv("SHORT_TERM_FAST_RETRY", "true")
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_TIMEOUT", "10")
+    assert snapshot._snapshot_call_timeout_seconds("em_datacenter") == 30.0
+    assert snapshot._snapshot_call_timeout_seconds("em_datacenter") > snapshot._snapshot_call_timeout_seconds("sina")
+    assert snapshot._snapshot_call_timeout_seconds("sina") == 10.0
+    assert snapshot._snapshot_call_timeout_seconds("efinance") == 6.0
+    assert snapshot._snapshot_call_timeout_seconds("akshare_em") == 12.0
+
+
+def test_validated_last_good_same_target_date_skips_live_sources(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "true")
+    cache_path = tmp_path / "snapshot.last_good.json"
+    cached = _snapshot_fixture()
+    snapshot._write_last_good_snapshot(
+        cache_path,
+        cached,
+        source_priority=["em_datacenter", "sina"],
+        market="cn",
+        target_date="20260820",
+    )
+    calls: list[str] = []
+    monkeypatch.setattr(snapshot, "fetch_cn_snapshot", lambda source: calls.append(source))
+    context = ShortTermRunContext(target_date="20260820")
+    result = snapshot.fetch_snapshot_with_fallback(
+        ["em_datacenter", "sina"],
+        required_columns=["code", "volume_ratio"],
+        fallback_snapshot_path=cache_path,
+        market="cn",
+        run_context=context,
+    )
+    assert calls == []
+    assert len(result) == 120
+    assert result.attrs["snapshot_is_cached"] is True
+    assert result.attrs["snapshot_target_date"] == "20260820"
+    assert result.attrs["snapshot_data_as_of"] == "20260820"
+
+
+def test_cross_trading_day_last_good_is_not_reused(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "true")
+    monkeypatch.setattr(snapshot, "_SOURCE_HEALTH", {})
+    cache_path = tmp_path / "snapshot.last_good.json"
+    snapshot._write_last_good_snapshot(
+        cache_path,
+        _snapshot_fixture(target_date="20260819"),
+        source_priority=["sina"],
+        market="cn",
+        target_date="20260819",
+    )
+    calls: list[str] = []
+
+    def fail(source: str) -> pd.DataFrame:
+        calls.append(source)
+        raise RuntimeError("live unavailable")
+
+    monkeypatch.setattr(snapshot, "fetch_cn_snapshot", fail)
+    with pytest.raises(RuntimeError, match="All snapshot sources failed"):
+        snapshot.fetch_snapshot_with_fallback(
+            ["sina"],
+            required_columns=["code", "volume_ratio"],
+            fallback_snapshot_path=cache_path,
+            market="cn",
+            run_context=ShortTermRunContext(target_date="20260820"),
+        )
+    assert calls == ["sina"]
+
+
+def test_live_failure_falls_back_to_validated_last_good(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "false")
+    monkeypatch.setattr(snapshot, "_SOURCE_HEALTH", {})
+    cache_path = tmp_path / "snapshot.last_good.json"
+    snapshot._write_last_good_snapshot(
+        cache_path,
+        _snapshot_fixture(),
+        source_priority=["sina"],
+        market="cn",
+        target_date="20260820",
+    )
+    monkeypatch.setattr(
+        snapshot,
+        "fetch_cn_snapshot",
+        lambda _source: (_ for _ in ()).throw(RuntimeError("live unavailable")),
+    )
+    result = snapshot.fetch_snapshot_with_fallback(
+        ["sina"],
+        required_columns=["code", "volume_ratio"],
+        fallback_snapshot_path=cache_path,
+        market="cn",
+        run_context=ShortTermRunContext(target_date="20260820"),
+    )
+    assert len(result) == 120
+    assert result.attrs["snapshot_is_cached"] is True
+    assert result.attrs["fallback_used"] is True
+
+
+def test_invalid_last_good_after_live_failure_fails(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "false")
+    monkeypatch.setattr(snapshot, "_SOURCE_HEALTH", {})
+    cache_path = tmp_path / "snapshot.last_good.json"
+    snapshot._write_last_good_snapshot(
+        cache_path,
+        _snapshot_fixture(),
+        source_priority=["sina"],
+        market="cn",
+        target_date="20260819",
+    )
+    monkeypatch.setattr(
+        snapshot,
+        "fetch_cn_snapshot",
+        lambda _source: (_ for _ in ()).throw(RuntimeError("live unavailable")),
+    )
+    with pytest.raises(RuntimeError, match="All snapshot sources failed"):
+        snapshot.fetch_snapshot_with_fallback(
+            ["sina"],
+            required_columns=["code", "volume_ratio"],
+            fallback_snapshot_path=cache_path,
+            market="cn",
+            run_context=ShortTermRunContext(target_date="20260820"),
+        )
