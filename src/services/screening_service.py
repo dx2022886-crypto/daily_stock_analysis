@@ -1215,6 +1215,7 @@ class ScreeningService:
         max_results: int,
         selection_seed: str = "",
         progress_callback: Callable[[int, str], None] | None = None,
+        run_context: object | None = None,
     ) -> Dict[str, Any]:
         _ensure_screening_enabled(self.config)
         _ensure_screening_available_for_use()
@@ -1229,6 +1230,7 @@ class ScreeningService:
                 self.config,
                 selection_seed=selection_seed,
                 progress_callback=progress_callback,
+                run_context=run_context,
             )
         except ValueError as exc:
             raise HTTPException(
@@ -1260,7 +1262,27 @@ class ScreeningService:
             92,
             "正在补充入选股票的新闻与事件",
         )
-        selected, dsa_enrichment = _enrich_candidates_with_dsa(selected)
+        news_enabled = os.getenv("SHORT_TERM_STAGE1_NEWS_ENABLED", "true").strip().lower() not in {
+            "0",
+            "false",
+            "no",
+            "off",
+        }
+        if news_enabled:
+            if run_context is not None and callable(getattr(run_context, "timer", None)):
+                with run_context.timer("news_search_seconds"):
+                    selected, dsa_enrichment = _enrich_candidates_with_dsa(selected)
+            else:
+                selected, dsa_enrichment = _enrich_candidates_with_dsa(selected)
+        else:
+            dsa_enrichment = {
+                "enabled": False,
+                "reason": "SHORT_TERM_STAGE1_NEWS_ENABLED=false",
+                "max_candidates": 0,
+                "requested_count": 0,
+                "enriched_count": 0,
+                "warnings": [],
+            }
         warnings = _collect_screening_warning_messages(raw_data)
         response = {
             "enabled": True,
@@ -1733,13 +1755,18 @@ def _call_screening_screen(
     *,
     selection_seed: str = "",
     progress_callback: Callable[[int, str], None] | None = None,
+    run_context: object | None = None,
 ) -> Any:
     # Environment bridging is process-global, so keep it brief: materialize an
     # immutable pipeline config while holding the lock, then release it before
     # any network or LLM work. Hotspot refreshes can then run alongside screening.
     with _screening_runtime_env(config, max_results=max_results):
         pipeline_config = ScreeningPipelineConfig.from_env()
-        pipeline_context = _build_screening_context(config, max_results=max_results)
+        pipeline_context = _build_screening_context(
+            config,
+            max_results=max_results,
+            run_context=run_context,
+        )
 
     daily_history_fetcher = _build_screening_dsa_daily_history_fetcher()
     with _screening_litellm_headers(config):
@@ -1747,12 +1774,14 @@ def _call_screening_screen(
             strategy,
             market=market,
             max_output=max_results,
-            use_llm=True,
+            use_llm=os.getenv("SHORT_TERM_STAGE1_LLM_RANKING", "true").strip().lower()
+            not in {"0", "false", "no", "off"},
             selection_seed=selection_seed,
             context=pipeline_context,
             config=pipeline_config,
             progress_callback=progress_callback,
             daily_history_fetcher=daily_history_fetcher,
+            run_context=run_context,
         )
 
 
@@ -1801,56 +1830,74 @@ def _build_screening_dsa_daily_history_fetcher() -> Optional[Callable[..., Any]]
         retries: int = 2,
         cache_dir: str | Path | None = None,
         cache_ttl_seconds: float | None = None,
+        run_context: object | None = None,
     ) -> Any:
-        try:
-            dsa_df, dsa_source = get_dsa_daily_history(code, lookback_days=lookback_days)
-            normalized = _normalize_dsa_daily_history(dsa_df)
-            if normalized is not None and not normalized.empty:
-                resolved_source = f"dsa:{dsa_source}"
-                normalized_code = code
-                normalize_code = getattr(daily_module, "_normalize_daily_code", None)
-                if callable(normalize_code):
-                    normalized_code = normalize_code(code)
-                normalized.attrs["source"] = resolved_source
-                normalized.attrs["daily_source"] = resolved_source
-                normalized.attrs["daily_requested_source"] = source
-                normalized.attrs["daily_source_order"] = [resolved_source]
-                normalized.attrs["daily_source_order_notes"] = []
-                normalized.attrs["source_errors"] = []
-                normalized.attrs["daily_source_health"] = {}
-                if cache_dir is not None:
-                    cache_path_builder = getattr(daily_module, "_daily_history_cache_path", None)
-                    cache_writer = getattr(daily_module, "_write_daily_history_cache", None)
-                    if callable(cache_path_builder) and callable(cache_writer):
-                        cache_path = cache_path_builder(
-                            cache_dir,
-                            code=normalized_code,
-                            source=source,
-                            lookback_days=int(lookback_days),
-                        )
-                        cache_writer(
-                            cache_path,
-                            normalized,
-                            code=normalized_code,
-                            source=source,
-                            lookback_days=int(lookback_days),
-                        )
-                return normalized
-        except Exception as exc:
-            logger.warning(
-                "Screening DSA daily history fetch failed for %s; falling back to Screening source %s: %s",
+        def load_once() -> Any:
+            try:
+                dsa_df, dsa_source = get_dsa_daily_history(code, lookback_days=lookback_days)
+                normalized = _normalize_dsa_daily_history(dsa_df)
+                if normalized is not None and not normalized.empty:
+                    resolved_source = f"dsa:{dsa_source}"
+                    normalized_code = code
+                    normalize_code = getattr(daily_module, "_normalize_daily_code", None)
+                    if callable(normalize_code):
+                        normalized_code = normalize_code(code)
+                    normalized.attrs["source"] = resolved_source
+                    normalized.attrs["daily_source"] = resolved_source
+                    normalized.attrs["daily_requested_source"] = source
+                    normalized.attrs["daily_source_order"] = [resolved_source]
+                    normalized.attrs["daily_source_order_notes"] = []
+                    normalized.attrs["source_errors"] = []
+                    normalized.attrs["daily_source_health"] = {}
+                    if cache_dir is not None:
+                        cache_path_builder = getattr(daily_module, "_daily_history_cache_path", None)
+                        cache_writer = getattr(daily_module, "_write_daily_history_cache", None)
+                        if callable(cache_path_builder) and callable(cache_writer):
+                            cache_path_kwargs = {
+                                "code": normalized_code,
+                                "source": source,
+                                "lookback_days": int(lookback_days),
+                            }
+                            if run_context is not None:
+                                cache_path_kwargs["target_date"] = getattr(run_context, "target_date", None)
+                            cache_path = cache_path_builder(cache_dir, **cache_path_kwargs)
+                            cache_write_kwargs = {
+                                "code": normalized_code,
+                                "source": source,
+                                "lookback_days": int(lookback_days),
+                            }
+                            if run_context is not None:
+                                cache_write_kwargs["target_date"] = getattr(run_context, "target_date", None)
+                            cache_writer(cache_path, normalized, **cache_write_kwargs)
+                    return normalized
+            except Exception as exc:
+                logger.warning(
+                    "Screening DSA daily history fetch failed for %s; falling back to Screening source %s: %s",
+                    code,
+                    source,
+                    exc,
+                )
+            fallback_kwargs = {
+                "lookback_days": lookback_days,
+                "source": source,
+                "retries": retries,
+                "cache_dir": cache_dir,
+                "cache_ttl_seconds": cache_ttl_seconds,
+            }
+            # Keep compatibility with test/custom fetchers from before the
+            # run-context adapter was introduced.
+            if run_context is not None:
+                fallback_kwargs["run_context"] = run_context
+            return original_fetch(code, **fallback_kwargs)
+
+        if run_context is not None and callable(getattr(run_context, "get_history", None)):
+            return run_context.get_history(
                 code,
-                source,
-                exc,
+                lookback_days=lookback_days,
+                source=source,
+                loader=load_once,
             )
-        return original_fetch(
-            code,
-            lookback_days=lookback_days,
-            source=source,
-            retries=retries,
-            cache_dir=cache_dir,
-            cache_ttl_seconds=cache_ttl_seconds,
-        )
+        return load_once()
 
     return fetch_daily_history_with_dsa
 
@@ -2932,11 +2979,30 @@ class DsaEastMoneyHotspotProvider:
         return records
 
 
-def _build_screening_context(config: Config, *, max_results: Optional[int] = None) -> Dict[str, Any]:
+def _build_screening_context(
+    config: Config,
+    *,
+    max_results: Optional[int] = None,
+    run_context: object | None = None,
+) -> Dict[str, Any]:
     # context.llm.model/fallback/model_list 与 LiteLLM 路由语义保持一致，
     # 参见 https://docs.litellm.ai/docs/proxy/configs#the-model_list-key
     channels = _normalize_dsa_llm_channels(config)
     litellm_model, fallback_models = _resolve_screening_llm_models(config)
+    realtime_quote_getter = get_dsa_realtime_quote
+    if run_context is not None and callable(getattr(run_context, "get_realtime_quote", None)):
+        realtime_quote_getter = lambda code: run_context.get_realtime_quote(
+            code,
+            lambda: get_dsa_realtime_quote(code),
+        )
+
+    def candidate_context_getter(code: str, name: str = "") -> Dict[str, Any]:
+        return get_dsa_candidate_context(
+            code,
+            name,
+            realtime_quote_getter=realtime_quote_getter,
+        )
+
     return {
         "llm": {
             "model": litellm_model,
@@ -2962,9 +3028,12 @@ def _build_screening_context(config: Config, *, max_results: Optional[int] = Non
                 "fundamental_context",
                 "stock_events",
             ],
-            "get_candidate_context": get_dsa_candidate_context,
+            "get_candidate_context": candidate_context_getter,
             "get_daily_history": get_dsa_daily_history,
-            "get_realtime_quote": get_dsa_realtime_quote,
+            # Use the request-scoped quote adapter for Stage1-4.  Stage5 does
+            # not build this screening context and keeps its independent live
+            # snapshot requests unchanged.
+            "get_realtime_quote": realtime_quote_getter,
             "get_fundamental_context": get_dsa_fundamental_context,
         },
     }
@@ -3416,6 +3485,7 @@ def get_dsa_candidate_context(
     include_news: bool = False,
     include_fundamentals: bool = True,
     mode: str = "pre_rank_light",
+    realtime_quote_getter: Callable[[str], Dict[str, Any]] | None = None,
 ) -> Dict[str, Any]:
     candidate = {"code": stock_code, "name": stock_name, "raw": {}}
     context = _build_dsa_candidate_context(
@@ -3424,6 +3494,7 @@ def get_dsa_candidate_context(
         include_events=include_news,
         include_fundamentals=include_fundamentals,
         profile=mode or "pre_rank_light",
+        realtime_quote_getter=realtime_quote_getter,
     )
     return context.get("dsa_context", {})
 
@@ -3505,6 +3576,7 @@ def _build_dsa_candidate_context(
     include_events: bool = True,
     include_fundamentals: bool = True,
     profile: str = "post_rank_full",
+    realtime_quote_getter: Callable[[str], Dict[str, Any]] | None = None,
 ) -> Dict[str, Any]:
     code = _env_text(candidate.get("code"))
     name = _env_text(candidate.get("name"))
@@ -3548,7 +3620,7 @@ def _build_dsa_candidate_context(
 
     if not quote:
         try:
-            quote = get_dsa_realtime_quote(code)
+            quote = (realtime_quote_getter or get_dsa_realtime_quote)(code)
             if not quote:
                 warnings.append("realtime_quote_missing")
         except Exception as exc:  # noqa: BLE001
