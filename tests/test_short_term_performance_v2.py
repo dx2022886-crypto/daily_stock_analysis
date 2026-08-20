@@ -145,6 +145,117 @@ def test_short_term_retry_policy_is_bounded() -> None:
     assert daily._fast_failure_attempt_limit("HTTP 429") == 2
 
 
+def test_history_provider_path_has_no_os_name_error(monkeypatch) -> None:
+    from data_provider.base import DataFetcherManager
+
+    class FixtureFetcher:
+        name = "FixtureFetcher"
+        priority = 1
+
+        def get_daily_data(self, stock_code: str, **_kwargs):
+            return pd.DataFrame(
+                [{
+                    "date": "2026-08-20",
+                    "open": 10.0,
+                    "high": 11.0,
+                    "low": 9.0,
+                    "close": 10.5,
+                    "volume": 100,
+                }]
+            )
+
+    monkeypatch.setenv("SHORT_TERM_FAST_RETRY", "true")
+    DataFetcherManager.reset_daily_source_health()
+    manager = DataFetcherManager(fetchers=[FixtureFetcher()])
+    frame, provider = manager.get_daily_data("600001", days=30)
+    assert provider == "FixtureFetcher"
+    assert list(frame.columns)[:6] == ["date", "open", "high", "low", "close", "volume"]
+
+
+def test_fixed_history_path_preserves_baseline_ohlcv_fixture(monkeypatch) -> None:
+    from data_provider.base import DataFetcherManager
+
+    baseline = pd.DataFrame(
+        [
+            {"date": "2026-08-19", "open": 10.0, "high": 10.8, "low": 9.8, "close": 10.5, "volume": 100},
+            {"date": "2026-08-20", "open": 10.5, "high": 11.2, "low": 10.3, "close": 11.0, "volume": 120},
+        ]
+    )
+
+    class BaselineFetcher:
+        name = "FixtureFetcher"
+        priority = 1
+
+        def get_daily_data(self, stock_code: str, **_kwargs):
+            return baseline.copy()
+
+    monkeypatch.setenv("SHORT_TERM_FAST_RETRY", "true")
+    DataFetcherManager.reset_daily_source_health()
+    manager = DataFetcherManager(fetchers=[BaselineFetcher()])
+    fixed, _provider = manager.get_daily_data("600001", days=30)
+    columns = ["date", "open", "high", "low", "close", "volume"]
+    pd.testing.assert_frame_equal(
+        fixed[columns].reset_index(drop=True),
+        baseline[columns].reset_index(drop=True),
+        check_dtype=False,
+    )
+
+
+@pytest.mark.skipif(sys.version_info < (3, 10), reason="screening service requires Python 3.10+")
+def test_screening_and_post_rank_quote_paths_share_one_run_cache(monkeypatch) -> None:
+    from src.config import Config
+    from src.services import screening_service
+    from src.services.screening.dsa_provider import apply_dsa_provider_context
+    from src.services.screening.models import Pick
+
+    context = ShortTermRunContext(target_date="20260820")
+    quote_calls = {"count": 0}
+
+    def quote(_code: str) -> dict[str, object]:
+        quote_calls["count"] += 1
+        return {"price": 10.5, "change_pct": 1.2, "amount": 1000000}
+
+    monkeypatch.setattr(screening_service, "get_dsa_realtime_quote", quote)
+    monkeypatch.setattr(
+        screening_service,
+        "get_dsa_fundamental_context",
+        lambda _code: {"coverage": {}},
+    )
+    monkeypatch.setattr(
+        screening_service,
+        "_get_dsa_fetcher_manager",
+        lambda: SimpleNamespace(get_stock_name=lambda _code, allow_realtime=False: "Fixture"),
+    )
+    monkeypatch.setattr(
+        screening_service,
+        "search_dsa_stock_news",
+        lambda *_args, **_kwargs: {"success": False, "results": []},
+    )
+    monkeypatch.setattr(
+        screening_service,
+        "search_dsa_stock_events",
+        lambda *_args, **_kwargs: {"success": False, "results": []},
+    )
+
+    provider_context = screening_service._build_screening_context(
+        Config(screening_enabled=True),
+        max_results=5,
+        run_context=context,
+    )
+    pick = Pick(rank=1, code="SH600001", name="Fixture", final_score=90.0, screen_score=90.0)
+    apply_dsa_provider_context([pick], provider_context)
+
+    # This is the optional post-rank path in ScreeningService.  It must use
+    # the same adapter as the pipeline's pre-rank screening path.
+    enriched, _ = screening_service._enrich_candidates_with_dsa(
+        [{"code": "600001", "name": "Fixture"}],
+        realtime_quote_getter=provider_context["dsa"]["get_realtime_quote"],
+    )
+    assert quote_calls["count"] == 1
+    assert context.metrics()["cache_stats"]["quote_hits"] >= 1
+    assert enriched[0]["price"] == 10.5
+
+
 def _snapshot_fixture(*, rows: int = 120, target_date: str = "20260820") -> pd.DataFrame:
     frame = pd.DataFrame(
         {
