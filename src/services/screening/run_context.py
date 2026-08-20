@@ -31,6 +31,9 @@ class ShortTermRunContext:
         self.snapshot: pd.DataFrame | None = None
         self.snapshot_source = ""
         self.snapshot_fetched_at = ""
+        self.snapshot_is_cached = False
+        self.snapshot_fetch_failed = False
+        self.snapshot_error: Exception | None = None
         self.history_cache: dict[tuple[Any, ...], pd.DataFrame] = {}
         self.realtime_cache: dict[str, tuple[float, dict[str, Any]]] = {}
         self._lock = threading.RLock()
@@ -82,6 +85,10 @@ class ShortTermRunContext:
                 self._counters["snapshot_reused"] += 1
                 self._counters["cache_reused_count"] += 1
                 return self.snapshot
+            if self.snapshot_fetch_failed and self.snapshot_error is not None:
+                # A failed shared prefetch is also a run-level result.  Do not
+                # let each strategy start the same full-market request again.
+                raise self.snapshot_error
             started = time.perf_counter()
             try:
                 frame = loader()
@@ -89,7 +96,11 @@ class ShortTermRunContext:
                     raise ValueError("shared snapshot is empty")
                 self.snapshot = frame
                 self.snapshot_source = str(frame.attrs.get("snapshot_source", ""))
-                self.snapshot_fetched_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+                self.snapshot_fetched_at = str(
+                    frame.attrs.get("snapshot_fetched_at", "")
+                    or datetime.now(timezone.utc).isoformat(timespec="seconds")
+                )
+                self.snapshot_is_cached = bool(frame.attrs.get("snapshot_is_cached", False))
                 self._counters["snapshot_fetches"] += 1
                 logger.info(
                     "Stage1 shared snapshot loaded rows=%s source=%s fetched_at=%s",
@@ -98,6 +109,10 @@ class ShortTermRunContext:
                     self.snapshot_fetched_at,
                 )
                 return frame
+            except Exception as exc:
+                self.snapshot_fetch_failed = True
+                self.snapshot_error = exc
+                raise
             finally:
                 self._metrics["snapshot_fetch_seconds"] = (
                     self._metrics.get("snapshot_fetch_seconds", 0.0)
@@ -359,8 +374,11 @@ class ShortTermRunContext:
                         "source": self.snapshot_source,
                         "rows": int(len(self.snapshot)) if self.snapshot is not None else 0,
                         "fetched_at": self.snapshot_fetched_at,
+                        "is_cached": self.snapshot_is_cached,
                         "fetches": self._counters["snapshot_fetches"],
                         "reused": self._counters["snapshot_reused"],
+                        "fetch_failed": self.snapshot_fetch_failed,
+                        "error": str(self.snapshot_error) if self.snapshot_error else "",
                     },
                     "history": source_health,
                     "sources": {key: dict(value) for key, value in self._source_stats.items()},

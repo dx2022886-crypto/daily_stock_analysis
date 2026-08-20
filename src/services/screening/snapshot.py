@@ -33,6 +33,13 @@ _EM_REQUEST_JITTER_SECONDS = 0.3
 _SOURCE_HEALTH_FAILURE_THRESHOLD = 3
 _SOURCE_HEALTH_COOLDOWN_SECONDS = 5 * 60
 _SNAPSHOT_CALL_TIMEOUT_SECONDS = 60.0
+_SHORT_TERM_SOURCE_TIMEOUTS = {
+    "em_datacenter": 30.0,
+    "sina": 10.0,
+    "efinance": 6.0,
+    "akshare_em": 12.0,
+}
+_SHORT_TERM_MIN_SNAPSHOT_ROWS = 100
 _EM_SESSION: requests.Session | None = None
 _EM_LAST_REQUEST_AT = 0.0
 _EM_LOCK = threading.Lock()
@@ -79,6 +86,30 @@ def fetch_snapshot_with_fallback(
 
     errors = []
     required = required_columns or []
+    target_date = _run_context_target_date(run_context)
+    # A validated same-session last-good snapshot is safer and faster than
+    # waiting for every public endpoint.  This is enabled only for the
+    # request-scoped short-term run context; legacy callers keep their old
+    # cache-TTL behavior.
+    if run_context is not None and _prefer_validated_last_good_snapshot():
+        cached = _read_last_good_snapshot(
+            fallback_snapshot_path,
+            required_columns=required,
+            source_errors=[],
+            max_age_hours=None,
+            fresh=False,
+            requested_snapshot_sources=sources,
+            target_date=target_date,
+            market=market,
+        )
+        if cached is not None:
+            logger.info(
+                "Using validated last_good snapshot rows=%s data_as_of=%s fetched_at=%s",
+                len(cached),
+                cached.attrs.get("snapshot_data_as_of", ""),
+                cached.attrs.get("snapshot_fetched_at", ""),
+            )
+            return cached
     if cache_ttl_seconds > 0:
         cached = _read_last_good_snapshot(
             fallback_snapshot_path,
@@ -87,6 +118,8 @@ def fetch_snapshot_with_fallback(
             max_age_hours=cache_ttl_seconds / 3600.0,
             fresh=True,
             requested_snapshot_sources=sources,
+            target_date=target_date,
+            market=market,
         )
         if cached is not None:
             return cached
@@ -111,10 +144,18 @@ def fetch_snapshot_with_fallback(
                 df.attrs["fallback_used"] = False
                 df.attrs["stale"] = False
                 df.attrs["stale_age_hours"] = None
+                _set_snapshot_temporal_attrs(
+                    df,
+                    target_date=target_date,
+                    fetched_at=datetime.now(timezone.utc).isoformat(timespec="milliseconds"),
+                    is_cached=False,
+                )
                 _write_last_good_snapshot(
                     fallback_snapshot_path,
                     df,
                     source_priority=sources,
+                    market=market,
+                    target_date=target_date,
                 )
                 _record_source_success(source, rows=len(df))
                 _record_run_context_snapshot_attempt(
@@ -152,8 +193,17 @@ def fetch_snapshot_with_fallback(
         required_columns=required,
         source_errors=errors,
         max_age_hours=fallback_max_age_hours,
+        target_date=target_date,
+        market=market,
     )
     if cached is not None:
+        logger.warning(
+            "All live snapshot sources failed; Using validated last_good snapshot "
+            "rows=%s data_as_of=%s fetched_at=%s",
+            len(cached),
+            cached.attrs.get("snapshot_data_as_of", ""),
+            cached.attrs.get("snapshot_fetched_at", ""),
+        )
         return cached
 
     raise RuntimeError(f"All snapshot sources failed: {'; '.join(errors)}")
@@ -186,20 +236,47 @@ def _missing_required_columns(df: pd.DataFrame, required_columns: list[str]) -> 
 def _call_snapshot_wrapper(fetcher, *, source: str) -> pd.DataFrame:
     return call_with_timeout(
         fetcher,
-        timeout_sec=_snapshot_call_timeout_seconds(),
+        timeout_sec=_snapshot_call_timeout_seconds(source),
         label=f"snapshot source {source}",
     )
 
 
-def _snapshot_call_timeout_seconds() -> float | None:
-    # The short-term workflow opts into a bounded fail-fast timeout.  Other
-    # screening callers retain the historical 60-second default.
+def _snapshot_call_timeout_seconds(source: str | None = None) -> float | None:
+    if source:
+        source_key = str(source).strip().lower()
+        env_names = [
+            f"SHORT_TERM_SNAPSHOT_TIMEOUT_{source_key.upper()}",
+        ]
+        if source_key == "akshare_em":
+            env_names.append("SHORT_TERM_SNAPSHOT_TIMEOUT_AKSHARE")
+        for env_name in env_names:
+            value = os.getenv(env_name, "").strip()
+            if value:
+                try:
+                    return max(float(value), 1.0)
+                except ValueError:
+                    logger.warning("Ignoring invalid snapshot timeout %s=%s", env_name, value)
+    # The short-term workflow opts into bounded, source-specific timeouts.
+    # Its legacy generic 10-second setting must not collapse the slower but
+    # healthy EM datacenter endpoint back to the same budget.
     short_term_timeout = os.getenv("SHORT_TERM_SNAPSHOT_TIMEOUT", "").strip()
+    if _short_term_fast_mode() and source:
+        generic_timeout = 10.0
+        if short_term_timeout:
+            try:
+                generic_timeout = max(float(short_term_timeout), 1.0)
+            except ValueError:
+                logger.warning("Ignoring invalid SHORT_TERM_SNAPSHOT_TIMEOUT=%s", short_term_timeout)
+        return _SHORT_TERM_SOURCE_TIMEOUTS.get(
+            str(source).strip().lower(),
+            generic_timeout,
+        )
     if short_term_timeout:
         try:
             return max(float(short_term_timeout), 1.0)
         except ValueError:
             pass
+    # Other screening callers retain the historical 60-second default.
     return parse_source_timeout_seconds(
         "SCREENING_SNAPSHOT_CALL_TIMEOUT_SEC",
         default=_SNAPSHOT_CALL_TIMEOUT_SECONDS,
@@ -221,6 +298,40 @@ def _record_run_context_snapshot_attempt(
             recorder(source, success=success, latency=latency, rows=rows, error=error)
         except Exception:  # pragma: no cover - diagnostics must be best effort
             logger.debug("Unable to record snapshot source metrics", exc_info=True)
+
+
+def _short_term_fast_mode() -> bool:
+    return os.getenv("SHORT_TERM_FAST_RETRY", "").strip().lower() in {
+        "1", "true", "yes", "on"
+    }
+
+
+def _prefer_validated_last_good_snapshot() -> bool:
+    raw = os.getenv("SHORT_TERM_SNAPSHOT_PREFER_LAST_GOOD", "true").strip().lower()
+    return raw not in {"0", "false", "no", "off"}
+
+
+def _run_context_target_date(run_context: object | None) -> str:
+    value = getattr(run_context, "target_date", "") if run_context is not None else ""
+    return _normalize_snapshot_date(value)
+
+
+def _normalize_snapshot_date(value: object) -> str:
+    text = str(value or "").strip().replace("-", "").replace("/", "")
+    return text if len(text) == 8 and text.isdigit() else ""
+
+
+def _set_snapshot_temporal_attrs(
+    df: pd.DataFrame,
+    *,
+    target_date: str,
+    fetched_at: str,
+    is_cached: bool,
+) -> None:
+    df.attrs["snapshot_target_date"] = target_date or ""
+    df.attrs["snapshot_data_as_of"] = target_date or ""
+    df.attrs["snapshot_fetched_at"] = fetched_at or ""
+    df.attrs["snapshot_is_cached"] = bool(is_cached)
 
 
 def _source_disabled_reason(source: str) -> str | None:
@@ -297,6 +408,8 @@ def _write_last_good_snapshot(
     df: pd.DataFrame,
     *,
     source_priority: list[str] | None = None,
+    market: str = "cn",
+    target_date: str = "",
 ) -> None:
     if path_like is None:
         return
@@ -308,6 +421,16 @@ def _write_last_good_snapshot(
             "created_at": datetime.now(timezone.utc).isoformat(),
             "metadata": {
                 "snapshot_source": str(df.attrs.get("snapshot_source", "")),
+                "market": str(market or "cn").lower(),
+                "snapshot_target_date": _normalize_snapshot_date(
+                    target_date or df.attrs.get("snapshot_target_date", "")
+                ),
+                "snapshot_data_as_of": _normalize_snapshot_date(
+                    df.attrs.get("snapshot_data_as_of", target_date)
+                ),
+                "snapshot_fetched_at": str(
+                    df.attrs.get("snapshot_fetched_at", "")
+                ),
                 "source_priority": [
                     str(source).strip()
                     for source in (source_priority or [])
@@ -335,6 +458,8 @@ def _read_last_good_snapshot(
     max_age_hours: float | None = None,
     fresh: bool = False,
     requested_snapshot_sources: list[str] | None = None,
+    target_date: str = "",
+    market: str = "cn",
 ) -> pd.DataFrame | None:
     if path_like is None:
         return None
@@ -352,6 +477,24 @@ def _read_last_good_snapshot(
         if not isinstance(metadata, dict):
             raise ValueError("missing cache metadata")
         cached_snapshot_source = str(metadata.get("snapshot_source", "")).strip()
+        cached_market = str(metadata.get("market", "")).strip().lower()
+        requested_target_date = _normalize_snapshot_date(target_date)
+        cached_target_date = _normalize_snapshot_date(
+            metadata.get("snapshot_target_date", metadata.get("snapshot_data_as_of", ""))
+        )
+        if requested_target_date:
+            if cached_market and cached_market != str(market or "cn").strip().lower():
+                raise ValueError(
+                    f"cached market {cached_market} does not match requested market "
+                    f"{str(market or 'cn').strip().lower()}"
+                )
+            if not cached_target_date:
+                raise ValueError("cached snapshot has no validated target date")
+            if cached_target_date != requested_target_date:
+                raise ValueError(
+                    f"cached target date {cached_target_date} does not match requested "
+                    f"target date {requested_target_date}"
+                )
         if fresh and requested_snapshot_sources is not None:
             requested_priority = [
                 str(source).strip()
@@ -399,6 +542,16 @@ def _read_last_good_snapshot(
         cached = pd.DataFrame(data, columns=columns)
         if cached.empty:
             raise ValueError("cached snapshot is empty")
+        expected_row_count = metadata.get("row_count")
+        if expected_row_count is not None and int(expected_row_count) != len(cached):
+            raise ValueError(
+                f"cached row_count {expected_row_count} does not match frame rows {len(cached)}"
+            )
+        if requested_target_date and len(cached) < _minimum_valid_snapshot_rows():
+            raise ValueError(
+                f"cached row_count={len(cached)} below minimum "
+                f"{_minimum_valid_snapshot_rows()}"
+            )
         missing = _missing_required_columns(cached, required_columns)
         if missing:
             raise ValueError(f"missing required columns {','.join(missing)}")
@@ -415,6 +568,19 @@ def _read_last_good_snapshot(
     cached.attrs["last_good_snapshot_source"] = str(
         metadata.get("snapshot_source", "")
     )
+    cache_fetched_at = str(
+        metadata.get("snapshot_fetched_at", payload.get("created_at", ""))
+    )
+    cache_data_as_of = _normalize_snapshot_date(
+        metadata.get("snapshot_data_as_of", cached_target_date)
+    )
+    _set_snapshot_temporal_attrs(
+        cached,
+        target_date=cache_data_as_of,
+        fetched_at=cache_fetched_at,
+        is_cached=True,
+    )
+    cached.attrs["snapshot_target_date"] = cached_target_date
     if isinstance(metadata, dict):
         cached.attrs["last_good_created_at"] = str(payload.get("created_at", ""))
     if fresh:
@@ -431,6 +597,17 @@ def _read_last_good_snapshot(
             "; ".join(source_errors),
         )
     return cached
+
+
+def _minimum_valid_snapshot_rows() -> int:
+    raw = os.getenv(
+        "SHORT_TERM_SNAPSHOT_MIN_ROWS",
+        str(_SHORT_TERM_MIN_SNAPSHOT_ROWS),
+    ).strip()
+    try:
+        return max(int(raw), 1)
+    except ValueError:
+        return _SHORT_TERM_MIN_SNAPSHOT_ROWS
 
 
 def _cache_stale_age_hours(mtime: float, *, created_at: str = "") -> float:
