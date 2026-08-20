@@ -154,6 +154,7 @@ def screen(
         fallback_max_age_hours=config.snapshot_fallback_max_age_hours,
         cache_ttl_seconds=config.snapshot_cache_ttl_seconds,
         market=market,
+        run_context=run_context,
     )
     if run_context is not None and callable(getattr(run_context, "load_snapshot", None)):
         snapshot_df = run_context.load_snapshot(snapshot_loader)

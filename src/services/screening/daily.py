@@ -143,6 +143,10 @@ def enrich_daily_features(
         fetched_rows = [fetch_one(request) for request in fetch_requests]
     else:
         worker_limit = min(_normalize_max_workers(max_workers), len(fetch_requests))
+        if run_context is not None:
+            getattr(run_context, "record_history_prefetch", lambda *_args, **_kwargs: None)(
+                len(fetch_requests), worker_limit
+            )
         with ThreadPoolExecutor(max_workers=worker_limit) as executor:
             fetched_rows = list(executor.map(fetch_one, fetch_requests))
 
@@ -208,6 +212,11 @@ def fetch_daily_history(
             else ("tencent", "sina", "akshare", "baostock")
         )
         sources, source_order_notes = _rank_daily_sources_by_health(sources)
+        if run_context is not None:
+            ranker = getattr(run_context, "rank_history_sources", None)
+            if callable(ranker):
+                sources, context_notes = ranker(sources)
+                source_order_notes.extend(context_notes)
     elif src in ("akshare", "baostock", "tushare", "tencent", "sina", "yfinance"):
         sources = (src,)
         source_order_notes = []
@@ -230,6 +239,9 @@ def fetch_daily_history(
         )
         cached = _read_daily_history_cache(cache_path, ttl_seconds=cache_ttl_seconds)
         if cached is not None:
+            recorder = getattr(run_context, "record_history_disk_hit", None)
+            if callable(recorder):
+                recorder()
             return cached
 
     attempts = max(int(retries), 0) + 1
@@ -247,6 +259,7 @@ def fetch_daily_history(
             continue
         last_error: Exception | None = None
         for attempt in range(attempts):
+            provider_started = time.perf_counter()
             try:
                 if current == "yfinance":
                     from src.services.screening.snapshot_us import fetch_daily_history_yfinance
@@ -297,6 +310,11 @@ def fetch_daily_history(
                         current,
                         rows=len(result),
                     )
+                    getattr(run_context, "record_history_provider", lambda *_args, **_kwargs: None)(
+                        current,
+                        success=True,
+                        latency=time.perf_counter() - provider_started,
+                    )
                 result.attrs["daily_source"] = current
                 result.attrs["daily_requested_source"] = src
                 result.attrs["daily_source_order"] = list(sources)
@@ -315,6 +333,12 @@ def fetch_daily_history(
                 return result
             except Exception as exc:  # noqa: BLE001 - aggregated below
                 last_error = exc
+                if run_context is not None:
+                    getattr(run_context, "record_history_provider", lambda *_args, **_kwargs: None)(
+                        current,
+                        success=False,
+                        latency=time.perf_counter() - provider_started,
+                    )
                 allowed_attempts = min(attempts, _fast_failure_attempt_limit(exc))
                 if attempt >= allowed_attempts - 1:
                     break
@@ -407,7 +431,15 @@ def _retry_sleep_seconds(error: object, attempt: int) -> float:
 
 def _normalize_max_workers(value: int | None) -> int:
     if value is None:
+        raw = os.getenv("SHORT_TERM_HISTORY_MAX_WORKERS", "").strip()
+        if raw:
+            try:
+                return max(1, min(int(raw), 6))
+            except ValueError:
+                return 5
         return _DAILY_ENRICH_MAX_WORKERS
+    if os.getenv("SHORT_TERM_FAST_RETRY", "false").strip().lower() in {"1", "true", "yes", "on"}:
+        return max(1, min(int(value), 6))
     return max(1, int(value))
 
 
@@ -539,6 +571,7 @@ def _read_daily_history_cache(
     *,
     ttl_seconds: float | None,
     allow_stale: bool = False,
+    expected_target_date: str | None = None,
 ) -> pd.DataFrame | None:
     try:
         stat = path.stat()
@@ -564,6 +597,16 @@ def _read_daily_history_cache(
         df = pd.DataFrame(data, columns=columns)
         metadata = payload.get("metadata")
         if isinstance(metadata, dict):
+            expected = _normalize_cache_date(expected_target_date)
+            actual = _normalize_cache_date(metadata.get("target_date"))
+            if expected and actual and expected != actual:
+                return None
+            try:
+                declared_rows = int(metadata.get("row_count", len(df)))
+            except (TypeError, ValueError):
+                return None
+            if declared_rows <= 0 or declared_rows != len(df):
+                return None
             for key in (
                 "daily_source",
                 "daily_requested_source",
@@ -574,6 +617,8 @@ def _read_daily_history_cache(
                 "fetched_at",
                 "target_date",
                 "row_count",
+                "end_date",
+                "adjustment",
             ):
                 if key in metadata:
                     df.attrs[key] = metadata[key]
@@ -602,11 +647,15 @@ def _write_daily_history_cache(
                 "source": source,
                 "lookback_days": int(lookback_days),
                 "target_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
+                "end_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
+                "adjustment": str(df.attrs.get("adjustment", "qfq")),
             },
             "metadata": {
                 "fetched_at": datetime.now().isoformat(),
                 "target_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
                 "row_count": int(len(df)),
+                "end_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
+                "adjustment": str(df.attrs.get("adjustment", "qfq")),
                 "daily_source": df.attrs.get("daily_source", source),
                 "daily_requested_source": df.attrs.get("daily_requested_source", source),
                 "daily_source_order": list(df.attrs.get("daily_source_order", [])),

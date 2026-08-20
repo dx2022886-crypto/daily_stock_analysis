@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
 # Derived from AlphaSift revision 9f522747caafd3c0b1ddb7e14d5cf44c8580b6cf.
 # Licensed under Apache-2.0 and modified for daily_stock_analysis.
 """Market snapshot fetcher.
@@ -70,6 +71,7 @@ def fetch_snapshot_with_fallback(
     fallback_max_age_hours: float | None = None,
     cache_ttl_seconds: float = 0.0,
     market: str = "cn",
+    run_context: object | None = None,
 ) -> pd.DataFrame:
     """Try live sources, optionally falling back to the last-good snapshot."""
     if market == "us":
@@ -94,6 +96,7 @@ def fetch_snapshot_with_fallback(
         if disabled_reason:
             errors.append(f"{source}: {disabled_reason}")
             continue
+        attempt_started = time.perf_counter()
         try:
             df = fetch_cn_snapshot(source)
             if not df.empty:
@@ -114,13 +117,34 @@ def fetch_snapshot_with_fallback(
                     source_priority=sources,
                 )
                 _record_source_success(source, rows=len(df))
+                _record_run_context_snapshot_attempt(
+                    run_context,
+                    source,
+                    success=True,
+                    latency=time.perf_counter() - attempt_started,
+                    rows=len(df),
+                )
                 logger.info("Snapshot fetched from %s: %d rows", source, len(df))
                 return df
             errors.append(f"{source}: returned empty data")
             _record_source_failure(source, "returned empty data")
+            _record_run_context_snapshot_attempt(
+                run_context,
+                source,
+                success=False,
+                latency=time.perf_counter() - attempt_started,
+                error="returned empty data",
+            )
         except Exception as e:
             errors.append(f"{source}: {e}")
             _record_source_failure(source, e)
+            _record_run_context_snapshot_attempt(
+                run_context,
+                source,
+                success=False,
+                latency=time.perf_counter() - attempt_started,
+                error=e,
+            )
             logger.warning("Snapshot source %s failed: %s", source, e)
 
     cached = _read_last_good_snapshot(
@@ -168,10 +192,35 @@ def _call_snapshot_wrapper(fetcher, *, source: str) -> pd.DataFrame:
 
 
 def _snapshot_call_timeout_seconds() -> float | None:
+    # The short-term workflow opts into a bounded fail-fast timeout.  Other
+    # screening callers retain the historical 60-second default.
+    short_term_timeout = os.getenv("SHORT_TERM_SNAPSHOT_TIMEOUT", "").strip()
+    if short_term_timeout:
+        try:
+            return max(float(short_term_timeout), 1.0)
+        except ValueError:
+            pass
     return parse_source_timeout_seconds(
         "SCREENING_SNAPSHOT_CALL_TIMEOUT_SEC",
         default=_SNAPSHOT_CALL_TIMEOUT_SECONDS,
     )
+
+
+def _record_run_context_snapshot_attempt(
+    run_context: object | None,
+    source: str,
+    *,
+    success: bool,
+    latency: float,
+    rows: int = 0,
+    error: object | None = None,
+) -> None:
+    recorder = getattr(run_context, "record_snapshot_attempt", None)
+    if callable(recorder):
+        try:
+            recorder(source, success=success, latency=latency, rows=rows, error=error)
+        except Exception:  # pragma: no cover - diagnostics must be best effort
+            logger.debug("Unable to record snapshot source metrics", exc_info=True)
 
 
 def _source_disabled_reason(source: str) -> str | None:

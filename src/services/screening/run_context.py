@@ -34,6 +34,10 @@ class ShortTermRunContext:
         self.history_cache: dict[tuple[Any, ...], pd.DataFrame] = {}
         self.realtime_cache: dict[str, tuple[float, dict[str, Any]]] = {}
         self._lock = threading.RLock()
+        # Events make the cache safe for bounded parallel enrichment without
+        # holding the process-wide context lock while a provider is blocked.
+        self._history_inflight: dict[tuple[Any, ...], threading.Event] = {}
+        self._quote_inflight: dict[str, threading.Event] = {}
         self._source_health: dict[str, dict[str, Any]] = {}
         self._timers: dict[str, float] = {}
         self._metrics: dict[str, float] = {}
@@ -41,10 +45,15 @@ class ShortTermRunContext:
             "snapshot_fetches": 0,
             "snapshot_reused": 0,
             "history_hits": 0,
+            "history_run_hits": 0,
             "history_misses": 0,
             "quote_hits": 0,
             "quote_misses": 0,
             "cache_reused_count": 0,
+            "history_disk_hits": 0,
+            "history_network_fetches": 0,
+            "history_prefetch_count": 0,
+            "realtime_http_calls": 0,
         }
         self._source_stats: dict[str, dict[str, Any]] = {}
 
@@ -118,25 +127,111 @@ class ShortTermRunContext:
             end_date=end,
             adjustment=adjustment,
         )
-        with self._lock:
-            cached = self.history_cache.get(key)
-            if cached is not None:
-                self._counters["history_hits"] += 1
-                self._counters["cache_reused_count"] += 1
-                return cached
-            self._counters["history_misses"] += 1
-            started = time.perf_counter()
-            try:
-                frame = loader()
-                if not isinstance(frame, pd.DataFrame) or frame.empty:
-                    raise ValueError(f"history is empty for {stock_code}")
+        while True:
+            owner = False
+            wait_event: threading.Event | None = None
+            with self._lock:
+                cached = self.history_cache.get(key)
+                if cached is not None:
+                    self._counters["history_hits"] += 1
+                    self._counters["history_run_hits"] += 1
+                    self._counters["cache_reused_count"] += 1
+                    return cached
+                wait_event = self._history_inflight.get(key)
+                if wait_event is None:
+                    wait_event = threading.Event()
+                    self._history_inflight[key] = wait_event
+                    self._counters["history_misses"] += 1
+                    owner = True
+            if owner:
+                break
+            # A duplicate request waits for the first request, then reads the
+            # cache.  It never starts a second provider call for the same key.
+            wait_event.wait()
+
+        started = time.perf_counter()
+        try:
+            frame = loader()
+            if not isinstance(frame, pd.DataFrame) or frame.empty:
+                raise ValueError(f"history is empty for {stock_code}")
+            with self._lock:
                 self.history_cache[key] = frame
-                return frame
-            finally:
+                self._counters["history_network_fetches"] += 1
+            return frame
+        finally:
+            with self._lock:
+                event = self._history_inflight.pop(key, None)
+                if event is not None:
+                    event.set()
                 self._metrics["history_fetch_seconds"] = (
                     self._metrics.get("history_fetch_seconds", 0.0)
                     + time.perf_counter() - started
                 )
+
+    def record_history_disk_hit(self) -> None:
+        with self._lock:
+            self._counters["history_disk_hits"] += 1
+            self._counters["cache_reused_count"] += 1
+
+    def record_history_prefetch(self, count: int, workers: int) -> None:
+        with self._lock:
+            self._counters["history_prefetch_count"] += max(int(count), 0)
+            self._metrics["history_parallel_workers"] = max(
+                float(self._metrics.get("history_parallel_workers", 0.0)),
+                float(max(int(workers), 1)),
+            )
+
+    def record_history_provider(self, provider: str, *, success: bool, latency: float) -> None:
+        with self._lock:
+            stats = self._source_stats.setdefault(str(provider), {})
+            key = "history_provider_successes" if success else "history_provider_failures"
+            stats[key] = int(stats.get(key, 0)) + 1
+            samples = int(stats.get("history_provider_samples", 0)) + 1
+            previous = float(stats.get("history_provider_avg_latency", 0.0))
+            stats["history_provider_avg_latency"] = previous + (
+                float(latency) - previous
+            ) / samples
+            stats["history_provider_samples"] = samples
+
+    def record_snapshot_attempt(
+        self,
+        source: str,
+        *,
+        success: bool,
+        latency: float,
+        rows: int = 0,
+        error: object | None = None,
+    ) -> None:
+        with self._lock:
+            stats = self._source_stats.setdefault(f"snapshot:{source}", {})
+            stats["attempts"] = int(stats.get("attempts", 0)) + 1
+            stats["success"] = bool(success)
+            stats["last_latency_seconds"] = round(float(latency), 6)
+            stats["rows"] = int(rows or 0)
+            if error is not None:
+                stats["error"] = " ".join(str(error).split())
+            self._metrics["snapshot_source_attempts"] = (
+                self._metrics.get("snapshot_source_attempts", 0.0) + 1
+            )
+
+    def rank_history_sources(self, sources: tuple[str, ...] | list[str]) -> tuple[tuple[str, ...], list[str]]:
+        """Rank providers for this run from observed health, preserving ties."""
+        with self._lock:
+            states = {name: dict(self._source_health.get(name, {})) for name in sources}
+        original = {name: index for index, name in enumerate(sources)}
+        ranked = tuple(sorted(
+            sources,
+            key=lambda name: (
+                1 if states.get(name, {}).get("opened") else 0,
+                int(states.get(name, {}).get("failures", 0)),
+                -int(states.get(name, {}).get("successes", 0)),
+                original[name],
+            ),
+        ))
+        notes = [] if ranked == tuple(sources) else [
+            f"run-level history source order adjusted: {','.join(ranked)}"
+        ]
+        return ranked, notes
 
     def get_realtime_quote(
         self,
@@ -146,25 +241,47 @@ class ShortTermRunContext:
         ttl_seconds: float = 30.0,
     ) -> dict[str, Any]:
         code = _normalize_code(stock_code)
-        now = time.monotonic()
-        with self._lock:
-            cached = self.realtime_cache.get(code)
-            if cached is not None and now - cached[0] <= max(float(ttl_seconds), 0.0):
-                self._counters["quote_hits"] += 1
-                self._counters["cache_reused_count"] += 1
-                return dict(cached[1])
-            self._counters["quote_misses"] += 1
-            started = time.perf_counter()
-            try:
-                payload = loader()
-                value = dict(payload) if isinstance(payload, dict) else {}
+        while True:
+            owner = False
+            wait_event: threading.Event | None = None
+            now = time.monotonic()
+            with self._lock:
+                cached = self.realtime_cache.get(code)
+                if cached is not None and now - cached[0] <= max(float(ttl_seconds), 0.0):
+                    self._counters["quote_hits"] += 1
+                    self._counters["cache_reused_count"] += 1
+                    return dict(cached[1])
+                wait_event = self._quote_inflight.get(code)
+                if wait_event is None:
+                    wait_event = threading.Event()
+                    self._quote_inflight[code] = wait_event
+                    self._counters["quote_misses"] += 1
+                    self._counters["realtime_http_calls"] += 1
+                    owner = True
+            if owner:
+                break
+            wait_event.wait()
+
+        started = time.perf_counter()
+        try:
+            payload = loader()
+            value = dict(payload) if isinstance(payload, dict) else {}
+            with self._lock:
                 self.realtime_cache[code] = (time.monotonic(), value)
-                return dict(value)
-            finally:
+            return dict(value)
+        finally:
+            with self._lock:
+                event = self._quote_inflight.pop(code, None)
+                if event is not None:
+                    event.set()
                 self._metrics["realtime_quote_seconds"] = (
                     self._metrics.get("realtime_quote_seconds", 0.0)
                     + time.perf_counter() - started
                 )
+
+    def _legacy_get_history_removed(self) -> None:
+        """Keep a stable source anchor for downstream tools; never called."""
+        return None
 
     def record_source_success(self, source: str, *, rows: int | None = None) -> None:
         with self._lock:
@@ -207,8 +324,31 @@ class ShortTermRunContext:
     def metrics(self) -> dict[str, Any]:
         with self._lock:
             source_health = {key: dict(value) for key, value in self._source_health.items()}
+            provider_stats = [
+                value for value in self._source_stats.values()
+                if "history_provider_samples" in value
+            ]
+            provider_success = sum(
+                int(item.get("history_provider_successes", 0)) for item in provider_stats
+            )
+            provider_failures = sum(
+                int(item.get("history_provider_failures", 0)) for item in provider_stats
+            )
+            provider_samples = sum(
+                int(item.get("history_provider_samples", 0)) for item in provider_stats
+            )
+            provider_latency = sum(
+                float(item.get("history_provider_avg_latency", 0.0))
+                * int(item.get("history_provider_samples", 0))
+                for item in provider_stats
+            )
             return {
                 **{key: round(value, 6) for key, value in self._metrics.items()},
+                "history_provider_success": provider_success,
+                "history_provider_failures": provider_failures,
+                "history_provider_avg_latency": round(
+                    provider_latency / provider_samples, 6
+                ) if provider_samples else 0.0,
                 "cache_stats": {
                     **self._counters,
                     "history_entries": len(self.history_cache),

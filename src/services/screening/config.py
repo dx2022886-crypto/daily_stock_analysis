@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
 # Derived from AlphaSift revision 9f522747caafd3c0b1ddb7e14d5cf44c8580b6cf.
 # Licensed under Apache-2.0 and modified for daily_stock_analysis.
 """Configuration."""
@@ -127,6 +128,9 @@ def _resolve_snapshot_source_priority() -> list[str]:
     explicit = os.getenv("SNAPSHOT_SOURCE_PRIORITY")
     if explicit is not None:
         return [s.strip() for s in explicit.split(",") if s.strip()]
+    short_term = os.getenv("SHORT_TERM_SNAPSHOT_SOURCE_PRIORITY")
+    if short_term:
+        return [s.strip() for s in short_term.split(",") if s.strip()]
     if _has_tushare_token():
         return list(TUSHARE_FIRST_SOURCE_PRIORITY)
     return list(DEFAULT_SNAPSHOT_SOURCE_PRIORITY)
