@@ -14,15 +14,19 @@ import math
 import os
 import re
 import sys
+import time
 from dataclasses import asdict, is_dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPORT_DIR = PROJECT_ROOT / "reports" / "short_term"
 JSON_PATH = REPORT_DIR / "candidate_pool.json"
 MARKDOWN_PATH = REPORT_DIR / "candidate_pool.md"
+PERFORMANCE_PATH = REPORT_DIR / "performance_metrics.json"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -41,6 +45,7 @@ STRATEGY_LABELS = {
 }
 
 logger = logging.getLogger("short_term_candidate_pool")
+SHANGHAI = ZoneInfo("Asia/Shanghai")
 
 
 def _configure_logging() -> None:
@@ -327,15 +332,84 @@ def _write_outputs(payload: dict[str, Any]) -> None:
     logger.info("Wrote candidate pool Markdown: %s", MARKDOWN_PATH)
 
 
+def _write_performance(metrics: dict[str, Any]) -> None:
+    """Write profiling diagnostics without ever failing the screening run."""
+    try:
+        REPORT_DIR.mkdir(parents=True, exist_ok=True)
+        PERFORMANCE_PATH.write_text(
+            json.dumps(_json_safe(metrics), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+    except Exception as exc:  # pragma: no cover - defensive reporting path
+        logger.warning("Unable to write performance metrics: %s", exc)
+
+
+def _target_date() -> str:
+    raw = os.getenv("SHORT_TERM_TARGET_DATE", "").strip().replace("-", "").replace("/", "")
+    if len(raw) == 8 and raw.isdigit():
+        return raw
+    try:
+        import exchange_calendars as xcals
+
+        now = datetime.now(SHANGHAI)
+        calendar = xcals.get_calendar("XSHG")
+        session = calendar.date_to_session(now.date(), direction="previous")
+        if session.date() == now.date() and (now.hour, now.minute) < (15, 5):
+            session = calendar.previous_session(session)
+        return session.strftime("%Y%m%d")
+    except Exception:
+        return datetime.now(SHANGHAI).strftime("%Y%m%d")
+
+
+def _prefetch_shared_snapshot(config: Any, market: str, run_context: Any) -> None:
+    """Fetch one union-column snapshot before the four strategy calls."""
+    from src.services.screening.filter import requires_daily_features, without_daily_filters
+    from src.services.screening.pipeline import _required_snapshot_columns
+    from src.services.screening.snapshot import fetch_snapshot_with_fallback
+    from src.services.screening.strategy import load_all_strategies
+
+    strategies = load_all_strategies(config.strategies_dir)
+    required_columns: set[str] = set()
+    for strategy in STRATEGIES:
+        screening = strategies[strategy].screening
+        filters = (
+            without_daily_filters(screening.hard_filters)
+            if requires_daily_features(screening.hard_filters)
+            else screening.hard_filters
+        )
+        required_columns.update(_required_snapshot_columns(filters))
+
+    run_context.load_snapshot(
+        lambda: fetch_snapshot_with_fallback(
+            config.snapshot_source_priority,
+            required_columns=sorted(required_columns),
+            fallback_snapshot_path=config.fallback_snapshot_path,
+            fallback_max_age_hours=config.snapshot_fallback_max_age_hours,
+            cache_ttl_seconds=config.snapshot_cache_ttl_seconds,
+            market=market,
+        )
+    )
+
+
 def main() -> int:
     _configure_logging()
+    started_at = datetime.now(SHANGHAI)
+    started_perf = time.perf_counter()
     args = _parse_args()
     os.environ["SCREENING_ENABLED"] = "true"
+    os.environ.setdefault("SHORT_TERM_STAGE1_LLM_RANKING", "true")
+    os.environ.setdefault("SHORT_TERM_STAGE1_NEWS_ENABLED", "false")
 
     strategy_runs: dict[str, dict[str, Any]] = {}
     strategy_results: dict[str, dict[str, Any]] = {}
     service = None
     config = None
+    run_context = None
+    performance: dict[str, Any] = {
+        "stage": "stage1",
+        "started_at": started_at.isoformat(timespec="seconds"),
+        "strategy_seconds": {},
+    }
 
     try:
         from src.config import Config
@@ -346,6 +420,15 @@ def main() -> int:
         if not config.screening_enabled:
             raise RuntimeError("SCREENING_ENABLED=true was not reflected by Config")
         service = ScreeningService(config=config)
+        from src.services.screening.run_context import ShortTermRunContext
+
+        run_context = ShortTermRunContext(market=args.market, target_date=_target_date())
+        try:
+            _prefetch_shared_snapshot(config, args.market, run_context)
+        except Exception as exc:
+            # Preserve the original per-strategy fallback path if the eager
+            # prefetch itself fails.
+            logger.warning("Shared snapshot prefetch failed; using engine fallback: %s", exc)
     except Exception as exc:
         logger.exception("Unable to initialize the original screening service")
         for strategy in STRATEGIES:
@@ -366,10 +449,16 @@ def main() -> int:
             try:
                 # Deliberately omit selection_seed: this is a direct, unperturbed
                 # call to the original service for each strategy.
+                strategy_started = time.perf_counter()
                 result = service.screen(
                     strategy=strategy,
                     market=args.market,
                     max_results=args.per_strategy_results,
+                    run_context=run_context,
+                )
+                performance["strategy_seconds"][strategy] = round(
+                    time.perf_counter() - strategy_started,
+                    6,
                 )
                 safe_result = _json_safe(result)
                 if not isinstance(safe_result, dict):
@@ -382,6 +471,10 @@ def main() -> int:
                 }
                 logger.info("Strategy %s returned %s candidates", strategy, len(_candidate_list(safe_result)))
             except Exception as exc:  # Keep other strategy results available.
+                performance["strategy_seconds"][strategy] = round(
+                    time.perf_counter() - strategy_started,
+                    6,
+                )
                 logger.exception("Strategy %s failed", strategy)
                 strategy_runs[strategy] = {
                     "status": "failed",
@@ -389,7 +482,10 @@ def main() -> int:
                     "error": {"type": type(exc).__name__, "message": str(exc)},
                 }
 
+    merge_started = time.perf_counter()
     candidates, invalid_codes = _merge_results(strategy_results)
+    performance["merge_seconds"] = round(time.perf_counter() - merge_started, 6)
+    merged_candidate_count = len(candidates)
     candidates = candidates[: args.max_pool_results]
     successful_runs = sum(1 for run in strategy_runs.values() if run.get("status") == "success")
     payload = {
@@ -399,7 +495,8 @@ def main() -> int:
         "strategy_labels": dict(STRATEGY_LABELS),
         "per_strategy_results": args.per_strategy_results,
         "max_pool_results": args.max_pool_results,
-        "merged_candidate_count": len(_merge_results(strategy_results)[0]),
+        "target_date": _target_date(),
+        "merged_candidate_count": merged_candidate_count,
         "returned_candidate_count": len(candidates),
         "successful_strategy_count": successful_runs,
         "strategy_runs": strategy_runs,
@@ -407,6 +504,25 @@ def main() -> int:
         "candidates": candidates,
     }
     _write_outputs(payload)
+
+    if run_context is not None:
+        performance.update(run_context.metrics())
+    performance["finished_at"] = datetime.now(SHANGHAI).isoformat(timespec="seconds")
+    performance["total_seconds"] = round(time.perf_counter() - started_perf, 6)
+    performance["llm_ranking_enabled"] = os.getenv("SHORT_TERM_STAGE1_LLM_RANKING", "true")
+    performance["news_enabled"] = os.getenv("SHORT_TERM_STAGE1_NEWS_ENABLED", "false")
+    for metric_name in (
+        "snapshot_fetch_seconds",
+        "history_fetch_seconds",
+        "realtime_quote_seconds",
+        "llm_rank_seconds",
+        "news_search_seconds",
+        "merge_seconds",
+    ):
+        performance.setdefault(metric_name, 0.0)
+    performance.setdefault("cache_stats", {})
+    performance.setdefault("data_source_stats", {})
+    _write_performance(performance)
 
     if successful_runs == 0:
         logger.error("All four original screening strategies failed")
