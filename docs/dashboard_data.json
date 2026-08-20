@@ -1,7 +1,108 @@
 {
-  "decision_state": "候选池与市场情绪已生成，等待主线识别",
-  "generated_at": "2026-08-20T07:05:17+00:00",
-  "leaders": [],
+  "decision_state": "主线与龙头已确认，等待弱转强筛选",
+  "generated_at": "2026-08-20T07:50:30+00:00",
+  "leaders": [
+    {
+      "code": "000505",
+      "leader_reasons": [
+        "市场最高板",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 65.143,
+      "market_leader_rank": 2,
+      "name": "京粮控股",
+      "primary_theme": "农产品加",
+      "stock_role": "MARKET_LEADER"
+    },
+    {
+      "code": "600127",
+      "leader_reasons": [
+        "市场最高板",
+        "所属主线题材排名第1",
+        "东方财富人气榜Top10",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 72.4161,
+      "market_leader_rank": 1,
+      "name": "金健米业",
+      "primary_theme": "农产品加",
+      "stock_role": "MARKET_LEADER"
+    },
+    {
+      "code": "300433",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.3954,
+      "name": "蓝思科技",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "601138",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.6489,
+      "name": "工业富联",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600460",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.9025,
+      "name": "士兰微",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600683",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.156,
+      "name": "京投发展",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "300676",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.4096,
+      "name": "华大基因",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002365",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.6631,
+      "name": "永安药业",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002361",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.9167,
+      "name": "神剑股份",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600536",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.1702,
+      "name": "中国软件",
+      "stock_role": "FRONT_CORE"
+    }
+  ],
   "market": {
     "available": true,
     "broken_board_count": 12,
@@ -48,7 +149,7 @@
     "yesterday_premium_median": -4.6967
   },
   "pipeline_status": {
-    "current_stage": "stage2",
+    "current_stage": "stage3",
     "latest_dirs": {
       "stage1": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage1",
       "stage2": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage2",
@@ -59,14 +160,14 @@
     "stages": {
       "stage1": true,
       "stage2": true,
-      "stage3": false,
+      "stage3": true,
       "stage4": false,
       "stage5": false
     },
     "updated_at": {
       "stage1": "2026-08-20T15:03:17+08:00",
       "stage2": "2026-08-20T15:04:53+08:00",
-      "stage3": null,
+      "stage3": "2026-08-20T15:50:07+08:00",
       "stage4": null,
       "stage5": null
     }
@@ -389,5 +490,51 @@
     "snapshot_quality": {},
     "snapshot_quality_label": "UNKNOWN"
   },
-  "themes": []
+  "themes": [
+    {
+      "confidence_adjusted": 57.125,
+      "coverage": 0.85,
+      "degraded": true,
+      "rank": 1,
+      "theme": "农产品加",
+      "theme_role": "MAIN",
+      "theme_score": 61.9608
+    },
+    {
+      "confidence_adjusted": 51.7018,
+      "coverage": 0.85,
+      "degraded": true,
+      "rank": 2,
+      "theme": "电网设备",
+      "theme_role": "ROTATION",
+      "theme_score": 56.0785
+    },
+    {
+      "confidence_adjusted": 48.0862,
+      "coverage": 0.85,
+      "degraded": true,
+      "rank": 3,
+      "theme": "光学光电",
+      "theme_role": "ROTATION",
+      "theme_score": 52.1568
+    },
+    {
+      "confidence_adjusted": 48.0862,
+      "coverage": 0.85,
+      "degraded": true,
+      "rank": 4,
+      "theme": "教育",
+      "theme_role": "ROTATION",
+      "theme_score": 52.1568
+    },
+    {
+      "confidence_adjusted": 47.0016,
+      "coverage": 0.85,
+      "degraded": true,
+      "rank": 5,
+      "theme": "农化制品",
+      "theme_role": "ROTATION",
+      "theme_score": 50.9804
+    }
+  ]
 }
