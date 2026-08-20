@@ -629,6 +629,8 @@ class DataFetcherManager:
         "AlphaVantageFetcher": {"us"},
     }
     _daily_source_health = CircuitBreaker(failure_threshold=3, cooldown_seconds=300.0)
+    _daily_runtime_order_health: Dict[str, Dict[str, float]] = {}
+    _daily_runtime_order_lock = RLock()
     _CONCEPT_RANKINGS_CACHE_TTL_SECONDS = 300.0
     _CONCEPT_RANKINGS_EMPTY_CACHE_TTL_SECONDS = 30.0
     _concept_rankings_cache_lock = RLock()
@@ -744,6 +746,16 @@ class DataFetcherManager:
     def _call_fetcher_method(self, fetcher: BaseFetcher, method_name: str, *args, **kwargs):
         """Serialize shared fetcher state access through manager-owned per-instance locks."""
         method = getattr(fetcher, method_name)
+        # Stage1 opts into bounded (<=6 worker) history concurrency.  The
+        # default serialized path remains unchanged for all other jobs; this
+        # branch lets independent symbols overlap while the caller controls
+        # the worker limit and each fetcher still handles its own fallback.
+        if (
+            method_name == "get_daily_data"
+            and os.getenv("SHORT_TERM_FAST_RETRY", "false").strip().lower()
+            in {"1", "true", "yes", "on"}
+        ):
+            return method(*args, **kwargs)
         with self._get_fetcher_call_lock(fetcher):
             return method(*args, **kwargs)
 
@@ -798,6 +810,34 @@ class DataFetcherManager:
         return kept
 
     @classmethod
+    def _order_daily_fetchers_by_runtime_health(
+        cls,
+        fetchers: List[BaseFetcher],
+        market: str,
+    ) -> List[BaseFetcher]:
+        """Prefer healthy providers for this process/run without changing priorities."""
+        if os.getenv("SHORT_TERM_FAST_RETRY", "false").strip().lower() not in {
+            "1", "true", "yes", "on"
+        }:
+            return fetchers
+        with cls._daily_runtime_order_lock:
+            health = {
+                fetcher.name: dict(cls._daily_runtime_order_health.get(
+                    cls._daily_health_key(fetcher, market), {}
+                ))
+                for fetcher in fetchers
+            }
+        original = {fetcher.name: index for index, fetcher in enumerate(fetchers)}
+        return sorted(
+            fetchers,
+            key=lambda fetcher: (
+                float(health.get(fetcher.name, {}).get("failures", 0.0)),
+                -float(health.get(fetcher.name, {}).get("successes", 0.0)),
+                original[fetcher.name],
+            ),
+        )
+
+    @classmethod
     def _daily_health_key(cls, fetcher: BaseFetcher, market: str) -> str:
         return f"daily_data:{market}:{fetcher.name}"
 
@@ -824,15 +864,28 @@ class DataFetcherManager:
     @classmethod
     def _record_daily_source_success(cls, fetcher: BaseFetcher, market: str) -> None:
         cls._daily_source_health.record_success(cls._daily_health_key(fetcher, market))
+        with cls._daily_runtime_order_lock:
+            state = cls._daily_runtime_order_health.setdefault(
+                cls._daily_health_key(fetcher, market), {"failures": 0.0, "successes": 0.0}
+            )
+            state["successes"] = float(state.get("successes", 0.0)) + 1.0
+            state["failures"] = 0.0
 
     @classmethod
     def _record_daily_source_failure(cls, fetcher: BaseFetcher, market: str, error: str) -> None:
         cls._daily_source_health.record_failure(cls._daily_health_key(fetcher, market), error=error)
+        with cls._daily_runtime_order_lock:
+            state = cls._daily_runtime_order_health.setdefault(
+                cls._daily_health_key(fetcher, market), {"failures": 0.0, "successes": 0.0}
+            )
+            state["failures"] = float(state.get("failures", 0.0)) + 1.0
 
     @classmethod
     def reset_daily_source_health(cls) -> None:
         """Reset daily source health state for tests/admin diagnostics."""
         cls._daily_source_health.reset()
+        with cls._daily_runtime_order_lock:
+            cls._daily_runtime_order_health.clear()
 
     def _get_cached_stock_name(self, stock_code: str) -> Optional[str]:
         self._ensure_concurrency_guards()
@@ -1295,6 +1348,7 @@ class DataFetcherManager:
         if market != "cn":
             fetchers = self._filter_daily_fetchers_for_market(fetchers, market)
         fetchers = self._filter_fetchers_by_capability(fetchers, capability="daily_data")
+        fetchers = self._order_daily_fetchers_by_runtime_health(fetchers, market)
         total_fetchers = len(fetchers)
 
         if total_fetchers == 0:

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import annotations
 """
 ===================================
 AkshareFetcher - 主数据源 (Priority 1)
@@ -37,7 +38,6 @@ import pandas as pd
 import requests
 from tenacity import (
     retry,
-    stop_after_attempt,
     wait_exponential,
     retry_if_exception_type,
     before_sleep_log,
@@ -65,6 +65,78 @@ TENCENT_REALTIME_ENDPOINT = "qt.gtimg.cn/q"
 _AKSHARE_HISTORY_CALL_TIMEOUT = 30.0
 _AKSHARE_TIMEOUT_PROCESS_JOIN_GRACE = 1.0
 _AKSHARE_TIMEOUT_PROCESS_START_METHOD = "spawn"
+_AKSHARE_SUBSOURCE_FAILURE_THRESHOLD = 3
+_AKSHARE_SUBSOURCE_COOLDOWN_SECONDS = 15 * 60
+_AKSHARE_SUBSOURCE_HEALTH: Dict[str, Dict[str, Any]] = {}
+_AKSHARE_SUBSOURCE_LOCK = threading.Lock()
+
+
+def _short_term_fast_retry_enabled() -> bool:
+    return os.getenv("SHORT_TERM_FAST_RETRY", "false").strip().lower() in {
+        "1", "true", "yes", "on"
+    }
+
+
+def _akshare_retry_stop(retry_state) -> bool:
+    """Keep legacy three attempts unless the short-term runner opts in."""
+    limit = 2 if _short_term_fast_retry_enabled() else 3
+    return retry_state.attempt_number >= limit
+
+
+def reset_short_term_subsource_health() -> None:
+    with _AKSHARE_SUBSOURCE_LOCK:
+        _AKSHARE_SUBSOURCE_HEALTH.clear()
+
+
+def akshare_subsource_stats() -> dict[str, dict[str, Any]]:
+    with _AKSHARE_SUBSOURCE_LOCK:
+        return {key: dict(value) for key, value in _AKSHARE_SUBSOURCE_HEALTH.items()}
+
+
+def _akshare_subsource_available(source: str) -> bool:
+    if not _short_term_fast_retry_enabled():
+        return True
+    now = time.monotonic()
+    with _AKSHARE_SUBSOURCE_LOCK:
+        state = _AKSHARE_SUBSOURCE_HEALTH.get(source)
+        if not state:
+            return True
+        disabled_until = float(state.get("disabled_until", 0.0))
+        if disabled_until <= now:
+            if disabled_until:
+                state["disabled_until"] = 0.0
+            return True
+        state["skip_count"] = int(state.get("skip_count", 0)) + 1
+        logger.warning(
+            "Akshare subsource %s circuit open; skip_count=%s",
+            source,
+            state["skip_count"],
+        )
+        return False
+
+
+def _record_akshare_subsource(source: str, *, success: bool, error: object | None = None) -> None:
+    if not _short_term_fast_retry_enabled():
+        return
+    now = time.monotonic()
+    with _AKSHARE_SUBSOURCE_LOCK:
+        state = _AKSHARE_SUBSOURCE_HEALTH.setdefault(
+            source,
+            {"failures": 0, "successes": 0, "skip_count": 0, "disabled_until": 0.0},
+        )
+        if success:
+            state["failures"] = 0
+            state["successes"] = int(state.get("successes", 0)) + 1
+            state["disabled_until"] = 0.0
+            return
+        state["failures"] = int(state.get("failures", 0)) + 1
+        state["last_error"] = " ".join(str(error or "").split())
+        if state["failures"] >= _AKSHARE_SUBSOURCE_FAILURE_THRESHOLD:
+            state["disabled_until"] = now + _AKSHARE_SUBSOURCE_COOLDOWN_SECONDS
+            logger.warning(
+                "Akshare subsource %s circuit opened; skip_count=0",
+                source,
+            )
 
 
 # User-Agent 池，用于随机轮换
@@ -414,7 +486,10 @@ class AkshareFetcher(BaseFetcher):
         self.sleep_min = sleep_min
         self.sleep_max = sleep_max
         self._last_request_time: Optional[float] = None
-        self._history_call_timeout = _AKSHARE_HISTORY_CALL_TIMEOUT
+        self._history_call_timeout = min(
+            _AKSHARE_HISTORY_CALL_TIMEOUT,
+            float(os.getenv("SHORT_TERM_AKSHARE_TIMEOUT", "8")),
+        ) if _short_term_fast_retry_enabled() else _AKSHARE_HISTORY_CALL_TIMEOUT
         # 东财补丁开启才执行打补丁操作
         if get_config().enable_eastmoney_patch:
             eastmoney_patch()
@@ -457,7 +532,7 @@ class AkshareFetcher(BaseFetcher):
         self._last_request_time = time.time()
     
     @retry(
-        stop=stop_after_attempt(3),  # 最多重试3次
+        stop=_akshare_retry_stop,  # fast mode: at most two total attempts
         wait=wait_exponential(multiplier=1, min=2, max=30),  # 指数退避：2, 4, 8... 最大30秒
         retry=retry_if_exception_type((ConnectionError, TimeoutError)),
         before_sleep=before_sleep_log(logger, logging.WARNING),
@@ -512,15 +587,25 @@ class AkshareFetcher(BaseFetcher):
         last_error = None
 
         for fetch_method, source_name in methods:
+            source_key = {
+                "东方财富": "akshare:eastmoney_hist",
+                "新浪财经": "akshare:sina_hist",
+                "腾讯财经": "akshare:tencent_hist",
+            }.get(source_name, f"akshare:{source_name}")
+            if not _akshare_subsource_available(source_key):
+                continue
             try:
                 logger.info(f"[数据源] 尝试使用 {source_name} 获取 {stock_code}...")
                 df = fetch_method(stock_code, start_date, end_date)
 
                 if df is not None and not df.empty:
+                    _record_akshare_subsource(source_key, success=True)
                     logger.info(f"[数据源] {source_name} 获取成功")
                     return df
+                _record_akshare_subsource(source_key, success=False, error="empty result")
             except Exception as e:
                 last_error = e
+                _record_akshare_subsource(source_key, success=False, error=e)
                 logger.warning(f"[数据源] {source_name} 获取失败: {e}")
                 # 继续尝试下一个
 
@@ -546,13 +631,22 @@ class AkshareFetcher(BaseFetcher):
             import time as _time
             api_start = _time.time()
 
-            df = ak.stock_zh_a_hist(
-                symbol=stock_code,
-                period="daily",
-                start_date=start_date.replace('-', ''),
-                end_date=end_date.replace('-', ''),
-                adjust="qfq"
-            )
+            kwargs = {
+                "symbol": stock_code,
+                "period": "daily",
+                "start_date": start_date.replace('-', ''),
+                "end_date": end_date.replace('-', ''),
+                "adjust": "qfq",
+            }
+            if _short_term_fast_retry_enabled():
+                df = _akshare_call_with_timeout(
+                    ak.stock_zh_a_hist,
+                    timeout=self._history_call_timeout,
+                    call_name="ak.stock_zh_a_hist",
+                    **kwargs,
+                )
+            else:
+                df = ak.stock_zh_a_hist(**kwargs)
 
             api_elapsed = _time.time() - api_start
 

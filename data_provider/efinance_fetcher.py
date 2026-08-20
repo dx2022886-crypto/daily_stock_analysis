@@ -202,6 +202,14 @@ def _ef_call_with_timeout(func, *args, timeout=None, **kwargs):
     """
     if timeout is None:
         timeout = _EF_CALL_TIMEOUT
+    if os.getenv("SHORT_TERM_FAST_RETRY", "false").strip().lower() in {"1", "true", "yes", "on"}:
+        # efinance delegates to urllib3 without exposing connect/read
+        # timeouts.  Bound the whole library call so the manager can switch
+        # to AkShare/Sina instead of waiting through urllib3's long retries.
+        try:
+            timeout = min(float(timeout), float(os.getenv("SHORT_TERM_EFINANCE_TIMEOUT", "8")))
+        except (TypeError, ValueError):
+            timeout = min(float(timeout), 8.0)
     # Do NOT use 'with ThreadPoolExecutor(...)' here: the context manager calls
     # shutdown(wait=True) on __exit__, which would re-block on the hung thread.
     executor = ThreadPoolExecutor(max_workers=1)
