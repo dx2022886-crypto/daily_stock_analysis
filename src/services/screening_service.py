@@ -1833,15 +1833,38 @@ def _build_screening_dsa_daily_history_fetcher() -> Optional[Callable[..., Any]]
         run_context: object | None = None,
     ) -> Any:
         def load_once() -> Any:
+            normalize_code = getattr(daily_module, "_normalize_daily_code", None)
+            normalized_code = normalize_code(code) if callable(normalize_code) else str(code)
+            cache_path_builder = getattr(daily_module, "_daily_history_cache_path", None)
+            cache_reader = getattr(daily_module, "_read_daily_history_cache", None)
+            cache_path = None
+            cache_target_date = getattr(run_context, "target_date", None) if run_context is not None else None
+            if cache_dir is not None and callable(cache_path_builder) and callable(cache_reader):
+                cache_path = cache_path_builder(
+                    cache_dir,
+                    code=normalized_code,
+                    source=source,
+                    lookback_days=int(lookback_days),
+                    target_date=cache_target_date,
+                )
+                cached = cache_reader(
+                    cache_path,
+                    ttl_seconds=cache_ttl_seconds,
+                    expected_target_date=cache_target_date,
+                )
+                if cached is not None:
+                    cached.attrs.setdefault("daily_requested_source", source)
+                    cached.attrs.setdefault("daily_source", str(cached.attrs.get("daily_source") or source))
+                    recorder = getattr(run_context, "record_history_disk_hit", None)
+                    if callable(recorder):
+                        recorder()
+                    return cached
+            provider_started = time.perf_counter()
             try:
                 dsa_df, dsa_source = get_dsa_daily_history(code, lookback_days=lookback_days)
                 normalized = _normalize_dsa_daily_history(dsa_df)
                 if normalized is not None and not normalized.empty:
                     resolved_source = f"dsa:{dsa_source}"
-                    normalized_code = code
-                    normalize_code = getattr(daily_module, "_normalize_daily_code", None)
-                    if callable(normalize_code):
-                        normalized_code = normalize_code(code)
                     normalized.attrs["source"] = resolved_source
                     normalized.attrs["daily_source"] = resolved_source
                     normalized.attrs["daily_requested_source"] = source
@@ -1849,8 +1872,13 @@ def _build_screening_dsa_daily_history_fetcher() -> Optional[Callable[..., Any]]
                     normalized.attrs["daily_source_order_notes"] = []
                     normalized.attrs["source_errors"] = []
                     normalized.attrs["daily_source_health"] = {}
+                    if run_context is not None:
+                        getattr(run_context, "record_history_provider", lambda *_args, **_kwargs: None)(
+                            resolved_source,
+                            success=True,
+                            latency=time.perf_counter() - provider_started,
+                        )
                     if cache_dir is not None:
-                        cache_path_builder = getattr(daily_module, "_daily_history_cache_path", None)
                         cache_writer = getattr(daily_module, "_write_daily_history_cache", None)
                         if callable(cache_path_builder) and callable(cache_writer):
                             cache_path_kwargs = {
@@ -1871,6 +1899,12 @@ def _build_screening_dsa_daily_history_fetcher() -> Optional[Callable[..., Any]]
                             cache_writer(cache_path, normalized, **cache_write_kwargs)
                     return normalized
             except Exception as exc:
+                if run_context is not None:
+                    getattr(run_context, "record_history_provider", lambda *_args, **_kwargs: None)(
+                        "dsa",
+                        success=False,
+                        latency=time.perf_counter() - provider_started,
+                    )
                 logger.warning(
                     "Screening DSA daily history fetch failed for %s; falling back to Screening source %s: %s",
                     code,
@@ -1903,6 +1937,9 @@ def _build_screening_dsa_daily_history_fetcher() -> Optional[Callable[..., Any]]
 
 
 def _resolve_screening_snapshot_source_priority(config: Config) -> str:
+    explicit = (os.getenv("SNAPSHOT_SOURCE_PRIORITY") or os.getenv("SHORT_TERM_SNAPSHOT_SOURCE_PRIORITY") or "").strip()
+    if explicit:
+        return explicit
     token = _env_text(getattr(config, "tushare_token", None) or os.getenv("TUSHARE_TOKEN"))
     if token:
         return DSA_SCREENING_SNAPSHOT_SOURCE_PRIORITY_WITH_TUSHARE
@@ -1977,7 +2014,8 @@ def _build_screening_runtime_env(config: Config, *, max_results: Optional[int] =
     put("OPENAI_BASE_URL", config.openai_base_url or _first_channel_base_url(channels, {"openai"}))
     put_default("DAILY_SOURCE", "auto")
     put_default("DAILY_FETCH_RETRIES", str(DSA_SCREENING_DAILY_FETCH_RETRIES))
-    put_default("DAILY_FETCH_MAX_WORKERS", "1")
+    short_term_workers = os.getenv("SHORT_TERM_HISTORY_MAX_WORKERS", "").strip()
+    put_default("DAILY_FETCH_MAX_WORKERS", short_term_workers or "1")
     put("LLM_CANDIDATE_CONTEXT_ENABLED", "false")
     put_default("LLM_CANDIDATE_CONTEXT_PROVIDERS", DSA_SCREENING_CANDIDATE_CONTEXT_PROVIDERS)
     put_default("LLM_CANDIDATE_MULTIPLIER", str(DSA_SCREENING_LLM_CANDIDATE_MULTIPLIER))
@@ -2991,9 +3029,14 @@ def _build_screening_context(
     litellm_model, fallback_models = _resolve_screening_llm_models(config)
     realtime_quote_getter = get_dsa_realtime_quote
     if run_context is not None and callable(getattr(run_context, "get_realtime_quote", None)):
+        try:
+            quote_ttl = max(float(os.getenv("SHORT_TERM_REALTIME_CACHE_TTL", "30")), 0.0)
+        except ValueError:
+            quote_ttl = 30.0
         realtime_quote_getter = lambda code: run_context.get_realtime_quote(
             code,
             lambda: get_dsa_realtime_quote(code),
+            ttl_seconds=quote_ttl,
         )
 
     def candidate_context_getter(code: str, name: str = "") -> Dict[str, Any]:
