@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-20T08:20:29+00:00",
+  "generated_at": "2026-08-20T13:38:15+00:00",
   "leaders": [
     {
       "code": "000505",
@@ -165,7 +165,7 @@
       "stage5": false
     },
     "updated_at": {
-      "stage1": "2026-08-20T15:03:17+08:00",
+      "stage1": "2026-08-20T21:37:49+08:00",
       "stage2": "2026-08-20T15:04:53+08:00",
       "stage3": "2026-08-20T15:50:07+08:00",
       "stage4": "2026-08-20T16:20:07+08:00",
@@ -174,9 +174,9 @@
   },
   "stage1_candidates": [
     {
-      "average_score": 74.213,
-      "code": "000703",
-      "name": "恒逸石化",
+      "average_score": 73.966,
+      "code": "600196",
+      "name": "复星医药",
       "rank": 1,
       "resonance_count": 2,
       "strategies": [
@@ -185,7 +185,7 @@
       ]
     },
     {
-      "average_score": 73.10005,
+      "average_score": 72.8715,
       "code": "000963",
       "name": "华东医药",
       "rank": 2,
@@ -196,7 +196,7 @@
       ]
     },
     {
-      "average_score": 87.8865,
+      "average_score": 87.7813,
       "code": "002532",
       "name": "天山铝业",
       "rank": 3,
@@ -206,7 +206,7 @@
       ]
     },
     {
-      "average_score": 84.964,
+      "average_score": 85.5569,
       "code": "002001",
       "name": "新和成",
       "rank": 4,
@@ -216,7 +216,7 @@
       ]
     },
     {
-      "average_score": 84.9358,
+      "average_score": 84.8518,
       "code": "000807",
       "name": "云铝股份",
       "rank": 5,
@@ -226,7 +226,7 @@
       ]
     },
     {
-      "average_score": 83.7726,
+      "average_score": 83.8162,
       "code": "600428",
       "name": "中远海特",
       "rank": 6,
@@ -236,9 +236,9 @@
       ]
     },
     {
-      "average_score": 82.7418,
-      "code": "000933",
-      "name": "神火股份",
+      "average_score": 82.6499,
+      "code": "300035",
+      "name": "中科电气",
       "rank": 7,
       "resonance_count": 1,
       "strategies": [
@@ -246,9 +246,9 @@
       ]
     },
     {
-      "average_score": 82.7365,
-      "code": "300035",
-      "name": "中科电气",
+      "average_score": 82.4221,
+      "code": "600598",
+      "name": "北大荒",
       "rank": 8,
       "resonance_count": 1,
       "strategies": [
@@ -256,9 +256,9 @@
       ]
     },
     {
-      "average_score": 82.4208,
-      "code": "600598",
-      "name": "北大荒",
+      "average_score": 82.1871,
+      "code": "000933",
+      "name": "神火股份",
       "rank": 9,
       "resonance_count": 1,
       "strategies": [
@@ -266,9 +266,9 @@
       ]
     },
     {
-      "average_score": 81.37,
-      "code": "601600",
-      "name": "中国铝业",
+      "average_score": 81.6938,
+      "code": "300724",
+      "name": "捷佳伟创",
       "rank": 10,
       "resonance_count": 1,
       "strategies": [
@@ -276,9 +276,9 @@
       ]
     },
     {
-      "average_score": 79.9548,
-      "code": "000725",
-      "name": "京东方A",
+      "average_score": 81.5921,
+      "code": "601600",
+      "name": "中国铝业",
       "rank": 11,
       "resonance_count": 1,
       "strategies": [
@@ -286,19 +286,19 @@
       ]
     },
     {
-      "average_score": 79.6559,
-      "code": "600378",
-      "name": "昊华科技",
+      "average_score": 81.4033,
+      "code": "002237",
+      "name": "恒邦股份",
       "rank": 12,
       "resonance_count": 1,
       "strategies": [
-        "oversold_reversal"
+        "volume_breakout"
       ]
     },
     {
-      "average_score": 77.599,
-      "code": "001301",
-      "name": "尚太科技",
+      "average_score": 81.3405,
+      "code": "300628",
+      "name": "亿联网络",
       "rank": 13,
       "resonance_count": 1,
       "strategies": [
@@ -306,27 +306,27 @@
       ]
     },
     {
-      "average_score": 74.8324,
-      "code": "002821",
-      "name": "凯莱英",
+      "average_score": 80.1311,
+      "code": "600111",
+      "name": "北方稀土",
       "rank": 14,
       "resonance_count": 1,
       "strategies": [
-        "capital_heat"
+        "oversold_reversal"
       ]
     },
     {
-      "average_score": 74.8093,
-      "code": "000426",
-      "name": "兴业银锡",
+      "average_score": 77.9321,
+      "code": "688139",
+      "name": "海尔生物",
       "rank": 15,
       "resonance_count": 1,
       "strategies": [
-        "capital_heat"
+        "volume_breakout"
       ]
     },
     {
-      "average_score": 74.6751,
+      "average_score": 74.6819,
       "code": "601288",
       "name": "农业银行",
       "rank": 16,
@@ -336,7 +336,7 @@
       ]
     },
     {
-      "average_score": 74.552,
+      "average_score": 74.5611,
       "code": "601398",
       "name": "工商银行",
       "rank": 17,
@@ -346,9 +346,9 @@
       ]
     },
     {
-      "average_score": 74.43,
-      "code": "600737",
-      "name": "中粮糖业",
+      "average_score": 74.5353,
+      "code": "000426",
+      "name": "兴业银锡",
       "rank": 18,
       "resonance_count": 1,
       "strategies": [
@@ -356,19 +356,19 @@
       ]
     },
     {
-      "average_score": 74.0604,
-      "code": "600036",
-      "name": "招商银行",
+      "average_score": 74.5258,
+      "code": "002821",
+      "name": "凯莱英",
       "rank": 19,
       "resonance_count": 1,
       "strategies": [
-        "momentum_quality"
+        "capital_heat"
       ]
     },
     {
-      "average_score": 74.0487,
-      "code": "601318",
-      "name": "中国平安",
+      "average_score": 74.1154,
+      "code": "600036",
+      "name": "招商银行",
       "rank": 20,
       "resonance_count": 1,
       "strategies": [
@@ -376,9 +376,9 @@
       ]
     },
     {
-      "average_score": 74.0479,
-      "code": "002142",
-      "name": "宁波银行",
+      "average_score": 74.1134,
+      "code": "601318",
+      "name": "中国平安",
       "rank": 21,
       "resonance_count": 1,
       "strategies": [
@@ -386,9 +386,9 @@
       ]
     },
     {
-      "average_score": 73.8056,
-      "code": "600196",
-      "name": "复星医药",
+      "average_score": 74.0864,
+      "code": "600737",
+      "name": "中粮糖业",
       "rank": 22,
       "resonance_count": 1,
       "strategies": [
@@ -396,9 +396,9 @@
       ]
     },
     {
-      "average_score": 73.6591,
-      "code": "601166",
-      "name": "兴业银行",
+      "average_score": 74.0552,
+      "code": "002142",
+      "name": "宁波银行",
       "rank": 23,
       "resonance_count": 1,
       "strategies": [
@@ -406,29 +406,29 @@
       ]
     },
     {
-      "average_score": 73.5925,
-      "code": "600919",
-      "name": "江苏银行",
+      "average_score": 74.0124,
+      "code": "000703",
+      "name": "恒逸石化",
       "rank": 24,
-      "resonance_count": 1,
-      "strategies": [
-        "momentum_quality"
-      ]
-    },
-    {
-      "average_score": 73.156,
-      "code": "300623",
-      "name": "捷捷微电",
-      "rank": 25,
       "resonance_count": 1,
       "strategies": [
         "capital_heat"
       ]
     },
     {
-      "average_score": 73.1436,
-      "code": "000001",
-      "name": "平安银行",
+      "average_score": 73.6908,
+      "code": "601166",
+      "name": "兴业银行",
+      "rank": 25,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 73.6191,
+      "code": "600919",
+      "name": "江苏银行",
       "rank": 26,
       "resonance_count": 1,
       "strategies": [
@@ -436,19 +436,19 @@
       ]
     },
     {
-      "average_score": 72.6184,
-      "code": "300347",
-      "name": "泰格医药",
+      "average_score": 73.175,
+      "code": "000001",
+      "name": "平安银行",
       "rank": 27,
       "resonance_count": 1,
       "strategies": [
-        "capital_heat"
+        "momentum_quality"
       ]
     },
     {
-      "average_score": 72.223,
-      "code": "600988",
-      "name": "赤峰黄金",
+      "average_score": 72.8472,
+      "code": "300623",
+      "name": "捷捷微电",
       "rank": 28,
       "resonance_count": 1,
       "strategies": [
@@ -456,9 +456,9 @@
       ]
     },
     {
-      "average_score": 71.9677,
-      "code": "300628",
-      "name": "亿联网络",
+      "average_score": 72.5714,
+      "code": "300418",
+      "name": "昆仑万维",
       "rank": 29,
       "resonance_count": 1,
       "strategies": [
@@ -466,9 +466,9 @@
       ]
     },
     {
-      "average_score": 64.8554,
-      "code": "300452",
-      "name": "山河药辅",
+      "average_score": 72.3745,
+      "code": "000421",
+      "name": "南京公用",
       "rank": 30,
       "resonance_count": 1,
       "strategies": [
