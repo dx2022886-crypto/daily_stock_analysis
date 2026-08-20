@@ -1,26 +1,54 @@
 {
-  "decision_state": "候选池已生成，等待市场情绪和主线确认",
-  "generated_at": "2026-08-20T07:03:42+00:00",
+  "decision_state": "候选池与市场情绪已生成，等待主线识别",
+  "generated_at": "2026-08-20T07:05:17+00:00",
   "leaders": [],
   "market": {
-    "available": false,
-    "broken_board_count": null,
-    "broken_board_rate": null,
-    "data_available": false,
-    "data_quality": "unavailable",
-    "date": null,
-    "highest_board": null,
-    "highest_board_stocks": [],
-    "limit_down_count": null,
-    "limit_up_count": null,
-    "sentiment_phase": "UNKNOWN",
-    "sentiment_phase_code": "UNKNOWN",
-    "sentiment_score": null,
-    "updated_at": null,
-    "yesterday_premium_median": null
+    "available": true,
+    "broken_board_count": 12,
+    "broken_board_rate": 25.0,
+    "data_available": true,
+    "data_quality": "complete",
+    "date": "20260819",
+    "highest_board": 3,
+    "highest_board_stocks": [
+      {
+        "board_count": 3,
+        "break_count": 0,
+        "code": "600127",
+        "first_limit_time": "092502",
+        "industry": "农产品加",
+        "last_limit_time": "092502",
+        "name": "金健米业"
+      },
+      {
+        "board_count": 3,
+        "break_count": 1,
+        "code": "603395",
+        "first_limit_time": "092502",
+        "industry": "农化制品",
+        "last_limit_time": "093208",
+        "name": "红四方"
+      },
+      {
+        "board_count": 3,
+        "break_count": 0,
+        "code": "000505",
+        "first_limit_time": "093133",
+        "industry": "农产品加",
+        "last_limit_time": "093133",
+        "name": "京粮控股"
+      }
+    ],
+    "limit_down_count": 118,
+    "limit_up_count": 36,
+    "sentiment_phase": "退潮",
+    "sentiment_phase_code": "RETREAT",
+    "sentiment_score": 40.8889,
+    "updated_at": "2026-08-20T15:04:53+08:00",
+    "yesterday_premium_median": -4.6967
   },
   "pipeline_status": {
-    "current_stage": "stage1",
+    "current_stage": "stage2",
     "latest_dirs": {
       "stage1": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage1",
       "stage2": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage2",
@@ -30,14 +58,14 @@
     },
     "stages": {
       "stage1": true,
-      "stage2": false,
+      "stage2": true,
       "stage3": false,
       "stage4": false,
       "stage5": false
     },
     "updated_at": {
       "stage1": "2026-08-20T15:03:17+08:00",
-      "stage2": null,
+      "stage2": "2026-08-20T15:04:53+08:00",
       "stage3": null,
       "stage4": null,
       "stage5": null
