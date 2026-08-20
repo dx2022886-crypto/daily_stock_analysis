@@ -1,6 +1,6 @@
 {
-  "decision_state": "暂无最新数据，等待阶段结果生成",
-  "generated_at": "2026-08-20T00:40:51+00:00",
+  "decision_state": "候选池已生成，等待市场情绪和主线确认",
+  "generated_at": "2026-08-20T04:17:05+00:00",
   "leaders": [],
   "market": {
     "available": false,
@@ -20,7 +20,7 @@
     "yesterday_premium_median": null
   },
   "pipeline_status": {
-    "current_stage": null,
+    "current_stage": "stage1",
     "latest_dirs": {
       "stage1": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage1",
       "stage2": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage2",
@@ -29,21 +29,322 @@
       "stage5": "/home/runner/work/daily_stock_analysis/daily_stock_analysis/reports/short_term/latest_stage5"
     },
     "stages": {
-      "stage1": false,
+      "stage1": true,
       "stage2": false,
       "stage3": false,
       "stage4": false,
       "stage5": false
     },
     "updated_at": {
-      "stage1": null,
+      "stage1": "2026-08-20T12:16:43+08:00",
       "stage2": null,
       "stage3": null,
       "stage4": null,
       "stage5": null
     }
   },
-  "stage1_candidates": [],
+  "stage1_candidates": [
+    {
+      "average_score": 87.6771,
+      "code": "002532",
+      "name": "天山铝业",
+      "rank": 1,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 85.0965,
+      "code": "002001",
+      "name": "新和成",
+      "rank": 2,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 81.8309,
+      "code": "000933",
+      "name": "神火股份",
+      "rank": 3,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 81.7572,
+      "code": "601108",
+      "name": "财通证券",
+      "rank": 4,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 81.723,
+      "code": "002081",
+      "name": "金螳螂",
+      "rank": 5,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 81.2498,
+      "code": "600276",
+      "name": "恒瑞医药",
+      "rank": 6,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 80.3136,
+      "code": "601600",
+      "name": "中国铝业",
+      "rank": 7,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 80.2862,
+      "code": "002083",
+      "name": "孚日股份",
+      "rank": 8,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 79.8541,
+      "code": "300035",
+      "name": "中科电气",
+      "rank": 9,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 79.5491,
+      "code": "000807",
+      "name": "云铝股份",
+      "rank": 10,
+      "resonance_count": 1,
+      "strategies": [
+        "oversold_reversal"
+      ]
+    },
+    {
+      "average_score": 76.2924,
+      "code": "600988",
+      "name": "赤峰黄金",
+      "rank": 11,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 75.3637,
+      "code": "300759",
+      "name": "康龙化成",
+      "rank": 12,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 75.2177,
+      "code": "600547",
+      "name": "山东黄金",
+      "rank": 13,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 74.5191,
+      "code": "600036",
+      "name": "招商银行",
+      "rank": 14,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 74.3513,
+      "code": "601288",
+      "name": "农业银行",
+      "rank": 15,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 73.9468,
+      "code": "601398",
+      "name": "工商银行",
+      "rank": 16,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 73.8493,
+      "code": "601166",
+      "name": "兴业银行",
+      "rank": 17,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 73.8142,
+      "code": "300558",
+      "name": "贝达药业",
+      "rank": 18,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 73.7857,
+      "code": "300623",
+      "name": "捷捷微电",
+      "rank": 19,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 73.2938,
+      "code": "603127",
+      "name": "昭衍新药",
+      "rank": 20,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 73.013,
+      "code": "601318",
+      "name": "中国平安",
+      "rank": 21,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 72.6456,
+      "code": "000703",
+      "name": "恒逸石化",
+      "rank": 22,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 72.5567,
+      "code": "600919",
+      "name": "江苏银行",
+      "rank": 23,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 72.3866,
+      "code": "601919",
+      "name": "中远海控",
+      "rank": 24,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 72.25,
+      "code": "002142",
+      "name": "宁波银行",
+      "rank": 25,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 71.9328,
+      "code": "002040",
+      "name": "南京港",
+      "rank": 26,
+      "resonance_count": 1,
+      "strategies": [
+        "volume_breakout"
+      ]
+    },
+    {
+      "average_score": 71.9241,
+      "code": "600030",
+      "name": "中信证券",
+      "rank": 27,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 71.8,
+      "code": "601766",
+      "name": "中国中车",
+      "rank": 28,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 70.0945,
+      "code": "603259",
+      "name": "药明康德",
+      "rank": 29,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 70.044,
+      "code": "600489",
+      "name": "中金黄金",
+      "rank": 30,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    }
+  ],
   "stage4_core_states": [],
   "stage4_watchlist": [],
   "stage5": {
