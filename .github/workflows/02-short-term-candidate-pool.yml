@@ -29,6 +29,11 @@ jobs:
       SHORT_TERM_MAX_POOL_RESULTS: ${{ inputs.max_pool_results || '30' }}
       SHORT_TERM_STAGE1_LLM_RANKING: 'true'
       SHORT_TERM_STAGE1_NEWS_ENABLED: 'false'
+      SHORT_TERM_HISTORY_MAX_WORKERS: '5'
+      SHORT_TERM_FAST_RETRY: 'true'
+      SHORT_TERM_REALTIME_CACHE_TTL: '30'
+      SHORT_TERM_SNAPSHOT_TIMEOUT: '10'
+      SHORT_TERM_SNAPSHOT_SOURCE_PRIORITY: 'em_datacenter,sina,efinance,akshare_em'
       # Keep successful LLM ordering unchanged, but avoid repeated waits when
       # a provider is already unavailable; the pipeline still falls back to
       # its existing deterministic ranking path.
@@ -97,6 +102,7 @@ jobs:
                   summary.write(f"| {label} | {metrics.get(key, 'N/A')} |\n")
               summary.write('\n**Cache**\n\n')
               summary.write(f"snapshot reused: {cache.get('snapshot_reused', 0)}; history hits/misses: {cache.get('history_hits', 0)}/{cache.get('history_misses', 0)}; quote hits/misses: {cache.get('quote_hits', 0)}/{cache.get('quote_misses', 0)}\n\n")
+              summary.write(f"history prefetch/network/disk: {metrics.get('history_prefetch_count', 0)}/{metrics.get('history_network_fetches', 0)}/{metrics.get('history_disk_hits', 0)}; realtime HTTP/cache hits: {metrics.get('realtime_http_calls', 0)}/{metrics.get('realtime_cache_hits', 0)}\n\n")
               summary.write('**Data Sources**\n\n```json\n')
               summary.write(json.dumps(sources, ensure_ascii=False, indent=2, sort_keys=True))
               summary.write('\n```\n')
