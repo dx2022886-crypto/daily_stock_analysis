@@ -256,6 +256,15 @@ python main.py --webui-only
 
 仪表盘只展示观察、确认、淘汰和等待开盘确认状态，不生成买入建议，也不替代各阶段原始报告。
 
+### 短线链路性能配置
+
+Stage1～Stage5 工作流优先安装 `requirements-short-term.txt`，完整应用仍使用 `requirements.txt`。
+Stage1 在同一次运行中共享全市场快照和历史/实时数据缓存，并将计时写入
+`reports/short_term/performance_metrics.json`。Stage1 的 LLM 排名默认保持开启，因为 LLM 成功时会参与最终排序；
+可显式设置 `SHORT_TERM_STAGE1_LLM_RANKING=false` 才关闭。新闻搜索仅用于最终候选的附加说明，不参与四套原版模型的筛选和 Top30 排序，
+所以工作流默认设置 `SHORT_TERM_STAGE1_NEWS_ENABLED=false`。
+工作流还将 `LLM_MAX_RETRIES` 设为 `0`：成功请求的排序逻辑不变，服务不可用时快速进入原有本地因子回退，避免重复等待。
+
 ## 🤖 Agent 策略问股
 
 配置任意可用 AI API Key 后，Web `/chat` 页面即可使用策略问股；如需显式关闭可设置 `AGENT_MODE=false`。
