@@ -8,6 +8,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path
@@ -70,6 +71,7 @@ def enrich_daily_features(
     cache_ttl_seconds: float | None = None,
     max_workers: int | None = None,
     history_fetcher: Callable[..., pd.DataFrame] | None = None,
+    run_context: object | None = None,
 ) -> pd.DataFrame:
     """Attach daily technical features to the first ``max_rows`` candidates.
 
@@ -101,13 +103,26 @@ def enrich_daily_features(
     def fetch_one(request: tuple[object, str]) -> tuple[object, dict[str, object], str | None, dict[str, object]]:
         idx, code = request
         try:
+            history_kwargs = {
+                "lookback_days": lookback_days,
+                "source": source,
+                "retries": fetch_retries,
+                "cache_dir": cache_dir,
+                "cache_ttl_seconds": cache_ttl_seconds,
+            }
+            try:
+                parameters = inspect.signature(fetch_history).parameters
+                accepts_context = "run_context" in parameters or any(
+                    parameter.kind == inspect.Parameter.VAR_KEYWORD
+                    for parameter in parameters.values()
+                )
+            except (TypeError, ValueError):
+                accepts_context = True
+            if accepts_context:
+                history_kwargs["run_context"] = run_context
             hist = fetch_history(
                 code,
-                lookback_days=lookback_days,
-                source=source,
-                retries=fetch_retries,
-                cache_dir=cache_dir,
-                cache_ttl_seconds=cache_ttl_seconds,
+                **history_kwargs,
             )
             features = compute_daily_features(hist)
             features["daily_source"] = str(hist.attrs.get("daily_source", ""))
@@ -171,6 +186,7 @@ def fetch_daily_history(
     retries: int = 2,
     cache_dir: str | Path | None = None,
     cache_ttl_seconds: float | None = None,
+    run_context: object | None = None,
 ) -> pd.DataFrame:
     """Fetch daily history for one stock code.
 
@@ -199,12 +215,18 @@ def fetch_daily_history(
         raise ValueError(f"Unsupported daily source: {source}")
 
     cache_path = None
+    cache_target_date = _normalize_cache_date(
+        getattr(run_context, "target_date", None)
+        if run_context is not None
+        else os.getenv("SHORT_TERM_TARGET_DATE")
+    ) or datetime.now().strftime("%Y%m%d")
     if cache_dir is not None:
         cache_path = _daily_history_cache_path(
             cache_dir,
             code=normalized_code,
             source=src,
             lookback_days=normalized_lookback_days,
+            target_date=cache_target_date,
         )
         cached = _read_daily_history_cache(cache_path, ttl_seconds=cache_ttl_seconds)
         if cached is not None:
@@ -213,6 +235,12 @@ def fetch_daily_history(
     attempts = max(int(retries), 0) + 1
     errors: list[str] = []
     for current in sources:
+        if run_context is not None:
+            run_disabled_reason = getattr(run_context, "source_disabled_reason", lambda _source: None)(current)
+            if run_disabled_reason:
+                logger.warning("daily source %s circuit opened; %s", current, run_disabled_reason)
+                errors.append(f"{current}: {run_disabled_reason}")
+                continue
         disabled_reason = _source_disabled_reason(current)
         if disabled_reason:
             errors.append(f"{current}: {disabled_reason}")
@@ -264,6 +292,11 @@ def fetch_daily_history(
                         lookback_days=normalized_lookback_days,
                     )
                 _record_source_success(current, rows=len(result))
+                if run_context is not None:
+                    getattr(run_context, "record_source_success", lambda *_args, **_kwargs: None)(
+                        current,
+                        rows=len(result),
+                    )
                 result.attrs["daily_source"] = current
                 result.attrs["daily_requested_source"] = src
                 result.attrs["daily_source_order"] = list(sources)
@@ -277,15 +310,24 @@ def fetch_daily_history(
                         code=normalized_code,
                         source=src,
                         lookback_days=normalized_lookback_days,
+                        target_date=cache_target_date,
                     )
                 return result
             except Exception as exc:  # noqa: BLE001 - aggregated below
                 last_error = exc
-                if attempt >= attempts - 1:
+                allowed_attempts = min(attempts, _fast_failure_attempt_limit(exc))
+                if attempt >= allowed_attempts - 1:
                     break
-                time.sleep(min(0.5 * (attempt + 1), 2.0))
+                time.sleep(_retry_sleep_seconds(exc, attempt))
         errors.append(f"{current} after {attempts} attempts: {last_error}")
         _record_source_failure(current, last_error)
+        if run_context is not None:
+            opened = getattr(run_context, "record_source_failure", lambda *_args, **_kwargs: False)(
+                current,
+                last_error,
+            )
+            if opened:
+                logger.warning("source %s circuit opened skip_count=0", current)
 
     if cache_path is not None:
         stale = _read_daily_history_cache(
@@ -320,6 +362,47 @@ def _normalize_daily_code(value: object) -> str:
 
 def _normalize_daily_source(source: str | None) -> str:
     return (source or "akshare").strip().lower()
+
+
+def _normalize_cache_date(value: object) -> str:
+    text = str(value or "").strip().replace("-", "").replace("/", "")
+    return text if len(text) == 8 and text.isdigit() else ""
+
+
+def _fast_failure_attempt_limit(error: object) -> int:
+    """Bound retries for errors that will not improve by waiting repeatedly."""
+    text = str(error or "").lower()
+    markers = (
+        "remote disconnected",
+        "remotedisconnected",
+        "remote end closed",
+        "connection reset",
+        "connection aborted",
+        "http 403",
+        "403 client error",
+        "status code 403",
+        "http 418",
+        "418 client error",
+        "status code 418",
+        "http 429",
+        "429 client error",
+        "status code 429",
+        "http 503",
+        "503 client error",
+        "status code 503",
+        "too many requests",
+        "service unavailable",
+    )
+    return 2 if any(marker in text for marker in markers) else 10**6
+
+
+def _retry_sleep_seconds(error: object, attempt: int) -> float:
+    text = str(error or "").lower()
+    if "429" in text or "too many requests" in text:
+        return min(1.0 + 0.5 * attempt, 2.0)
+    if any(marker in text for marker in ("403", "418", "503", "remote disconnected", "connection reset")):
+        return 0.25
+    return min(0.5 * (attempt + 1), 2.0)
 
 
 def _normalize_max_workers(value: int | None) -> int:
@@ -441,12 +524,14 @@ def _daily_history_cache_path(
     code: str,
     source: str,
     lookback_days: int,
+    target_date: str | None = None,
 ) -> Path:
-    key = f"{code}|{source}|{int(lookback_days)}"
+    cache_date = _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d")
+    key = f"{code}|{source}|{int(lookback_days)}|{cache_date}"
     digest = hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
     safe_source = "".join(ch if ch.isalnum() else "-" for ch in source).strip("-") or "source"
     safe_code = "".join(ch if ch.isalnum() else "-" for ch in code).strip("-") or "code"
-    return Path(cache_dir) / f"{safe_code}_{safe_source}_{int(lookback_days)}_{digest}.json"
+    return Path(cache_dir) / f"{safe_code}_{safe_source}_{int(lookback_days)}_{cache_date}_{digest}.json"
 
 
 def _read_daily_history_cache(
@@ -479,7 +564,17 @@ def _read_daily_history_cache(
         df = pd.DataFrame(data, columns=columns)
         metadata = payload.get("metadata")
         if isinstance(metadata, dict):
-            for key in ("daily_source", "daily_requested_source", "daily_source_order", "daily_source_order_notes", "source_errors", "daily_source_health"):
+            for key in (
+                "daily_source",
+                "daily_requested_source",
+                "daily_source_order",
+                "daily_source_order_notes",
+                "source_errors",
+                "daily_source_health",
+                "fetched_at",
+                "target_date",
+                "row_count",
+            ):
                 if key in metadata:
                     df.attrs[key] = metadata[key]
         if is_stale:
@@ -496,6 +591,7 @@ def _write_daily_history_cache(
     code: str,
     source: str,
     lookback_days: int,
+    target_date: str | None = None,
 ) -> None:
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -505,8 +601,12 @@ def _write_daily_history_cache(
                 "code": code,
                 "source": source,
                 "lookback_days": int(lookback_days),
+                "target_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
             },
             "metadata": {
+                "fetched_at": datetime.now().isoformat(),
+                "target_date": _normalize_cache_date(target_date) or datetime.now().strftime("%Y%m%d"),
+                "row_count": int(len(df)),
                 "daily_source": df.attrs.get("daily_source", source),
                 "daily_requested_source": df.attrs.get("daily_requested_source", source),
                 "daily_source_order": list(df.attrs.get("daily_source_order", [])),

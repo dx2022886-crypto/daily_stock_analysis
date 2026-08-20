@@ -70,6 +70,7 @@ def screen(
     config: Config | None = None,
     progress_callback: Callable[[int, str], None] | None = None,
     daily_history_fetcher: Callable[..., pd.DataFrame] | None = None,
+    run_context: object | None = None,
 ) -> ScreenResult:
     """Execute stock screening with the given strategy.
 
@@ -101,6 +102,8 @@ def screen(
         config: Runtime config. Defaults to Config.from_env().
         daily_history_fetcher: Optional request-scoped daily-history provider.
             It is tried in place of the bundled fetcher without global patching.
+        run_context: Optional request-scoped cache/context adapter.  It is used
+            only to reuse identical provider data within one orchestrated run.
 
     Returns:
         ScreenResult with ranked picks.
@@ -144,7 +147,7 @@ def screen(
 
     # 2. Fetch snapshot
     _emit_progress(progress_callback, 25, "正在读取全市场快照")
-    snapshot_df = fetch_snapshot_with_fallback(
+    snapshot_loader = lambda: fetch_snapshot_with_fallback(
         config.snapshot_source_priority,
         required_columns=_required_snapshot_columns(snapshot_filters),
         fallback_snapshot_path=config.fallback_snapshot_path,
@@ -152,6 +155,10 @@ def screen(
         cache_ttl_seconds=config.snapshot_cache_ttl_seconds,
         market=market,
     )
+    if run_context is not None and callable(getattr(run_context, "load_snapshot", None)):
+        snapshot_df = run_context.load_snapshot(snapshot_loader)
+    else:
+        snapshot_df = snapshot_loader()
     effective_industry_map_files = (
         list(industry_map_files)
         if industry_map_files is not None
@@ -238,6 +245,7 @@ def screen(
                 cache_ttl_seconds=config.daily_history_cache_ttl_hours * 3600,
                 max_workers=config.daily_fetch_max_workers,
                 history_fetcher=daily_history_fetcher,
+                run_context=run_context,
             )
             daily_enriched = True
             daily_errors = [str(item) for item in enriched.attrs.get("daily_errors", [])]
@@ -405,26 +413,40 @@ def screen(
         )
         degradation.extend(llm_context_degradation)
         llm_prompt_degradation: list[str] = []
-        llm_result = rank_candidates_with_metadata(
-            picks,
-            screening.ranking_hints,
-            config.llm_api_key,
-            config.llm_model,
-            config.llm_base_url,
-            context=effective_context,
-            rank_weight=config.llm_rank_weight,
-            max_retries=config.llm_max_retries,
-            min_coverage=config.llm_min_coverage,
-            fallback_models=config.llm_fallback_models,
-            temperature=config.llm_temperature,
-            json_mode=config.llm_json_mode,
-            silent=config.llm_silent,
-            channels=config.llm_channels,
-            config_path=str(config.llm_config_path or ""),
-            timeout_sec=config.llm_timeout_sec,
-            max_tokens=config.llm_max_tokens,
-            degradation=llm_prompt_degradation,
-        )
+        rank_kwargs = {
+            "context": effective_context,
+            "rank_weight": config.llm_rank_weight,
+            "max_retries": config.llm_max_retries,
+            "min_coverage": config.llm_min_coverage,
+            "fallback_models": config.llm_fallback_models,
+            "temperature": config.llm_temperature,
+            "json_mode": config.llm_json_mode,
+            "silent": config.llm_silent,
+            "channels": config.llm_channels,
+            "config_path": str(config.llm_config_path or ""),
+            "timeout_sec": config.llm_timeout_sec,
+            "max_tokens": config.llm_max_tokens,
+            "degradation": llm_prompt_degradation,
+        }
+        if run_context is not None and callable(getattr(run_context, "timer", None)):
+            with run_context.timer("llm_rank_seconds"):
+                llm_result = rank_candidates_with_metadata(
+                    picks,
+                    screening.ranking_hints,
+                    config.llm_api_key,
+                    config.llm_model,
+                    config.llm_base_url,
+                    **rank_kwargs,
+                )
+        else:
+            llm_result = rank_candidates_with_metadata(
+                picks,
+                screening.ranking_hints,
+                config.llm_api_key,
+                config.llm_model,
+                config.llm_base_url,
+                **rank_kwargs,
+            )
         degradation.extend(llm_prompt_degradation)
         picks = llm_result.picks
         llm_market_view = llm_result.market_view
