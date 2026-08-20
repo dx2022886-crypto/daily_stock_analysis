@@ -1269,11 +1269,18 @@ class ScreeningService:
             "off",
         }
         if news_enabled:
+            realtime_quote_getter = _build_screening_realtime_quote_getter(run_context)
             if run_context is not None and callable(getattr(run_context, "timer", None)):
                 with run_context.timer("news_search_seconds"):
-                    selected, dsa_enrichment = _enrich_candidates_with_dsa(selected)
+                    selected, dsa_enrichment = _enrich_candidates_with_dsa(
+                        selected,
+                        realtime_quote_getter=realtime_quote_getter,
+                    )
             else:
-                selected, dsa_enrichment = _enrich_candidates_with_dsa(selected)
+                selected, dsa_enrichment = _enrich_candidates_with_dsa(
+                    selected,
+                    realtime_quote_getter=realtime_quote_getter,
+                )
         else:
             dsa_enrichment = {
                 "enabled": False,
@@ -3027,17 +3034,7 @@ def _build_screening_context(
     # 参见 https://docs.litellm.ai/docs/proxy/configs#the-model_list-key
     channels = _normalize_dsa_llm_channels(config)
     litellm_model, fallback_models = _resolve_screening_llm_models(config)
-    realtime_quote_getter = get_dsa_realtime_quote
-    if run_context is not None and callable(getattr(run_context, "get_realtime_quote", None)):
-        try:
-            quote_ttl = max(float(os.getenv("SHORT_TERM_REALTIME_CACHE_TTL", "30")), 0.0)
-        except ValueError:
-            quote_ttl = 30.0
-        realtime_quote_getter = lambda code: run_context.get_realtime_quote(
-            code,
-            lambda: get_dsa_realtime_quote(code),
-            ttl_seconds=quote_ttl,
-        )
+    realtime_quote_getter = _build_screening_realtime_quote_getter(run_context)
 
     def candidate_context_getter(code: str, name: str = "") -> Dict[str, Any]:
         return get_dsa_candidate_context(
@@ -3080,6 +3077,29 @@ def _build_screening_context(
             "get_fundamental_context": get_dsa_fundamental_context,
         },
     }
+
+
+def _build_screening_realtime_quote_getter(
+    run_context: object | None,
+) -> Callable[[str], Dict[str, Any]]:
+    """Return the Stage1-4 quote adapter, keeping Stage5 independent.
+
+    Both pre-rank provider context and optional post-rank enrichment use this
+    same callable.  That matters when a stock is visited by screening and
+    ranking in one run: the second visit must hit ``ShortTermRunContext``
+    instead of invoking ``DataFetcherManager`` again.
+    """
+    if run_context is not None and callable(getattr(run_context, "get_realtime_quote", None)):
+        try:
+            quote_ttl = max(float(os.getenv("SHORT_TERM_REALTIME_CACHE_TTL", "30")), 0.0)
+        except ValueError:
+            quote_ttl = 30.0
+        return lambda code: run_context.get_realtime_quote(
+            code,
+            lambda: get_dsa_realtime_quote(code),
+            ttl_seconds=quote_ttl,
+        )
+    return get_dsa_realtime_quote
 
 
 @contextmanager
@@ -3542,7 +3562,11 @@ def get_dsa_candidate_context(
     return context.get("dsa_context", {})
 
 
-def _enrich_candidates_with_dsa(candidates: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+def _enrich_candidates_with_dsa(
+    candidates: List[Dict[str, Any]],
+    *,
+    realtime_quote_getter: Callable[[str], Dict[str, Any]] | None = None,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     enriched_count = 0
     warnings: List[str] = []
     limit = min(len(candidates), DSA_ENRICHMENT_MAX_CANDIDATES)
@@ -3569,6 +3593,7 @@ def _enrich_candidates_with_dsa(candidates: List[Dict[str, Any]]) -> Tuple[List[
                 include_news=True,
                 include_fundamentals=True,
                 profile="post_rank_full",
+                realtime_quote_getter=realtime_quote_getter,
             )
             candidate.update(enriched)
             if enriched.get("dsa_context", {}).get("enriched"):
