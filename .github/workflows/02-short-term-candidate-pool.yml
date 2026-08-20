@@ -27,6 +27,12 @@ jobs:
       SCREENING_MARKET: cn
       SHORT_TERM_PER_STRATEGY_RESULTS: ${{ inputs.per_strategy_results || '10' }}
       SHORT_TERM_MAX_POOL_RESULTS: ${{ inputs.max_pool_results || '30' }}
+      SHORT_TERM_STAGE1_LLM_RANKING: 'true'
+      SHORT_TERM_STAGE1_NEWS_ENABLED: 'false'
+      # Keep successful LLM ordering unchanged, but avoid repeated waits when
+      # a provider is already unavailable; the pipeline still falls back to
+      # its existing deterministic ranking path.
+      LLM_MAX_RETRIES: '0'
       LITELLM_MODEL: ${{ vars.LITELLM_MODEL || secrets.LITELLM_MODEL }}
       LITELLM_FALLBACK_MODELS: ${{ vars.LITELLM_FALLBACK_MODELS || secrets.LITELLM_FALLBACK_MODELS }}
       LITELLM_CONFIG: ${{ vars.LITELLM_CONFIG || secrets.LITELLM_CONFIG }}
@@ -64,10 +70,37 @@ jobs:
       - name: 安装项目依赖
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-short-term.txt
 
       - name: 运行 A股短线候选池
         run: python scripts/run_short_term_candidate_pool.py
+
+      - name: 输出 Stage1 性能摘要
+        if: always()
+        run: python scripts/profile_short_term_pipeline.py --metrics reports/short_term/performance_metrics.json || true
+
+      - name: 写入 Stage1 性能 Summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('reports/short_term/performance_metrics.json')
+          metrics = json.loads(path.read_text(encoding='utf-8')) if path.is_file() else {}
+          cache = metrics.get('cache_stats') or {}
+          sources = metrics.get('data_source_stats') or {}
+          with open(__import__('os').environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write('## Short-Term Stage1 Performance\n\n')
+              summary.write('| Metric | Seconds |\n| --- | ---: |\n')
+              for key, label in [('total_seconds', 'Total'), ('snapshot_fetch_seconds', 'Snapshot'), ('history_fetch_seconds', 'History'), ('realtime_quote_seconds', 'Realtime'), ('llm_rank_seconds', 'LLM'), ('news_search_seconds', 'News')]:
+                  summary.write(f"| {label} | {metrics.get(key, 'N/A')} |\n")
+              summary.write('\n**Cache**\n\n')
+              summary.write(f"snapshot reused: {cache.get('snapshot_reused', 0)}; history hits/misses: {cache.get('history_hits', 0)}/{cache.get('history_misses', 0)}; quote hits/misses: {cache.get('quote_hits', 0)}/{cache.get('quote_misses', 0)}\n\n")
+              summary.write('**Data Sources**\n\n```json\n')
+              summary.write(json.dumps(sources, ensure_ascii=False, indent=2, sort_keys=True))
+              summary.write('\n```\n')
+          PY
 
       - name: 上传短线候选池结果
         if: always()
@@ -77,6 +110,7 @@ jobs:
           path: |
             reports/short_term/candidate_pool.json
             reports/short_term/candidate_pool.md
+            reports/short_term/performance_metrics.json
           retention-days: 30
           if-no-files-found: warn
 

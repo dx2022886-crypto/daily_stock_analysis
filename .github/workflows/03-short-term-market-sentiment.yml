@@ -39,6 +39,7 @@ jobs:
       SHORT_TERM_MAX_POOL_RESULTS: ${{ inputs.max_pool_results || '30' }}
       SHORT_TERM_SENTIMENT_HISTORY_DAYS: ${{ inputs.history_days || '5' }}
       SHORT_TERM_SENTIMENT_DATE: ${{ inputs.target_date || '' }}
+      SHORT_TERM_TARGET_DATE: ${{ inputs.target_date || '' }}
       LITELLM_MODEL: ${{ vars.LITELLM_MODEL || secrets.LITELLM_MODEL }}
       LITELLM_FALLBACK_MODELS: ${{ vars.LITELLM_FALLBACK_MODELS || secrets.LITELLM_FALLBACK_MODELS }}
       LITELLM_CONFIG: ${{ vars.LITELLM_CONFIG || secrets.LITELLM_CONFIG }}
@@ -76,14 +77,13 @@ jobs:
       - name: 安装项目依赖
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-short-term.txt
 
-      - name: 生成第1阶段短线候选池
-        id: candidate-pool
-        continue-on-error: true
-        run: python scripts/run_short_term_candidate_pool.py
+      - name: 恢复第1阶段 latest
+        run: python scripts/restore_stage_reports.py --stages stage1 --target-date "${{ inputs.target_date || '' }}"
 
       - name: 生成第2阶段市场情绪与涨停生态
+        id: market-sentiment
         run: python scripts/run_short_term_market_sentiment.py
 
       - name: 上传第2阶段结果
@@ -102,11 +102,11 @@ jobs:
           if-no-files-found: warn
 
       - name: 持久化第1-2阶段 latest
-        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success'
+        if: steps.market-sentiment.outcome == 'success'
         run: python scripts/persist_stage_reports.py --stages stage1 stage2
 
       - name: 提交第1-2阶段 latest
-        if: steps.candidate-pool.outcome == 'success' && steps.market-sentiment.outcome == 'success'
+        if: steps.market-sentiment.outcome == 'success'
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -119,7 +119,3 @@ jobs:
           git commit -m "data: update stage1-stage2 latest"
           git pull --rebase origin main
           git push origin main
-
-      - name: 保持第1阶段失败状态
-        if: steps.candidate-pool.outcome == 'failure'
-        run: exit 1
