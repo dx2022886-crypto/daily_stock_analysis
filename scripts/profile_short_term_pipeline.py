@@ -8,6 +8,7 @@ deliberately offline by default and never calls an A-share endpoint.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import json
 import time
 from pathlib import Path
@@ -58,6 +59,37 @@ def benchmark_fixture(*, repeats: int = 100) -> dict[str, object]:
     }
 
 
+def benchmark_history_parallelism(
+    *,
+    stock_count: int = 96,
+    workers: int = 5,
+    sleep_seconds: float = 0.2,
+) -> dict[str, object]:
+    """Benchmark the bounded dispatch shape without touching a live provider."""
+    codes = [f"{index:06d}" for index in range(1, stock_count + 1)]
+
+    def fetch(code: str) -> str:
+        time.sleep(max(float(sleep_seconds), 0.0))
+        return code
+
+    started = time.perf_counter()
+    serial = [fetch(code) for code in codes]
+    serial_seconds = time.perf_counter() - started
+
+    started = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=max(int(workers), 1)) as executor:
+        parallel = list(executor.map(fetch, codes))
+    parallel_seconds = time.perf_counter() - started
+    return {
+        "stock_count": len(codes),
+        "workers": max(int(workers), 1),
+        "sleep_seconds": sleep_seconds,
+        "serial_seconds": round(serial_seconds, 6),
+        "parallel_seconds": round(parallel_seconds, 6),
+        "speedup_ratio": round(serial_seconds / parallel_seconds, 3) if parallel_seconds else None,
+        "deterministic_order": serial == parallel,
+        "live_calls": 0,
+    }
 def main() -> int:
     parser = argparse.ArgumentParser(description="Inspect short-term pipeline performance metrics.")
     parser.add_argument(
@@ -66,10 +98,18 @@ def main() -> int:
         default=PROJECT_ROOT / "reports" / "short_term" / "performance_metrics.json",
     )
     parser.add_argument("--fixture", action="store_true", help="Run an offline deterministic merge fixture.")
+    parser.add_argument(
+        "--history-benchmark",
+        action="store_true",
+        help="Run the 96-stock serial-vs-five-worker offline history benchmark.",
+    )
     args = parser.parse_args()
 
     if args.fixture:
         print(json.dumps(benchmark_fixture(), ensure_ascii=False, indent=2, sort_keys=True))
+        return 0
+    if args.history_benchmark:
+        print(json.dumps(benchmark_history_parallelism(), ensure_ascii=False, indent=2, sort_keys=True))
         return 0
     if not args.metrics.is_file():
         print(f"Performance metrics not found: {args.metrics}")

@@ -367,8 +367,13 @@ def _prefetch_shared_snapshot(config: Any, market: str, run_context: Any) -> Non
     from src.services.screening.pipeline import _required_snapshot_columns
     from src.services.screening.snapshot import fetch_snapshot_with_fallback
     from src.services.screening.strategy import load_all_strategies
+    from src.services.screening.config import Config as ScreeningPipelineConfig
 
-    strategies = load_all_strategies(config.strategies_dir)
+    # ``src.config.Config`` is the application singleton and intentionally has
+    # no strategies_dir.  The screening engine resolves its YAML directory
+    # through the same PipelineConfig used by run_screening_pipeline.
+    pipeline_config = ScreeningPipelineConfig.from_env()
+    strategies = load_all_strategies(pipeline_config.strategies_dir)
     required_columns: set[str] = set()
     for strategy in STRATEGIES:
         screening = strategies[strategy].screening
@@ -381,13 +386,20 @@ def _prefetch_shared_snapshot(config: Any, market: str, run_context: Any) -> Non
 
     run_context.load_snapshot(
         lambda: fetch_snapshot_with_fallback(
-            config.snapshot_source_priority,
+            pipeline_config.snapshot_source_priority,
             required_columns=sorted(required_columns),
-            fallback_snapshot_path=config.fallback_snapshot_path,
-            fallback_max_age_hours=config.snapshot_fallback_max_age_hours,
-            cache_ttl_seconds=config.snapshot_cache_ttl_seconds,
+            fallback_snapshot_path=pipeline_config.fallback_snapshot_path,
+            fallback_max_age_hours=pipeline_config.snapshot_fallback_max_age_hours,
+            cache_ttl_seconds=pipeline_config.snapshot_cache_ttl_seconds,
             market=market,
+            run_context=run_context,
         )
+    )
+    logger.info(
+        "Stage1 shared snapshot prefetch success rows=%s source=%s target_date=%s",
+        len(run_context.snapshot),
+        run_context.snapshot_source or "unknown",
+        run_context.target_date,
     )
 
 
@@ -399,6 +411,16 @@ def main() -> int:
     os.environ["SCREENING_ENABLED"] = "true"
     os.environ.setdefault("SHORT_TERM_STAGE1_LLM_RANKING", "true")
     os.environ.setdefault("SHORT_TERM_STAGE1_NEWS_ENABLED", "false")
+    os.environ.setdefault("SHORT_TERM_FAST_RETRY", "true")
+    os.environ.setdefault("SHORT_TERM_SNAPSHOT_TIMEOUT", "10")
+    os.environ.setdefault("SHORT_TERM_SNAPSHOT_SOURCE_PRIORITY", "em_datacenter,sina,efinance,akshare_em")
+    os.environ.setdefault("SHORT_TERM_REALTIME_CACHE_TTL", "30")
+    try:
+        history_workers = max(1, min(int(os.getenv("SHORT_TERM_HISTORY_MAX_WORKERS", "5")), 6))
+    except ValueError:
+        history_workers = 5
+    os.environ.setdefault("SHORT_TERM_HISTORY_MAX_WORKERS", str(history_workers))
+    os.environ.setdefault("DAILY_FETCH_MAX_WORKERS", str(history_workers))
 
     strategy_runs: dict[str, dict[str, Any]] = {}
     strategy_results: dict[str, dict[str, Any]] = {}
@@ -414,6 +436,13 @@ def main() -> int:
     try:
         from src.config import Config
         from src.services.screening_service import ScreeningService
+        try:
+            from data_provider.akshare_fetcher import reset_short_term_subsource_health
+            reset_short_term_subsource_health()
+            from data_provider.base import DataFetcherManager
+            DataFetcherManager.reset_daily_source_health()
+        except Exception:
+            logger.debug("Unable to reset Akshare run-level health", exc_info=True)
 
         Config.reset_instance()
         config = Config.get_instance()
@@ -511,6 +540,21 @@ def main() -> int:
     performance["total_seconds"] = round(time.perf_counter() - started_perf, 6)
     performance["llm_ranking_enabled"] = os.getenv("SHORT_TERM_STAGE1_LLM_RANKING", "true")
     performance["news_enabled"] = os.getenv("SHORT_TERM_STAGE1_NEWS_ENABLED", "false")
+    performance["history_prefetch_count"] = performance.get("cache_stats", {}).get(
+        "history_prefetch_count", 0
+    )
+    performance["history_run_hits"] = performance.get("cache_stats", {}).get(
+        "history_run_hits", performance.get("cache_stats", {}).get("history_hits", 0)
+    )
+    performance["history_parallel_workers"] = performance.get("history_parallel_workers", 1)
+    performance["history_disk_hits"] = performance.get("cache_stats", {}).get("history_disk_hits", 0)
+    performance["history_network_fetches"] = performance.get("cache_stats", {}).get(
+        "history_network_fetches", 0
+    )
+    performance["realtime_http_calls"] = performance.get("cache_stats", {}).get(
+        "realtime_http_calls", 0
+    )
+    performance["realtime_cache_hits"] = performance.get("cache_stats", {}).get("quote_hits", 0)
     for metric_name in (
         "snapshot_fetch_seconds",
         "history_fetch_seconds",
@@ -522,6 +566,11 @@ def main() -> int:
         performance.setdefault(metric_name, 0.0)
     performance.setdefault("cache_stats", {})
     performance.setdefault("data_source_stats", {})
+    try:
+        from data_provider.akshare_fetcher import akshare_subsource_stats
+        performance["akshare_subsource_stats"] = akshare_subsource_stats()
+    except Exception:
+        performance.setdefault("akshare_subsource_stats", {})
     _write_performance(performance)
 
     if successful_runs == 0:
