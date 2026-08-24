@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-24T11:09:12+00:00",
+  "generated_at": "2026-08-24T11:10:30+00:00",
   "leaders": [
     {
       "code": "002412",
@@ -103,30 +103,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 18,
-    "broken_board_rate": 25.0,
+    "broken_board_count": 16,
+    "broken_board_rate": 25.8065,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260821",
-    "highest_board": 3,
+    "date": "20260824",
+    "highest_board": 4,
     "highest_board_stocks": [
       {
-        "board_count": 3,
+        "board_count": 4,
         "break_count": 0,
         "code": "002412",
-        "first_limit_time": "092500",
+        "first_limit_time": "093006",
         "industry": "中药Ⅱ",
-        "last_limit_time": "092500",
+        "last_limit_time": "093006",
         "name": "汉森制药"
       }
     ],
-    "limit_down_count": 13,
-    "limit_up_count": 54,
-    "sentiment_phase": "启动",
-    "sentiment_phase_code": "START",
-    "sentiment_score": 57.9296,
-    "updated_at": "2026-08-24T11:59:36+08:00",
-    "yesterday_premium_median": -1.9557
+    "limit_down_count": 11,
+    "limit_up_count": 46,
+    "sentiment_phase": "发酵",
+    "sentiment_phase_code": "FERMENTATION",
+    "sentiment_score": 65.0157,
+    "updated_at": "2026-08-24T19:10:05+08:00",
+    "yesterday_premium_median": -1.6341
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -146,7 +146,7 @@
     },
     "updated_at": {
       "stage1": "2026-08-24T19:08:48+08:00",
-      "stage2": "2026-08-24T11:59:36+08:00",
+      "stage2": "2026-08-24T19:10:05+08:00",
       "stage3": "2026-08-24T12:02:39+08:00",
       "stage4": "2026-08-24T12:20:41+08:00",
       "stage5": null
