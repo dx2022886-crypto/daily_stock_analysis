@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-24T03:58:43+00:00",
+  "generated_at": "2026-08-24T03:59:57+00:00",
   "leaders": [
     {
       "code": "600127",
@@ -101,30 +101,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 46,
-    "broken_board_rate": 36.8,
+    "broken_board_count": 18,
+    "broken_board_rate": 25.0,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260820",
-    "highest_board": 4,
+    "date": "20260821",
+    "highest_board": 3,
     "highest_board_stocks": [
       {
-        "board_count": 4,
-        "break_count": 9,
-        "code": "600127",
-        "first_limit_time": "093106",
-        "industry": "农产品加",
-        "last_limit_time": "130427",
-        "name": "金健米业"
+        "board_count": 3,
+        "break_count": 0,
+        "code": "002412",
+        "first_limit_time": "092500",
+        "industry": "中药Ⅱ",
+        "last_limit_time": "092500",
+        "name": "汉森制药"
       }
     ],
-    "limit_down_count": 12,
-    "limit_up_count": 79,
+    "limit_down_count": 13,
+    "limit_up_count": 54,
     "sentiment_phase": "启动",
     "sentiment_phase_code": "START",
-    "sentiment_score": 57.4562,
-    "updated_at": "2026-08-20T21:39:19+08:00",
-    "yesterday_premium_median": -3.2635
+    "sentiment_score": 57.9296,
+    "updated_at": "2026-08-24T11:59:36+08:00",
+    "yesterday_premium_median": -1.9557
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -144,7 +144,7 @@
     },
     "updated_at": {
       "stage1": "2026-08-24T11:58:14+08:00",
-      "stage2": "2026-08-20T21:39:19+08:00",
+      "stage2": "2026-08-24T11:59:36+08:00",
       "stage3": "2026-08-20T21:42:31+08:00",
       "stage4": "2026-08-20T22:01:50+08:00",
       "stage5": null
