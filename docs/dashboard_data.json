@@ -1,47 +1,76 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-24T03:59:57+00:00",
+  "generated_at": "2026-08-24T04:02:58+00:00",
   "leaders": [
     {
-      "code": "600127",
+      "code": "002412",
       "leader_reasons": [
         "市场最高板",
-        "所属主线题材排名第1",
-        "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 70.1179,
+      "leader_score": 63.7199,
       "market_leader_rank": 1,
-      "name": "金健米业",
-      "primary_theme": "农产品加",
+      "name": "汉森制药",
+      "primary_theme": "中药Ⅱ",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "603538",
+      "code": "002396",
+      "leader_reasons": [
+        "所属主线题材排名第1",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 57.7643,
+      "market_leader_rank": 2,
+      "name": "星网锐捷",
+      "primary_theme": "通信设备",
+      "stock_role": "THEME_LEADER"
+    },
+    {
+      "code": "600508",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 10.6489,
-      "name": "美诺华",
+      "name": "上海能源",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "603629",
+      "code": "600396",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 11.9167,
-      "name": "利通电子",
+      "leader_score": 10.9025,
+      "name": "华电辽能",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600869",
+      "code": "601138",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 12.1702,
-      "name": "远东股份",
+      "leader_score": 11.156,
+      "name": "工业富联",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "603221",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.6631,
+      "name": "爱丽家居",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "603399",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.4238,
+      "name": "永杉锂业",
       "stock_role": "FRONT_CORE"
     },
     {
@@ -49,53 +78,26 @@
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 13.438,
+      "leader_score": 12.6773,
       "name": "通富微电",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "003032",
+      "code": "600313",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 13.945,
-      "name": "传智教育",
+      "leader_score": 12.9308,
+      "name": "农发种业",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600519",
+      "code": "002552",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 14.1986,
-      "name": "贵州茅台",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600118",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 15.4663,
-      "name": "中国卫星",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600403",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 15.7199,
-      "name": "大有能源",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "002165",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 16.227,
-      "name": "红 宝 丽",
+      "leader_score": 13.1844,
+      "name": "宝鼎科技",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -145,7 +147,7 @@
     "updated_at": {
       "stage1": "2026-08-24T11:58:14+08:00",
       "stage2": "2026-08-24T11:59:36+08:00",
-      "stage3": "2026-08-20T21:42:31+08:00",
+      "stage3": "2026-08-24T12:02:39+08:00",
       "stage4": "2026-08-20T22:01:50+08:00",
       "stage5": null
     }
@@ -559,47 +561,47 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 55.6788,
+      "confidence_adjusted": 56.0404,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "农产品加",
+      "theme": "通信设备",
       "theme_role": "MAIN",
-      "theme_score": 60.3921
+      "theme_score": 60.7844
     },
     {
-      "confidence_adjusted": 54.3229,
+      "confidence_adjusted": 52.7864,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "生物制品",
+      "theme": "消费电子",
       "theme_role": "ROTATION",
-      "theme_score": 58.9215
+      "theme_score": 57.2549
     },
     {
-      "confidence_adjusted": 51.6827,
+      "confidence_adjusted": 52.4248,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "化学制药",
+      "theme": "中药Ⅱ",
       "theme_role": "ROTATION",
-      "theme_score": 56.0578
+      "theme_score": 56.8627
     },
     {
-      "confidence_adjusted": 50.0748,
+      "confidence_adjusted": 51.7018,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "专用设备",
+      "theme": "化学制药",
       "theme_role": "ROTATION",
-      "theme_score": 54.3138
+      "theme_score": 56.0785
     },
     {
       "confidence_adjusted": 49.1709,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "家居用品",
+      "theme": "服装家纺",
       "theme_role": "ROTATION",
       "theme_score": 53.3333
     }
