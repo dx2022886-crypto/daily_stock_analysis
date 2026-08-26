@@ -1,109 +1,107 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-26T11:11:25+00:00",
+  "generated_at": "2026-08-26T11:14:22+00:00",
   "leaders": [
     {
-      "code": "002412",
+      "code": "000017",
       "leader_reasons": [
         "市场最高板",
         "所属主线题材排名第1",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 64.6633,
+      "leader_score": 73.154,
       "market_leader_rank": 1,
-      "name": "汉森制药",
-      "primary_theme": "中药Ⅱ",
+      "name": "深中华A",
+      "primary_theme": "饰品",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "603958",
+      "code": "002084",
       "leader_reasons": [
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 49.6521,
-      "market_leader_rank": 5,
-      "name": "哈森股份",
-      "primary_theme": "服装家纺",
+      "leader_score": 61.9806,
+      "market_leader_rank": 3,
+      "name": "海鸥住工",
+      "primary_theme": "家居用品",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "600785",
+      "code": "003040",
       "leader_reasons": [
+        "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 49.6521,
-      "market_leader_rank": 4,
-      "name": "新华百货",
-      "primary_theme": "一般零售",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "000017",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 56.5803,
+      "leader_score": 65.0407,
       "market_leader_rank": 2,
-      "name": "深中华A",
-      "primary_theme": "饰品",
+      "name": "楚天龙",
+      "primary_theme": "通信设备",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "688169",
+      "code": "600519",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "石头科技",
+      "leader_score": 10.3954,
+      "name": "贵州茅台",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601988",
+      "code": "002407",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "中国银行",
+      "leader_score": 10.6489,
+      "name": "多氟多",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601919",
+      "code": "002156",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "中远海控",
+      "leader_score": 10.9025,
+      "name": "通富微电",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601918",
+      "code": "300647",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "新集能源",
+      "leader_score": 11.4096,
+      "name": "超频三",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601601",
+      "code": "600030",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "中国太保",
+      "leader_score": 11.6631,
+      "name": "中信证券",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601398",
+      "code": "000636",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "工商银行",
+      "leader_score": 11.9167,
+      "name": "风华高科",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600176",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.4238,
+      "name": "中国巨石",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -153,7 +151,7 @@
     "updated_at": {
       "stage1": "2026-08-26T19:09:45+08:00",
       "stage2": "2026-08-26T19:11:01+08:00",
-      "stage3": "2026-08-24T19:13:27+08:00",
+      "stage3": "2026-08-26T19:13:57+08:00",
       "stage4": "2026-08-24T19:22:42+08:00",
       "stage5": null
     }
@@ -567,49 +565,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 61.969,
-      "coverage": 0.75,
+      "confidence_adjusted": 63.6329,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "中药Ⅱ",
+      "theme": "饰品",
       "theme_role": "MAIN",
-      "theme_score": 71.5556
+      "theme_score": 69.0196
     },
     {
-      "confidence_adjusted": 55.0408,
-      "coverage": 0.75,
+      "confidence_adjusted": 61.4637,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "一般零售",
+      "theme": "通信设备",
       "theme_role": "SECONDARY",
-      "theme_score": 63.5556
+      "theme_score": 66.6667
     },
     {
-      "confidence_adjusted": 54.6558,
-      "coverage": 0.75,
+      "confidence_adjusted": 60.7406,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "服装家纺",
+      "theme": "家居用品",
       "theme_role": "SECONDARY",
-      "theme_score": 63.1111
+      "theme_score": 65.8824
     },
     {
-      "confidence_adjusted": 54.6558,
-      "coverage": 0.75,
+      "confidence_adjusted": 53.8711,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "饰品",
-      "theme_role": "SECONDARY",
-      "theme_score": 63.1111
+      "theme": "消费电子",
+      "theme_role": "ROTATION",
+      "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 52.7313,
-      "coverage": 0.75,
+      "confidence_adjusted": 52.7864,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "化学制药",
+      "theme": "家电零部",
       "theme_role": "ROTATION",
-      "theme_score": 60.8889
+      "theme_score": 57.2549
     }
   ]
 }
