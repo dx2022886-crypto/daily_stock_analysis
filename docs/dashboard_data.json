@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-28T21:54:59+00:00",
+  "generated_at": "2026-08-28T21:56:12+00:00",
   "leaders": [
     {
       "code": "000017",
@@ -107,30 +107,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 20,
-    "broken_board_rate": 27.7778,
+    "broken_board_count": 16,
+    "broken_board_rate": 16.3265,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260826",
-    "highest_board": 5,
+    "date": "20260828",
+    "highest_board": 7,
     "highest_board_stocks": [
       {
-        "board_count": 5,
-        "break_count": 2,
+        "board_count": 7,
+        "break_count": 14,
         "code": "000017",
-        "first_limit_time": "100024",
+        "first_limit_time": "093300",
         "industry": "饰品",
-        "last_limit_time": "100224",
+        "last_limit_time": "144706",
         "name": "深中华A"
       }
     ],
-    "limit_down_count": 0,
-    "limit_up_count": 52,
-    "sentiment_phase": "发酵",
-    "sentiment_phase_code": "FERMENTATION",
-    "sentiment_score": 70.4876,
-    "updated_at": "2026-08-26T19:11:01+08:00",
-    "yesterday_premium_median": 1.2072
+    "limit_down_count": 1,
+    "limit_up_count": 82,
+    "sentiment_phase": "高潮",
+    "sentiment_phase_code": "CLIMAX",
+    "sentiment_score": 79.9149,
+    "updated_at": "2026-08-29T05:55:49+08:00",
+    "yesterday_premium_median": 1.9652
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -150,7 +150,7 @@
     },
     "updated_at": {
       "stage1": "2026-08-29T05:54:36+08:00",
-      "stage2": "2026-08-26T19:11:01+08:00",
+      "stage2": "2026-08-29T05:55:49+08:00",
       "stage3": "2026-08-26T19:13:57+08:00",
       "stage4": "2026-08-26T19:29:01+08:00",
       "stage5": null
