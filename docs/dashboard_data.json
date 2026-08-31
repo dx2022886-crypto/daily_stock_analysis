@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-08-31T09:34:49+00:00",
+  "generated_at": "2026-08-31T09:47:31+00:00",
   "leaders": [
     {
       "code": "600371",
@@ -115,30 +115,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 16,
-    "broken_board_rate": 16.3265,
+    "broken_board_count": 30,
+    "broken_board_rate": 25.4237,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260828",
-    "highest_board": 7,
+    "date": "20260831",
+    "highest_board": 6,
     "highest_board_stocks": [
       {
-        "board_count": 7,
-        "break_count": 14,
-        "code": "000017",
-        "first_limit_time": "093300",
-        "industry": "饰品",
-        "last_limit_time": "144706",
-        "name": "深中华A"
+        "board_count": 6,
+        "break_count": 0,
+        "code": "002084",
+        "first_limit_time": "092500",
+        "industry": "家居用品",
+        "last_limit_time": "092500",
+        "name": "海鸥住工"
       }
     ],
-    "limit_down_count": 1,
-    "limit_up_count": 82,
-    "sentiment_phase": "高潮",
-    "sentiment_phase_code": "CLIMAX",
-    "sentiment_score": 79.9149,
-    "updated_at": "2026-08-29T05:55:49+08:00",
-    "yesterday_premium_median": 1.9652
+    "limit_down_count": 11,
+    "limit_up_count": 88,
+    "sentiment_phase": "分歧",
+    "sentiment_phase_code": "DIVERGENCE",
+    "sentiment_score": 71.2546,
+    "updated_at": "2026-08-31T17:47:06+08:00",
+    "yesterday_premium_median": -0.3046
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -158,7 +158,7 @@
     },
     "updated_at": {
       "stage1": "2026-08-31T17:34:26+08:00",
-      "stage2": "2026-08-29T05:55:49+08:00",
+      "stage2": "2026-08-31T17:47:06+08:00",
       "stage3": "2026-08-29T05:58:51+08:00",
       "stage4": "2026-08-29T06:12:46+08:00",
       "stage5": null
