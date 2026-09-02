@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-02T09:38:23+00:00",
+  "generated_at": "2026-09-02T09:39:49+00:00",
   "leaders": [
     {
       "code": "002084",
@@ -111,30 +111,39 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 6,
-    "broken_board_rate": 6.7416,
+    "broken_board_count": 15,
+    "broken_board_rate": 22.3881,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260901",
-    "highest_board": 7,
+    "date": "20260902",
+    "highest_board": 4,
     "highest_board_stocks": [
       {
-        "board_count": 7,
+        "board_count": 4,
         "break_count": 0,
-        "code": "002084",
+        "code": "003005",
         "first_limit_time": "092500",
-        "industry": "家居用品",
+        "industry": "IT服务Ⅱ",
         "last_limit_time": "092500",
-        "name": "海鸥住工"
+        "name": "竞业达"
+      },
+      {
+        "board_count": 4,
+        "break_count": 0,
+        "code": "601086",
+        "first_limit_time": "092500",
+        "industry": "一般零售",
+        "last_limit_time": "092500",
+        "name": "国芳集团"
       }
     ],
-    "limit_down_count": 0,
-    "limit_up_count": 83,
-    "sentiment_phase": "发酵",
-    "sentiment_phase_code": "FERMENTATION",
-    "sentiment_score": 79.0523,
-    "updated_at": "2026-09-01T17:39:50+08:00",
-    "yesterday_premium_median": -0.1944
+    "limit_down_count": 8,
+    "limit_up_count": 52,
+    "sentiment_phase": "分歧",
+    "sentiment_phase_code": "DIVERGENCE",
+    "sentiment_score": 62.1654,
+    "updated_at": "2026-09-02T17:39:16+08:00",
+    "yesterday_premium_median": -2.124
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -154,7 +163,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-02T17:38:00+08:00",
-      "stage2": "2026-09-01T17:39:50+08:00",
+      "stage2": "2026-09-02T17:39:16+08:00",
       "stage3": "2026-09-01T17:43:16+08:00",
       "stage4": "2026-09-01T17:54:43+08:00",
       "stage5": null
