@@ -1,117 +1,108 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-07T09:42:28+00:00",
+  "generated_at": "2026-09-07T09:45:24+00:00",
   "leaders": [
-    {
-      "code": "003005",
-      "leader_reasons": [
-        "市场最高板",
-        "所属主线题材排名第1",
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 64.6633,
-      "market_leader_rank": 1,
-      "name": "竞业达",
-      "primary_theme": "IT服务Ⅱ",
-      "stock_role": "MARKET_LEADER"
-    },
-    {
-      "code": "600967",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 51.9615,
-      "name": "内蒙一机",
-      "primary_theme": "地面兵装",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "000635",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 51.9615,
-      "name": "英 力 特",
-      "primary_theme": "化学原料",
-      "stock_role": "THEME_LEADER"
-    },
     {
       "code": "605577",
       "leader_reasons": [
+        "市场最高板",
+        "所属主线题材排名第1",
+        "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 56.5803,
-      "market_leader_rank": 5,
+      "leader_score": 79.7421,
+      "market_leader_rank": 1,
       "name": "龙版传媒",
       "primary_theme": "出版",
-      "stock_role": "THEME_LEADER"
+      "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "600892",
+      "code": "600865",
       "leader_reasons": [
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 56.5803,
-      "market_leader_rank": 4,
-      "name": "大晟文化",
-      "primary_theme": "游戏Ⅱ",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "002909",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 56.5803,
+      "leader_score": 63.6672,
       "market_leader_rank": 3,
-      "name": "集泰股份",
-      "primary_theme": "化学制品",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "601086",
-      "leader_reasons": [
-        "市场最高板",
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 61.1992,
-      "market_leader_rank": 2,
-      "name": "国芳集团",
+      "name": "百大集团",
       "primary_theme": "一般零售",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "603799",
+      "code": "600108",
+      "leader_reasons": [
+        "东方财富人气榜Top10",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 66.3551,
+      "market_leader_rank": 2,
+      "name": "亚盛集团",
+      "primary_theme": "种植业",
+      "stock_role": "THEME_LEADER"
+    },
+    {
+      "code": "601212",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "华友钴业",
+      "leader_score": 10.6489,
+      "name": "白银有色",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "603363",
+      "code": "002059",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "傲农生物",
+      "leader_score": 11.6631,
+      "name": "云南旅游",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "603236",
+      "code": "002156",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 23.4787,
-      "name": "移远通信",
+      "leader_score": 12.6773,
+      "name": "通富微电",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600105",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 13.1844,
+      "name": "永鼎股份",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002396",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 13.6915,
+      "name": "星网锐捷",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "688802",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 13.945,
+      "name": "沐曦股份-U",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002491",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 14.1986,
+      "name": "通鼎互联",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -161,7 +152,7 @@
     "updated_at": {
       "stage1": "2026-09-07T17:40:42+08:00",
       "stage2": "2026-09-07T17:42:03+08:00",
-      "stage3": "2026-09-02T17:42:24+08:00",
+      "stage3": "2026-09-07T17:45:03+08:00",
       "stage4": "2026-09-02T17:51:48+08:00",
       "stage5": null
     }
@@ -576,49 +567,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 61.969,
-      "coverage": 0.75,
+      "confidence_adjusted": 67.2485,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "IT服务Ⅱ",
+      "theme": "出版",
       "theme_role": "MAIN",
-      "theme_score": 71.5556
+      "theme_score": 72.9412
     },
     {
-      "confidence_adjusted": 61.969,
-      "coverage": 0.75,
+      "confidence_adjusted": 60.7406,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "一般零售",
+      "theme": "种植业",
       "theme_role": "SECONDARY",
-      "theme_score": 71.5556
+      "theme_score": 65.8824
     },
     {
-      "confidence_adjusted": 55.0408,
-      "coverage": 0.75,
+      "confidence_adjusted": 59.2944,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "化学原料",
+      "theme": "一般零售",
       "theme_role": "SECONDARY",
-      "theme_score": 63.5556
+      "theme_score": 64.3138
     },
     {
-      "confidence_adjusted": 55.0408,
-      "coverage": 0.75,
+      "confidence_adjusted": 56.0404,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "地面兵装",
-      "theme_role": "SECONDARY",
-      "theme_score": 63.5556
+      "theme": "小家电",
+      "theme_role": "ROTATION",
+      "theme_score": 60.7844
     },
     {
-      "confidence_adjusted": 54.6558,
-      "coverage": 0.75,
+      "confidence_adjusted": 55.6788,
+      "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "出版",
-      "theme_role": "SECONDARY",
-      "theme_score": 63.1111
+      "theme": "元件",
+      "theme_role": "ROTATION",
+      "theme_score": 60.3921
     }
   ]
 }
