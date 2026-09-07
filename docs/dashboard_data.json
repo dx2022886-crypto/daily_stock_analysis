@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-07T09:41:06+00:00",
+  "generated_at": "2026-09-07T09:42:28+00:00",
   "leaders": [
     {
       "code": "003005",
@@ -117,39 +117,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 15,
-    "broken_board_rate": 22.3881,
+    "broken_board_count": 19,
+    "broken_board_rate": 16.9643,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260902",
-    "highest_board": 4,
+    "date": "20260907",
+    "highest_board": 6,
     "highest_board_stocks": [
       {
-        "board_count": 4,
+        "board_count": 6,
         "break_count": 0,
-        "code": "003005",
-        "first_limit_time": "092500",
-        "industry": "IT服务Ⅱ",
-        "last_limit_time": "092500",
-        "name": "竞业达"
-      },
-      {
-        "board_count": 4,
-        "break_count": 0,
-        "code": "601086",
-        "first_limit_time": "092500",
-        "industry": "一般零售",
-        "last_limit_time": "092500",
-        "name": "国芳集团"
+        "code": "605577",
+        "first_limit_time": "093047",
+        "industry": "出版",
+        "last_limit_time": "093047",
+        "name": "龙版传媒"
       }
     ],
-    "limit_down_count": 8,
-    "limit_up_count": 52,
-    "sentiment_phase": "分歧",
-    "sentiment_phase_code": "DIVERGENCE",
-    "sentiment_score": 62.1654,
-    "updated_at": "2026-09-02T17:39:16+08:00",
-    "yesterday_premium_median": -2.124
+    "limit_down_count": 2,
+    "limit_up_count": 93,
+    "sentiment_phase": "发酵",
+    "sentiment_phase_code": "FERMENTATION",
+    "sentiment_score": 82.7443,
+    "updated_at": "2026-09-07T17:42:03+08:00",
+    "yesterday_premium_median": 5.0734
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -169,7 +160,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-07T17:40:42+08:00",
-      "stage2": "2026-09-02T17:39:16+08:00",
+      "stage2": "2026-09-07T17:42:03+08:00",
       "stage3": "2026-09-02T17:42:24+08:00",
       "stage4": "2026-09-02T17:51:48+08:00",
       "stage5": null
