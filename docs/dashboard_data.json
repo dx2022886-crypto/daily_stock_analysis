@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-09T09:41:07+00:00",
+  "generated_at": "2026-09-09T09:42:31+00:00",
   "leaders": [
     {
       "code": "600865",
@@ -111,48 +111,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 37,
-    "broken_board_rate": 33.6364,
+    "broken_board_count": 27,
+    "broken_board_rate": 36.0,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260908",
-    "highest_board": 4,
+    "date": "20260909",
+    "highest_board": 5,
     "highest_board_stocks": [
       {
-        "board_count": 4,
-        "break_count": 1,
-        "code": "002403",
-        "first_limit_time": "092500",
-        "industry": "小家电",
-        "last_limit_time": "093403",
-        "name": "爱仕达"
-      },
-      {
-        "board_count": 4,
-        "break_count": 0,
+        "board_count": 5,
+        "break_count": 2,
         "code": "600865",
-        "first_limit_time": "092501",
+        "first_limit_time": "093221",
         "industry": "一般零售",
-        "last_limit_time": "092501",
+        "last_limit_time": "094720",
         "name": "百大集团"
-      },
-      {
-        "board_count": 4,
-        "break_count": 0,
-        "code": "600108",
-        "first_limit_time": "092503",
-        "industry": "种植业",
-        "last_limit_time": "092503",
-        "name": "亚盛集团"
       }
     ],
-    "limit_down_count": 0,
-    "limit_up_count": 73,
-    "sentiment_phase": "高潮",
-    "sentiment_phase_code": "CLIMAX",
-    "sentiment_score": 78.2666,
-    "updated_at": "2026-09-08T17:41:41+08:00",
-    "yesterday_premium_median": 2.2439
+    "limit_down_count": 7,
+    "limit_up_count": 48,
+    "sentiment_phase": "分歧",
+    "sentiment_phase_code": "DIVERGENCE",
+    "sentiment_score": 58.8102,
+    "updated_at": "2026-09-09T17:42:07+08:00",
+    "yesterday_premium_median": -0.6024
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -172,7 +154,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-09T17:40:47+08:00",
-      "stage2": "2026-09-08T17:41:41+08:00",
+      "stage2": "2026-09-09T17:42:07+08:00",
       "stage3": "2026-09-08T17:44:34+08:00",
       "stage4": "2026-09-08T18:00:48+08:00",
       "stage5": null
