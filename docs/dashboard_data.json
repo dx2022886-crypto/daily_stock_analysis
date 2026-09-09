@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-09T09:42:31+00:00",
+  "generated_at": "2026-09-09T09:45:34+00:00",
   "leaders": [
     {
       "code": "600865",
@@ -10,75 +10,19 @@
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 73.9446,
+      "leader_score": 74.4189,
       "market_leader_rank": 1,
       "name": "百大集团",
       "primary_theme": "一般零售",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "002470",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 62.8239,
-      "market_leader_rank": 5,
-      "name": "金正大",
-      "primary_theme": "农化制品",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "601949",
-      "leader_reasons": [
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 64.6686,
-      "market_leader_rank": 3,
-      "name": "中国出版",
-      "primary_theme": "出版",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "600108",
-      "leader_reasons": [
-        "市场最高板",
-        "东方财富人气榜Top10",
-        "题材内部存在涨停梯队",
-        "封板时间靠前"
-      ],
-      "leader_score": 73.154,
-      "market_leader_rank": 2,
-      "name": "亚盛集团",
-      "primary_theme": "种植业",
-      "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "001309",
+      "code": "603123",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 11.156,
-      "name": "德明利",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600330",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.4096,
-      "name": "天通股份",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "603118",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.6631,
-      "name": "共进股份",
+      "leader_score": 10.3954,
+      "name": "翠微股份",
       "stock_role": "FRONT_CORE"
     },
     {
@@ -86,26 +30,71 @@
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 12.6773,
+      "leader_score": 10.6489,
       "name": "白银有色",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600176",
+      "code": "002185",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 12.9308,
-      "name": "中国巨石",
+      "leader_score": 10.9025,
+      "name": "华天科技",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601606",
+      "code": "600103",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 13.438,
-      "name": "长城军工",
+      "leader_score": 11.4096,
+      "name": "青山纸业",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "000833",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.6631,
+      "name": "粤桂股份",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "300750",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.9167,
+      "name": "宁德时代",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002312",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.1702,
+      "name": "川发龙蟒",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "300179",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.4238,
+      "name": "四方达",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "000735",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.6773,
+      "name": "罗 牛 山",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -155,7 +144,7 @@
     "updated_at": {
       "stage1": "2026-09-09T17:40:47+08:00",
       "stage2": "2026-09-09T17:42:07+08:00",
-      "stage3": "2026-09-08T17:44:34+08:00",
+      "stage3": "2026-09-09T17:45:09+08:00",
       "stage4": "2026-09-08T18:00:48+08:00",
       "stage5": null
     }
@@ -572,49 +561,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 63.9945,
+      "confidence_adjusted": 63.6329,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
       "theme": "一般零售",
       "theme_role": "MAIN",
-      "theme_score": 69.4118
+      "theme_score": 69.0196
     },
     {
-      "confidence_adjusted": 60.7406,
+      "confidence_adjusted": 54.5941,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "出版",
-      "theme_role": "SECONDARY",
-      "theme_score": 65.8824
+      "theme": "农化制品",
+      "theme_role": "ROTATION",
+      "theme_score": 59.2156
     },
     {
-      "confidence_adjusted": 59.2944,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "种植业",
-      "theme_role": "SECONDARY",
-      "theme_score": 64.3138
+      "theme": "农产品加",
+      "theme_role": "ROTATION",
+      "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 59.1739,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "农化制品",
-      "theme_role": "SECONDARY",
-      "theme_score": 64.1831
+      "theme": "橡胶",
+      "theme_role": "ROTATION",
+      "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 52.7864,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "影视院线",
+      "theme": "汽车零部",
       "theme_role": "ROTATION",
-      "theme_score": 57.2549
+      "theme_score": 58.4314
     }
   ]
 }
