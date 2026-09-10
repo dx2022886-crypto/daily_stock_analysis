@@ -1,100 +1,104 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-10T09:41:20+00:00",
+  "generated_at": "2026-09-10T09:44:39+00:00",
   "leaders": [
     {
-      "code": "600865",
+      "code": "000978",
       "leader_reasons": [
         "市场最高板",
+        "东方财富人气榜Top10",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 70.2553,
+      "market_leader_rank": 1,
+      "name": "桂林旅游",
+      "primary_theme": "旅游及景",
+      "stock_role": "MARKET_LEADER"
+    },
+    {
+      "code": "000993",
+      "leader_reasons": [
         "所属主线题材排名第1",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 74.4189,
-      "market_leader_rank": 1,
-      "name": "百大集团",
-      "primary_theme": "一般零售",
-      "stock_role": "MARKET_LEADER"
+      "leader_score": 64.5105,
+      "market_leader_rank": 2,
+      "name": "闽东电力",
+      "primary_theme": "电力",
+      "stock_role": "THEME_LEADER"
     },
     {
-      "code": "603123",
+      "code": "002349",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 10.3954,
-      "name": "翠微股份",
+      "name": "精华制药",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601212",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 10.6489,
-      "name": "白银有色",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "002185",
+      "code": "002384",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 10.9025,
-      "name": "华天科技",
+      "name": "东山精密",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600103",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.4096,
-      "name": "青山纸业",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "000833",
+      "code": "600721",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.6631,
-      "name": "粤桂股份",
+      "name": "百花医药",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "300750",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.9167,
-      "name": "宁德时代",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "002312",
+      "code": "001258",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.1702,
-      "name": "川发龙蟒",
+      "name": "立新能源",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "300179",
+      "code": "300852",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.4238,
-      "name": "四方达",
+      "name": "四会富仕",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "000735",
+      "code": "688795",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 12.6773,
-      "name": "罗 牛 山",
+      "leader_score": 12.9308,
+      "name": "摩尔线程-U",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002297",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 13.1844,
+      "name": "博云新材",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600726",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 13.6915,
+      "name": "华电能源",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -144,7 +148,7 @@
     "updated_at": {
       "stage1": "2026-09-10T17:39:39+08:00",
       "stage2": "2026-09-10T17:40:58+08:00",
-      "stage3": "2026-09-09T17:45:09+08:00",
+      "stage3": "2026-09-10T17:44:13+08:00",
       "stage4": "2026-09-09T17:59:31+08:00",
       "stage5": null
     }
@@ -558,49 +562,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 63.6329,
+      "confidence_adjusted": 57.125,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "一般零售",
+      "theme": "电力",
       "theme_role": "MAIN",
-      "theme_score": 69.0196
+      "theme_score": 61.9608
     },
     {
-      "confidence_adjusted": 54.5941,
+      "confidence_adjusted": 55.6788,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "农化制品",
-      "theme_role": "ROTATION",
-      "theme_score": 59.2156
+      "theme": "旅游及景",
+      "theme_role": "SECONDARY",
+      "theme_score": 60.3921
     },
     {
-      "confidence_adjusted": 53.8711,
+      "confidence_adjusted": 52.4248,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "农产品加",
+      "theme": "家居用品",
       "theme_role": "ROTATION",
-      "theme_score": 58.4314
+      "theme_score": 56.8627
     },
     {
-      "confidence_adjusted": 53.8711,
+      "confidence_adjusted": 52.4248,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "橡胶",
+      "theme": "焦炭Ⅱ",
       "theme_role": "ROTATION",
-      "theme_score": 58.4314
+      "theme_score": 56.8627
     },
     {
-      "confidence_adjusted": 53.8711,
+      "confidence_adjusted": 49.1709,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "汽车零部",
+      "theme": "化学制品",
       "theme_role": "ROTATION",
-      "theme_score": 58.4314
+      "theme_score": 53.3333
     }
   ]
 }
