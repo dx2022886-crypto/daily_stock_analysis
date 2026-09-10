@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-10T09:40:02+00:00",
+  "generated_at": "2026-09-10T09:41:20+00:00",
   "leaders": [
     {
       "code": "600865",
@@ -100,30 +100,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 27,
-    "broken_board_rate": 36.0,
+    "broken_board_count": 22,
+    "broken_board_rate": 38.5965,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260909",
-    "highest_board": 5,
+    "date": "20260910",
+    "highest_board": 4,
     "highest_board_stocks": [
       {
-        "board_count": 5,
-        "break_count": 2,
-        "code": "600865",
-        "first_limit_time": "093221",
-        "industry": "一般零售",
-        "last_limit_time": "094720",
-        "name": "百大集团"
+        "board_count": 4,
+        "break_count": 1,
+        "code": "000978",
+        "first_limit_time": "092500",
+        "industry": "旅游及景",
+        "last_limit_time": "093803",
+        "name": "桂林旅游"
       }
     ],
-    "limit_down_count": 7,
-    "limit_up_count": 48,
-    "sentiment_phase": "分歧",
-    "sentiment_phase_code": "DIVERGENCE",
-    "sentiment_score": 58.8102,
-    "updated_at": "2026-09-09T17:42:07+08:00",
-    "yesterday_premium_median": -0.6024
+    "limit_down_count": 11,
+    "limit_up_count": 35,
+    "sentiment_phase": "退潮",
+    "sentiment_phase_code": "RETREAT",
+    "sentiment_score": 53.6826,
+    "updated_at": "2026-09-10T17:40:58+08:00",
+    "yesterday_premium_median": -1.0402
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -143,7 +143,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-10T17:39:39+08:00",
-      "stage2": "2026-09-09T17:42:07+08:00",
+      "stage2": "2026-09-10T17:40:58+08:00",
       "stage3": "2026-09-09T17:45:09+08:00",
       "stage4": "2026-09-09T17:59:31+08:00",
       "stage5": null
