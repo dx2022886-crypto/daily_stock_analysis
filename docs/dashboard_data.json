@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-11T09:40:40+00:00",
+  "generated_at": "2026-09-11T09:42:37+00:00",
   "leaders": [
     {
       "code": "000978",
@@ -104,30 +104,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 22,
-    "broken_board_rate": 38.5965,
+    "broken_board_count": 18,
+    "broken_board_rate": 31.0345,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260910",
+    "date": "20260911",
     "highest_board": 4,
     "highest_board_stocks": [
       {
         "board_count": 4,
-        "break_count": 1,
-        "code": "000978",
+        "break_count": 0,
+        "code": "002790",
         "first_limit_time": "092500",
-        "industry": "旅游及景",
-        "last_limit_time": "093803",
-        "name": "桂林旅游"
+        "industry": "家居用品",
+        "last_limit_time": "092500",
+        "name": "瑞尔特"
       }
     ],
-    "limit_down_count": 11,
-    "limit_up_count": 35,
-    "sentiment_phase": "退潮",
-    "sentiment_phase_code": "RETREAT",
-    "sentiment_score": 53.6826,
-    "updated_at": "2026-09-10T17:40:58+08:00",
-    "yesterday_premium_median": -1.0402
+    "limit_down_count": 21,
+    "limit_up_count": 40,
+    "sentiment_phase": "启动",
+    "sentiment_phase_code": "START",
+    "sentiment_score": 53.6657,
+    "updated_at": "2026-09-11T17:42:14+08:00",
+    "yesterday_premium_median": -1.9034
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -147,7 +147,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-11T17:40:18+08:00",
-      "stage2": "2026-09-10T17:40:58+08:00",
+      "stage2": "2026-09-11T17:42:14+08:00",
       "stage3": "2026-09-10T17:44:13+08:00",
       "stage4": "2026-09-10T17:58:06+08:00",
       "stage5": null
