@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-14T09:41:36+00:00",
+  "generated_at": "2026-09-14T09:42:50+00:00",
   "leaders": [
     {
       "code": "002790",
@@ -108,30 +108,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 18,
-    "broken_board_rate": 31.0345,
+    "broken_board_count": 30,
+    "broken_board_rate": 35.2941,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260911",
+    "date": "20260914",
     "highest_board": 4,
     "highest_board_stocks": [
       {
         "board_count": 4,
-        "break_count": 0,
-        "code": "002790",
-        "first_limit_time": "092500",
-        "industry": "家居用品",
-        "last_limit_time": "092500",
-        "name": "瑞尔特"
+        "break_count": 2,
+        "code": "000993",
+        "first_limit_time": "093024",
+        "industry": "电力",
+        "last_limit_time": "100127",
+        "name": "闽东电力"
       }
     ],
-    "limit_down_count": 21,
-    "limit_up_count": 40,
-    "sentiment_phase": "启动",
-    "sentiment_phase_code": "START",
-    "sentiment_score": 53.6657,
-    "updated_at": "2026-09-11T17:42:14+08:00",
-    "yesterday_premium_median": -1.9034
+    "limit_down_count": 16,
+    "limit_up_count": 55,
+    "sentiment_phase": "发酵",
+    "sentiment_phase_code": "FERMENTATION",
+    "sentiment_score": 66.4821,
+    "updated_at": "2026-09-14T17:42:29+08:00",
+    "yesterday_premium_median": 3.2389
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -151,7 +151,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-14T17:41:12+08:00",
-      "stage2": "2026-09-11T17:42:14+08:00",
+      "stage2": "2026-09-14T17:42:29+08:00",
       "stage3": "2026-09-11T17:45:37+08:00",
       "stage4": "2026-09-11T17:54:01+08:00",
       "stage5": null
