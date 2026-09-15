@@ -1,105 +1,104 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-15T09:45:33+00:00",
+  "generated_at": "2026-09-15T09:49:04+00:00",
   "leaders": [
     {
-      "code": "000823",
+      "code": "000993",
       "leader_reasons": [
+        "市场最高板",
         "所属主线题材排名第1",
         "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 72.5743,
+      "leader_score": 74.3662,
       "market_leader_rank": 1,
-      "name": "超声电子",
-      "primary_theme": "元件",
+      "name": "闽东电力",
+      "primary_theme": "电力",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "000993",
+      "code": "002912",
       "leader_reasons": [
-        "市场最高板",
-        "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 68.3052,
+      "leader_score": 65.4064,
       "market_leader_rank": 2,
-      "name": "闽东电力",
-      "primary_theme": "电力",
+      "name": "中新赛克",
+      "primary_theme": "计算机设",
       "stock_role": "THEME_LEADER"
-    },
-    {
-      "code": "301021",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 10.3954,
-      "name": "英诺激光",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600744",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 10.6489,
-      "name": "华银电力",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600737",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 10.9025,
-      "name": "中粮糖业",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "000977",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.4096,
-      "name": "浪潮信息",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "300179",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.6631,
-      "name": "四方达",
-      "stock_role": "FRONT_CORE"
     },
     {
       "code": "002015",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 11.9167,
+      "leader_score": 10.3954,
       "name": "协鑫能科",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "603938",
+      "code": "000938",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.6489,
+      "name": "紫光股份",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "605006",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.9025,
+      "name": "山东玻纤",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002201",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.156,
+      "name": "九鼎新材",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600967",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.4096,
+      "name": "内蒙一机",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "300285",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.6631,
+      "name": "国瓷材料",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "688256",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 11.9167,
+      "name": "寒武纪",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "002815",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.1702,
-      "name": "三孚股份",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600371",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 12.6773,
-      "name": "万向德农",
+      "name": "崇达技术",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -149,7 +148,7 @@
     "updated_at": {
       "stage1": "2026-09-15T17:43:52+08:00",
       "stage2": "2026-09-15T17:45:08+08:00",
-      "stage3": "2026-09-14T17:46:27+08:00",
+      "stage3": "2026-09-15T17:48:32+08:00",
       "stage4": "2026-09-14T18:02:36+08:00",
       "stage5": null
     }
@@ -563,49 +562,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 63.6329,
+      "confidence_adjusted": 64.7176,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "元件",
+      "theme": "电力",
       "theme_role": "MAIN",
-      "theme_score": 69.0196
+      "theme_score": 70.1961
     },
     {
-      "confidence_adjusted": 59.8367,
+      "confidence_adjusted": 55.6788,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "电力",
+      "theme": "计算机设",
       "theme_role": "SECONDARY",
-      "theme_score": 64.902
+      "theme_score": 60.3921
     },
     {
-      "confidence_adjusted": 52.4248,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "玻璃玻纤",
+      "theme": "元件",
       "theme_role": "ROTATION",
-      "theme_score": 56.8627
+      "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 52.4248,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "计算机设",
+      "theme": "塑料",
       "theme_role": "ROTATION",
-      "theme_score": 56.8627
+      "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 50.0748,
+      "confidence_adjusted": 49.1709,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "电网设备",
+      "theme": "风电设备",
       "theme_role": "ROTATION",
-      "theme_score": 54.3138
+      "theme_score": 53.3333
     }
   ]
 }
