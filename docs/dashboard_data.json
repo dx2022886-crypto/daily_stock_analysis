@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-14T09:46:49+00:00",
+  "generated_at": "2026-09-15T09:44:14+00:00",
   "leaders": [
     {
       "code": "000823",
@@ -147,18 +147,18 @@
       "stage5": false
     },
     "updated_at": {
-      "stage1": "2026-09-14T17:41:12+08:00",
+      "stage1": "2026-09-15T17:43:52+08:00",
       "stage2": "2026-09-14T17:42:29+08:00",
       "stage3": "2026-09-14T17:46:27+08:00",
-      "stage4": "2026-09-11T17:54:01+08:00",
+      "stage4": "2026-09-14T18:02:36+08:00",
       "stage5": null
     }
   },
   "stage1_candidates": [
     {
-      "average_score": 91.7426,
-      "code": "002432",
-      "name": "九安医疗",
+      "average_score": 90.8641,
+      "code": "000425",
+      "name": "徐工机械",
       "rank": 1,
       "resonance_count": 1,
       "strategies": [
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "average_score": 87.126,
+      "average_score": 88.847,
       "code": "600362",
       "name": "江西铜业",
       "rank": 2,
@@ -176,9 +176,9 @@
       ]
     },
     {
-      "average_score": 85.5677,
-      "code": "600875",
-      "name": "东方电气",
+      "average_score": 88.1519,
+      "code": "002497",
+      "name": "雅化集团",
       "rank": 3,
       "resonance_count": 1,
       "strategies": [
@@ -186,9 +186,9 @@
       ]
     },
     {
-      "average_score": 83.7285,
-      "code": "002602",
-      "name": "世纪华通",
+      "average_score": 86.1058,
+      "code": "600578",
+      "name": "京能电力",
       "rank": 4,
       "resonance_count": 1,
       "strategies": [
@@ -196,9 +196,9 @@
       ]
     },
     {
-      "average_score": 83.2059,
-      "code": "000737",
-      "name": "北方铜业",
+      "average_score": 85.8181,
+      "code": "300207",
+      "name": "欣旺达",
       "rank": 5,
       "resonance_count": 1,
       "strategies": [
@@ -206,9 +206,9 @@
       ]
     },
     {
-      "average_score": 81.9783,
-      "code": "002517",
-      "name": "恺英网络",
+      "average_score": 85.7241,
+      "code": "002241",
+      "name": "歌尔股份",
       "rank": 6,
       "resonance_count": 1,
       "strategies": [
@@ -216,9 +216,9 @@
       ]
     },
     {
-      "average_score": 81.8522,
-      "code": "000021",
-      "name": "深科技",
+      "average_score": 84.552,
+      "code": "300413",
+      "name": "芒果超媒",
       "rank": 7,
       "resonance_count": 1,
       "strategies": [
@@ -226,9 +226,9 @@
       ]
     },
     {
-      "average_score": 81.5547,
-      "code": "600150",
-      "name": "中国船舶",
+      "average_score": 84.2644,
+      "code": "002130",
+      "name": "沃尔核材",
       "rank": 8,
       "resonance_count": 1,
       "strategies": [
@@ -236,9 +236,9 @@
       ]
     },
     {
-      "average_score": 81.4364,
-      "code": "300413",
-      "name": "芒果超媒",
+      "average_score": 83.9066,
+      "code": "600596",
+      "name": "新安股份",
       "rank": 9,
       "resonance_count": 1,
       "strategies": [
@@ -246,9 +246,9 @@
       ]
     },
     {
-      "average_score": 81.3916,
-      "code": "600487",
-      "name": "亨通光电",
+      "average_score": 83.3709,
+      "code": "600711",
+      "name": "盛屯矿业",
       "rank": 10,
       "resonance_count": 1,
       "strategies": [
@@ -256,29 +256,29 @@
       ]
     },
     {
-      "average_score": 74.8814,
-      "code": "600036",
-      "name": "招商银行",
+      "average_score": 75.3272,
+      "code": "603236",
+      "name": "移远通信",
       "rank": 11,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 74.5732,
+      "code": "601318",
+      "name": "中国平安",
+      "rank": 12,
       "resonance_count": 1,
       "strategies": [
         "momentum_quality"
       ]
     },
     {
-      "average_score": 74.5917,
-      "code": "002268",
-      "name": "电科网安",
-      "rank": 12,
-      "resonance_count": 1,
-      "strategies": [
-        "volume_breakout"
-      ]
-    },
-    {
-      "average_score": 74.5267,
-      "code": "300454",
-      "name": "深信服",
+      "average_score": 74.4855,
+      "code": "000657",
+      "name": "中钨高新",
       "rank": 13,
       "resonance_count": 1,
       "strategies": [
@@ -286,19 +286,19 @@
       ]
     },
     {
-      "average_score": 74.4917,
-      "code": "601328",
-      "name": "交通银行",
+      "average_score": 74.3243,
+      "code": "300450",
+      "name": "先导智能",
       "rank": 14,
       "resonance_count": 1,
       "strategies": [
-        "momentum_quality"
+        "capital_heat"
       ]
     },
     {
-      "average_score": 74.2984,
-      "code": "601318",
-      "name": "中国平安",
+      "average_score": 74.1289,
+      "code": "601398",
+      "name": "工商银行",
       "rank": 15,
       "resonance_count": 1,
       "strategies": [
@@ -306,9 +306,9 @@
       ]
     },
     {
-      "average_score": 74.1318,
-      "code": "601398",
-      "name": "工商银行",
+      "average_score": 74.1069,
+      "code": "600036",
+      "name": "招商银行",
       "rank": 16,
       "resonance_count": 1,
       "strategies": [
@@ -316,19 +316,19 @@
       ]
     },
     {
-      "average_score": 74.0382,
-      "code": "601166",
-      "name": "兴业银行",
+      "average_score": 73.8005,
+      "code": "000962",
+      "name": "东方钽业",
       "rank": 17,
       "resonance_count": 1,
       "strategies": [
-        "momentum_quality"
+        "capital_heat"
       ]
     },
     {
-      "average_score": 73.8089,
-      "code": "601288",
-      "name": "农业银行",
+      "average_score": 73.6688,
+      "code": "601166",
+      "name": "兴业银行",
       "rank": 18,
       "resonance_count": 1,
       "strategies": [
@@ -336,69 +336,69 @@
       ]
     },
     {
-      "average_score": 73.6112,
-      "code": "002859",
-      "name": "洁美科技",
+      "average_score": 73.6338,
+      "code": "601288",
+      "name": "农业银行",
       "rank": 19,
       "resonance_count": 1,
       "strategies": [
-        "capital_heat"
+        "momentum_quality"
       ]
     },
     {
-      "average_score": 73.5225,
-      "code": "601988",
-      "name": "中国银行",
+      "average_score": 73.2831,
+      "code": "002025",
+      "name": "航天电器",
       "rank": 20,
       "resonance_count": 1,
       "strategies": [
-        "momentum_quality"
+        "capital_heat"
       ]
     },
     {
-      "average_score": 73.2572,
-      "code": "002202",
-      "name": "金风科技",
+      "average_score": 73.0733,
+      "code": "601939",
+      "name": "建设银行",
       "rank": 21,
       "resonance_count": 1,
       "strategies": [
-        "capital_heat"
+        "momentum_quality"
       ]
     },
     {
-      "average_score": 73.2217,
-      "code": "002745",
-      "name": "木林森",
+      "average_score": 72.628,
+      "code": "600919",
+      "name": "江苏银行",
       "rank": 22,
-      "resonance_count": 1,
-      "strategies": [
-        "volume_breakout"
-      ]
-    },
-    {
-      "average_score": 73.1595,
-      "code": "600030",
-      "name": "中信证券",
-      "rank": 23,
       "resonance_count": 1,
       "strategies": [
         "momentum_quality"
       ]
     },
     {
-      "average_score": 73.0096,
-      "code": "002518",
-      "name": "科士达",
-      "rank": 24,
+      "average_score": 72.4348,
+      "code": "603256",
+      "name": "宏和科技",
+      "rank": 23,
       "resonance_count": 1,
       "strategies": [
         "capital_heat"
       ]
     },
     {
-      "average_score": 72.8071,
-      "code": "600919",
-      "name": "江苏银行",
+      "average_score": 72.188,
+      "code": "600030",
+      "name": "中信证券",
+      "rank": 24,
+      "resonance_count": 1,
+      "strategies": [
+        "momentum_quality"
+      ]
+    },
+    {
+      "average_score": 71.9661,
+      "code": "601988",
+      "name": "中国银行",
       "rank": 25,
       "resonance_count": 1,
       "strategies": [
@@ -406,39 +406,39 @@
       ]
     },
     {
-      "average_score": 72.7364,
+      "average_score": 71.9336,
+      "code": "002378",
+      "name": "章源钨业",
+      "rank": 26,
+      "resonance_count": 1,
+      "strategies": [
+        "capital_heat"
+      ]
+    },
+    {
+      "average_score": 71.7766,
       "code": "601169",
       "name": "北京银行",
-      "rank": 26,
+      "rank": 27,
       "resonance_count": 1,
       "strategies": [
         "momentum_quality"
       ]
     },
     {
-      "average_score": 72.6154,
-      "code": "600163",
-      "name": "中闽能源",
-      "rank": 27,
-      "resonance_count": 1,
-      "strategies": [
-        "volume_breakout"
-      ]
-    },
-    {
-      "average_score": 72.5792,
-      "code": "600798",
-      "name": "宁波海运",
+      "average_score": 70.4325,
+      "code": "600549",
+      "name": "厦门钨业",
       "rank": 28,
       "resonance_count": 1,
       "strategies": [
-        "volume_breakout"
+        "capital_heat"
       ]
     },
     {
-      "average_score": 72.3384,
-      "code": "300568",
-      "name": "星源材质",
+      "average_score": 70.0125,
+      "code": "603000",
+      "name": "人民网",
       "rank": 29,
       "resonance_count": 1,
       "strategies": [
@@ -446,120 +446,109 @@
       ]
     },
     {
-      "average_score": 71.6212,
-      "code": "002106",
-      "name": "莱宝高科",
+      "average_score": 69.4233,
+      "code": "002080",
+      "name": "中材科技",
       "rank": 30,
       "resonance_count": 1,
       "strategies": [
-        "volume_breakout"
+        "capital_heat"
       ]
     }
   ],
   "stage4_core_states": [
     {
-      "code": "002130",
-      "grade": "B",
-      "name": "沃尔核材",
+      "code": "002432",
+      "grade": "C",
+      "name": "九安医疗",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 69.3333
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "603799",
+      "code": "600362",
       "grade": "C",
-      "name": "华友钴业",
+      "name": "江西铜业",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "000776",
+      "code": "600875",
       "grade": "C",
-      "name": "广发证券",
+      "name": "东方电气",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "600219",
+      "code": "002602",
       "grade": "C",
-      "name": "南山铝业",
+      "name": "世纪华通",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "000933",
+      "code": "000737",
       "grade": "C",
-      "name": "神火股份",
+      "name": "北方铜业",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "002466",
+      "code": "002517",
       "grade": "C",
-      "name": "天齐锂业",
+      "name": "恺英网络",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "002460",
+      "code": "000021",
       "grade": "C",
-      "name": "赣锋锂业",
+      "name": "深科技",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "000807",
+      "code": "600150",
       "grade": "C",
-      "name": "云铝股份",
+      "name": "中国船舶",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "000792",
+      "code": "300413",
       "grade": "C",
-      "name": "盐湖股份",
+      "name": "芒果超媒",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     },
     {
-      "code": "000703",
+      "code": "600487",
       "grade": "C",
-      "name": "恒逸石化",
+      "name": "亨通光电",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
-      "weak_to_strong_score": 61.0
+      "weak_to_strong_score": 57.0
     }
   ],
-  "stage4_watchlist": [
-    {
-      "code": "603226",
-      "grade": "C",
-      "name": "菲林格尔",
-      "rank": 1,
-      "setup_type": "BROKEN_BOARD_RECOVERY",
-      "stock_role": "BROKEN_CORE",
-      "theme": "家居用品",
-      "weak_to_strong_score": 56.7692
-    }
-  ],
+  "stage4_watchlist": [],
   "stage5": {
     "auction_data_mode": "UNKNOWN",
     "available": false,
