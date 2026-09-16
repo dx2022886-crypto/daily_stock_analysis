@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-09-16T09:38:46+00:00",
+  "generated_at": "2026-09-16T09:40:06+00:00",
   "leaders": [
     {
       "code": "000993",
@@ -104,30 +104,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 24,
-    "broken_board_rate": 42.8571,
+    "broken_board_count": 11,
+    "broken_board_rate": 11.0,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260915",
-    "highest_board": 5,
+    "date": "20260916",
+    "highest_board": 6,
     "highest_board_stocks": [
       {
-        "board_count": 5,
-        "break_count": 28,
+        "board_count": 6,
+        "break_count": 20,
         "code": "000993",
-        "first_limit_time": "093054",
+        "first_limit_time": "093651",
         "industry": "电力",
-        "last_limit_time": "144651",
+        "last_limit_time": "135727",
         "name": "闽东电力"
       }
     ],
-    "limit_down_count": 27,
-    "limit_up_count": 32,
-    "sentiment_phase": "退潮",
-    "sentiment_phase_code": "RETREAT",
-    "sentiment_score": 47.2827,
-    "updated_at": "2026-09-15T17:45:08+08:00",
-    "yesterday_premium_median": 0.106
+    "limit_down_count": 4,
+    "limit_up_count": 89,
+    "sentiment_phase": "发酵",
+    "sentiment_phase_code": "FERMENTATION",
+    "sentiment_score": 79.7873,
+    "updated_at": "2026-09-16T17:39:45+08:00",
+    "yesterday_premium_median": 1.0567
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -147,7 +147,7 @@
     },
     "updated_at": {
       "stage1": "2026-09-16T17:38:26+08:00",
-      "stage2": "2026-09-15T17:45:08+08:00",
+      "stage2": "2026-09-16T17:39:45+08:00",
       "stage3": "2026-09-15T17:48:32+08:00",
       "stage4": "2026-09-15T18:00:52+08:00",
       "stage5": null
