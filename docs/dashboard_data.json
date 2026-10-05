@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-05T18:40:46+00:00",
+  "generated_at": "2026-10-05T18:42:47+00:00",
   "leaders": [
     {
       "code": "603248",
@@ -107,39 +107,30 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 25,
-    "broken_board_rate": 24.2718,
+    "broken_board_count": 12,
+    "broken_board_rate": 18.75,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260918",
-    "highest_board": 4,
+    "date": "20260930",
+    "highest_board": 7,
     "highest_board_stocks": [
       {
-        "board_count": 4,
-        "break_count": 1,
-        "code": "001216",
-        "first_limit_time": "093009",
-        "industry": "家居用品",
-        "last_limit_time": "095639",
-        "name": "华瓷股份"
-      },
-      {
-        "board_count": 4,
-        "break_count": 1,
-        "code": "603248",
-        "first_limit_time": "093058",
-        "industry": "风电设备",
-        "last_limit_time": "095255",
-        "name": "锡华科技"
+        "board_count": 7,
+        "break_count": 0,
+        "code": "600825",
+        "first_limit_time": "092500",
+        "industry": "出版",
+        "last_limit_time": "092500",
+        "name": "新华传媒"
       }
     ],
-    "limit_down_count": 0,
-    "limit_up_count": 78,
+    "limit_down_count": 9,
+    "limit_up_count": 52,
     "sentiment_phase": "发酵",
     "sentiment_phase_code": "FERMENTATION",
-    "sentiment_score": 79.9315,
-    "updated_at": "2026-09-18T21:50:52+08:00",
-    "yesterday_premium_median": 1.2295
+    "sentiment_score": 64.8735,
+    "updated_at": "2026-10-06T02:41:48+08:00",
+    "yesterday_premium_median": -0.6659
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -159,7 +150,7 @@
     },
     "updated_at": {
       "stage1": "2026-10-06T02:40:26+08:00",
-      "stage2": "2026-09-18T21:50:52+08:00",
+      "stage2": "2026-10-06T02:41:48+08:00",
       "stage3": "2026-09-18T21:54:21+08:00",
       "stage4": "2026-09-18T22:13:46+08:00",
       "stage5": null
