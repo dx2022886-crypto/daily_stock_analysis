@@ -1,107 +1,107 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-05T18:42:47+00:00",
+  "generated_at": "2026-10-05T18:45:38+00:00",
   "leaders": [
     {
-      "code": "603248",
+      "code": "600825",
       "leader_reasons": [
         "市场最高板",
         "所属主线题材排名第1",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 72.4689,
+      "leader_score": 79.2678,
       "market_leader_rank": 1,
-      "name": "锡华科技",
-      "primary_theme": "风电设备",
+      "name": "新华传媒",
+      "primary_theme": "出版",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "603230",
+      "code": "600241",
       "leader_reasons": [
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 58.8184,
+      "leader_score": 61.0545,
       "market_leader_rank": 3,
-      "name": "内蒙新华",
-      "primary_theme": "出版",
+      "name": "时代万恒",
+      "primary_theme": "电池",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "001216",
+      "code": "000678",
       "leader_reasons": [
-        "市场最高板",
+        "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 67.5673,
+      "leader_score": 67.861,
       "market_leader_rank": 2,
-      "name": "华瓷股份",
-      "primary_theme": "家居用品",
+      "name": "襄阳轴承",
+      "primary_theme": "汽车零部",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "002396",
+      "code": "300678",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
-      "leader_score": 10.3954,
-      "name": "星网锐捷",
+      "leader_score": 11.4096,
+      "name": "中科信息",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600354",
+      "code": "000823",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.6631,
-      "name": "敦煌种业",
+      "name": "超声电子",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "605058",
+      "code": "603986",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.9167,
-      "name": "澳弘电子",
+      "name": "兆易创新",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600664",
+      "code": "301047",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 12.4238,
+      "name": "义翘神州",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "600377",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.6773,
-      "name": "哈药股份",
+      "name": "宁沪高速",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600721",
+      "code": "601091",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.9308,
-      "name": "百花医药",
+      "name": "沈鼓集团",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "601138",
+      "code": "001389",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 13.1844,
-      "name": "工业富联",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "600183",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 13.438,
-      "name": "生益科技",
+      "name": "广合科技",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -151,7 +151,7 @@
     "updated_at": {
       "stage1": "2026-10-06T02:40:26+08:00",
       "stage2": "2026-10-06T02:41:48+08:00",
-      "stage3": "2026-09-18T21:54:21+08:00",
+      "stage3": "2026-10-06T02:45:12+08:00",
       "stage4": "2026-09-18T22:13:46+08:00",
       "stage5": null
     }
@@ -565,49 +565,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 60.379,
+      "confidence_adjusted": 63.6329,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "风电设备",
+      "theme": "出版",
       "theme_role": "MAIN",
-      "theme_score": 65.4902
+      "theme_score": 69.0196
     },
     {
-      "confidence_adjusted": 57.125,
+      "confidence_adjusted": 61.8252,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "家居用品",
+      "theme": "电池",
       "theme_role": "SECONDARY",
-      "theme_score": 61.9608
+      "theme_score": 67.0588
     },
     {
-      "confidence_adjusted": 57.125,
+      "confidence_adjusted": 59.2944,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "出版",
+      "theme": "汽车零部",
       "theme_role": "SECONDARY",
-      "theme_score": 61.9608
+      "theme_score": 64.3138
     },
     {
-      "confidence_adjusted": 53.8711,
+      "confidence_adjusted": 54.9558,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
       "theme": "化学制品",
       "theme_role": "ROTATION",
-      "theme_score": 58.4314
+      "theme_score": 59.6079
     },
     {
-      "confidence_adjusted": 52.7864,
+      "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "服装家纺",
+      "theme": "饮料乳品",
       "theme_role": "ROTATION",
-      "theme_score": 57.2549
+      "theme_score": 58.4314
     }
   ]
 }
