@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-07T16:44:08+00:00",
+  "generated_at": "2026-10-07T16:45:34+00:00",
   "leaders": [
     {
       "code": "600825",
@@ -129,7 +129,7 @@
     "sentiment_phase": "发酵",
     "sentiment_phase_code": "FERMENTATION",
     "sentiment_score": 64.8735,
-    "updated_at": "2026-10-06T02:41:48+08:00",
+    "updated_at": "2026-10-08T00:45:08+08:00",
     "yesterday_premium_median": -0.6659
   },
   "pipeline_status": {
@@ -150,7 +150,7 @@
     },
     "updated_at": {
       "stage1": "2026-10-08T00:43:46+08:00",
-      "stage2": "2026-10-06T02:41:48+08:00",
+      "stage2": "2026-10-08T00:45:08+08:00",
       "stage3": "2026-10-06T02:45:12+08:00",
       "stage4": "2026-10-06T02:58:03+08:00",
       "stage5": null
