@@ -14,10 +14,10 @@
 | ---: | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | 1 | 出版 | 69.0196 | MAIN | 2 | 0 | 7 | —% | 0 | 2 | 新华传媒 |
 | 2 | 电池 | 67.0588 | SECONDARY | 3 | 0 | 3 | —% | 0 | 3 | 时代万恒 |
-| 3 | 汽车零部 | 64.3138 | SECONDARY | 4 | 1 | 4 | —% | 0 | 3 | 襄阳轴承 |
-| 4 | 化学制品 | 59.6079 | ROTATION | 4 | 0 | 2 | —% | 0 | 3 | 亚邦股份 |
-| 5 | 饮料乳品 | 58.4314 | ROTATION | 2 | 0 | 2 | —% | 0 | 2 | 均瑶健康 |
-| 6 | 房地产开 | 58.0392 | ROTATION | 2 | 1 | 3 | —% | 0 | 2 | 深物业A |
+| 3 | 汽车零部 | 65.4902 | SECONDARY | 4 | 1 | 4 | —% | 0 | 4 | 襄阳轴承 |
+| 4 | 化学制品 | 60.7844 | SECONDARY | 4 | 0 | 2 | —% | 0 | 4 | 亚邦股份 |
+| 5 | 房地产开 | 59.2156 | ROTATION | 2 | 1 | 3 | —% | 0 | 3 | 深物业A |
+| 6 | 饮料乳品 | 58.4314 | ROTATION | 2 | 0 | 2 | —% | 0 | 2 | 均瑶健康 |
 | 7 | 化学原料 | 56.8627 | ROTATION | 1 | 0 | 3 | —% | 0 | 1 | 善水科技 |
 | 8 | 小家电 | 56.8627 | ROTATION | 1 | 0 | 3 | —% | 0 | 1 | 九阳股份 |
 | 9 | 基础建设 | 53.3333 | ROTATION | 1 | 0 | 2 | —% | 0 | 1 | 园林股份 |
@@ -37,23 +37,23 @@
 
 ### 汽车零部（SECONDARY）
 
-分数：`64.3138`；原始分：`54.6667`；可用权重：`85.0`；数据质量：`degraded`。
-评分分项：`{"board_height": 12.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 3.0, "seal_quality": 8.0, "sector_momentum": null}`
+分数：`65.4902`；原始分：`55.6667`；可用权重：`85.0`；数据质量：`degraded`。
+评分分项：`{"board_height": 12.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 4.0, "seal_quality": 8.0, "sector_momentum": null}`
 
-### 化学制品（ROTATION）
+### 化学制品（SECONDARY）
 
-分数：`59.6079`；原始分：`50.6667`；可用权重：`85.0`；数据质量：`degraded`。
-评分分项：`{"board_height": 6.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 3.0, "seal_quality": 10.0, "sector_momentum": null}`
+分数：`60.7844`；原始分：`51.6667`；可用权重：`85.0`；数据质量：`degraded`。
+评分分项：`{"board_height": 6.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 4.0, "seal_quality": 10.0, "sector_momentum": null}`
+
+### 房地产开（ROTATION）
+
+分数：`59.2156`；原始分：`50.3333`；可用权重：`85.0`；数据质量：`degraded`。
+评分分项：`{"board_height": 9.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 3.0, "seal_quality": 6.6667, "sector_momentum": null}`
 
 ### 饮料乳品（ROTATION）
 
 分数：`58.4314`；原始分：`49.6667`；可用权重：`85.0`；数据质量：`degraded`。
 评分分项：`{"board_height": 6.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 2.0, "seal_quality": 10.0, "sector_momentum": null}`
-
-### 房地产开（ROTATION）
-
-分数：`58.0392`；原始分：`49.3333`；可用权重：`85.0`；数据质量：`degraded`。
-评分分项：`{"board_height": 9.0, "candidate_resonance": 0.0, "ladder_quality": 6.6667, "limit_up_strength": 25.0, "popularity": 2.0, "seal_quality": 6.6667, "sector_momentum": null}`
 
 ### 化学原料（ROTATION）
 
@@ -79,11 +79,11 @@
 
 | 排名 | 代码 | 名称 | 题材 | 角色 | leader_score | 连板数 | 人气排名 | 模型共振 | 理由 |
 | ---: | --- | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| 1 | 600825 | 新华传媒 | 出版 | MARKET_LEADER | 79.2678 | 7 | 13 | 0 | ["市场最高板", "所属主线题材排名第1", "题材内部存在涨停梯队", "封板时间靠前"] |
-| 2 | 000678 | 襄阳轴承 | 汽车零部 | THEME_LEADER | 67.861 | 4 | 8 | 0 | ["东方财富人气榜Top10", "题材内部存在涨停梯队", "封板时间靠前"] |
-| 3 | 600241 | 时代万恒 | 电池 | THEME_LEADER | 61.0545 | 3 | 32 | 0 | ["题材内部存在涨停梯队", "封板时间靠前"] |
-| 4 | 002242 | 九阳股份 | 小家电 | FOLLOWER | 59.895 | 3 | 6 | 0 | ["东方财富人气榜Top10", "题材内部存在涨停梯队", "封板时间靠前"] |
-| 5 | 002058 | 紫竹高科 | 电池 | FRONT_CORE | 56.4617 | 2 | 42 | 0 | ["题材内部存在涨停梯队", "封板时间靠前"] |
+| 1 | 600825 | 新华传媒 | 出版 | MARKET_LEADER | 79.4259 | 7 | 12 | 0 | ["市场最高板", "所属主线题材排名第1", "题材内部存在涨停梯队", "封板时间靠前"] |
+| 2 | 000678 | 襄阳轴承 | 汽车零部 | THEME_LEADER | 68.0191 | 4 | 7 | 0 | ["东方财富人气榜Top10", "题材内部存在涨停梯队", "封板时间靠前"] |
+| 3 | 600241 | 时代万恒 | 电池 | THEME_LEADER | 62.9519 | 3 | 20 | 0 | ["题材内部存在涨停梯队", "封板时间靠前"] |
+| 4 | 002242 | 九阳股份 | 小家电 | FOLLOWER | 60.2112 | 3 | 4 | 0 | ["东方财富人气榜Top10", "题材内部存在涨停梯队", "封板时间靠前"] |
+| 5 | 002058 | 紫竹高科 | 电池 | FRONT_CORE | 59.7821 | 2 | 21 | 0 | ["题材内部存在涨停梯队", "封板时间靠前"] |
 
 ## 第1阶段候选池增强结果
 
