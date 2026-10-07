@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-05T18:45:38+00:00",
+  "generated_at": "2026-10-07T16:44:08+00:00",
   "leaders": [
     {
       "code": "600825",
@@ -149,10 +149,10 @@
       "stage5": false
     },
     "updated_at": {
-      "stage1": "2026-10-06T02:40:26+08:00",
+      "stage1": "2026-10-08T00:43:46+08:00",
       "stage2": "2026-10-06T02:41:48+08:00",
       "stage3": "2026-10-06T02:45:12+08:00",
-      "stage4": "2026-09-18T22:13:46+08:00",
+      "stage4": "2026-10-06T02:58:03+08:00",
       "stage5": null
     }
   },
@@ -460,90 +460,90 @@
   ],
   "stage4_core_states": [
     {
-      "code": "600016",
+      "code": "600982",
       "grade": "C",
-      "name": "民生银行",
+      "name": "宁波能源",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "688385",
+      "code": "002185",
       "grade": "C",
-      "name": "复旦微电",
+      "name": "华天科技",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "002292",
+      "code": "002611",
       "grade": "C",
-      "name": "奥飞娱乐",
+      "name": "东方精工",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "002258",
+      "code": "002773",
       "grade": "C",
-      "name": "利尔化学",
+      "name": "康弘药业",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "002487",
+      "code": "688388",
       "grade": "C",
-      "name": "大金重工",
+      "name": "嘉元科技",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "600256",
+      "code": "000967",
       "grade": "C",
-      "name": "广汇能源",
+      "name": "盈峰环境",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "000425",
+      "code": "603989",
       "grade": "C",
-      "name": "徐工机械",
+      "name": "艾华集团",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "000550",
+      "code": "600487",
       "grade": "C",
-      "name": "江铃汽车",
+      "name": "亨通光电",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "002468",
+      "code": "300170",
       "grade": "C",
-      "name": "申通快递",
+      "name": "汉得信息",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
       "weak_to_strong_score": 57.0
     },
     {
-      "code": "300850",
+      "code": "000036",
       "grade": "C",
-      "name": "新强联",
+      "name": "华联控股",
       "setup_type": "NONE",
       "stock_role": "FRONT_CORE",
       "theme": null,
