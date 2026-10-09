@@ -1,6 +1,6 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-09T16:27:24+00:00",
+  "generated_at": "2026-10-09T16:28:48+00:00",
   "leaders": [
     {
       "code": "600825",
@@ -109,15 +109,15 @@
   ],
   "market": {
     "available": true,
-    "broken_board_count": 12,
-    "broken_board_rate": 18.75,
+    "broken_board_count": 14,
+    "broken_board_rate": 16.8675,
     "data_available": true,
     "data_quality": "complete",
-    "date": "20260930",
-    "highest_board": 7,
+    "date": "20261009",
+    "highest_board": 9,
     "highest_board_stocks": [
       {
-        "board_count": 7,
+        "board_count": 9,
         "break_count": 0,
         "code": "600825",
         "first_limit_time": "092500",
@@ -126,13 +126,13 @@
         "name": "新华传媒"
       }
     ],
-    "limit_down_count": 9,
-    "limit_up_count": 52,
+    "limit_down_count": 8,
+    "limit_up_count": 69,
     "sentiment_phase": "发酵",
     "sentiment_phase_code": "FERMENTATION",
-    "sentiment_score": 64.8735,
-    "updated_at": "2026-10-08T00:45:08+08:00",
-    "yesterday_premium_median": -0.6659
+    "sentiment_score": 66.6398,
+    "updated_at": "2026-10-10T00:28:24+08:00",
+    "yesterday_premium_median": 1.9544
   },
   "pipeline_status": {
     "current_stage": "stage4",
@@ -152,7 +152,7 @@
     },
     "updated_at": {
       "stage1": "2026-10-10T00:27:03+08:00",
-      "stage2": "2026-10-08T00:45:08+08:00",
+      "stage2": "2026-10-10T00:28:24+08:00",
       "stage3": "2026-10-08T00:48:33+08:00",
       "stage4": "2026-10-08T01:01:18+08:00",
       "stage5": null
