@@ -7,14 +7,14 @@
 - 阶段：`short_term_candidate_pool_v1`
 - 市场：`cn`
 - 每套模型返回数量：`10`
-- 合并去重后的候选数量：`39`
+- 合并去重后的候选数量：`34`
 - 报告输出数量：`30`
 
 ## 模型运行状态
 
 | 模型 | 标签 | 状态 | 候选数量 |
 | --- | --- | --- | ---: |
-| `volume_breakout` | 放量突破 | success | 10 |
+| `volume_breakout` | 放量突破 | success | 4 |
 | `capital_heat` | 资金热度 | success | 10 |
 | `momentum_quality` | 动量质量 | success | 10 |
 | `oversold_reversal` | 超跌反转 | success | 10 |
@@ -25,36 +25,36 @@
 
 | 排名 | 股票代码 | 股票名称 | 共振数 | 入选模型 | 平均原始分 | 最佳名次 |
 | ---: | --- | --- | ---: | --- | ---: | ---: |
-| 1 | 600521 | 华海药业 | 2 | 放量突破、资金热度 | 75.48015 | 2 |
-| 2 | 600150 | 中国船舶 | 1 | 超跌反转 | 91.6044 | 1 |
-| 3 | 002074 | 国轩高科 | 1 | 超跌反转 | 90.0841 | 2 |
-| 4 | 601975 | 招商南油 | 1 | 超跌反转 | 89.7194 | 3 |
-| 5 | 300456 | 赛微电子 | 1 | 超跌反转 | 89.5463 | 4 |
-| 6 | 002273 | 水晶光电 | 1 | 超跌反转 | 85.6391 | 5 |
-| 7 | 601609 | 金田股份 | 1 | 超跌反转 | 85.6176 | 6 |
-| 8 | 002008 | 大族激光 | 1 | 超跌反转 | 84.6968 | 7 |
-| 9 | 603606 | 东方电缆 | 1 | 超跌反转 | 84.6839 | 8 |
-| 10 | 300207 | 欣旺达 | 1 | 超跌反转 | 84.6554 | 9 |
-| 11 | 603063 | 禾望电气 | 1 | 超跌反转 | 84.0582 | 10 |
-| 12 | 300457 | 赢合科技 | 1 | 放量突破 | 79.4588 | 1 |
-| 13 | 600988 | 赤峰黄金 | 1 | 资金热度 | 75.3049 | 1 |
-| 14 | 600256 | 广汇能源 | 1 | 资金热度 | 74.8361 | 2 |
-| 15 | 601398 | 工商银行 | 1 | 动量质量 | 74.7189 | 1 |
-| 16 | 601318 | 中国平安 | 1 | 动量质量 | 74.6381 | 2 |
-| 17 | 600036 | 招商银行 | 1 | 动量质量 | 74.5315 | 3 |
-| 18 | 601328 | 交通银行 | 1 | 动量质量 | 74.3862 | 4 |
-| 19 | 300418 | 昆仑万维 | 1 | 资金热度 | 74.2168 | 3 |
-| 20 | 601939 | 建设银行 | 1 | 动量质量 | 73.6338 | 5 |
-| 21 | 688099 | 晶晨股份 | 1 | 资金热度 | 73.519 | 4 |
-| 22 | 601288 | 农业银行 | 1 | 动量质量 | 73.4069 | 6 |
-| 23 | 601166 | 兴业银行 | 1 | 动量质量 | 73.3591 | 7 |
-| 24 | 002460 | 赣锋锂业 | 1 | 资金热度 | 73.2374 | 5 |
-| 25 | 600030 | 中信证券 | 1 | 动量质量 | 73.1272 | 8 |
-| 26 | 601988 | 中国银行 | 1 | 动量质量 | 73.1033 | 9 |
-| 27 | 603799 | 华友钴业 | 1 | 动量质量 | 72.7023 | 10 |
-| 28 | 301238 | 瑞泰新材 | 1 | 放量突破 | 72.6329 | 3 |
-| 29 | 002044 | 美年健康 | 1 | 放量突破 | 72.6161 | 4 |
-| 30 | 603236 | 移远通信 | 1 | 资金热度 | 72.4233 | 6 |
+| 1 | 601665 | 齐鲁银行 | 1 | 超跌反转 | 91.0307 | 1 |
+| 2 | 000338 | 潍柴动力 | 1 | 超跌反转 | 88.9162 | 2 |
+| 3 | 002497 | 雅化集团 | 1 | 超跌反转 | 88.9129 | 3 |
+| 4 | 002074 | 国轩高科 | 1 | 超跌反转 | 88.5806 | 4 |
+| 5 | 600801 | 华新建材 | 1 | 超跌反转 | 88.3638 | 5 |
+| 6 | 603799 | 华友钴业 | 1 | 超跌反转 | 88.0213 | 6 |
+| 7 | 000725 | 京东方A | 1 | 超跌反转 | 87.693 | 7 |
+| 8 | 600522 | 中天科技 | 1 | 超跌反转 | 86.3855 | 8 |
+| 9 | 300073 | 当升科技 | 1 | 超跌反转 | 86.2724 | 9 |
+| 10 | 002241 | 歌尔股份 | 1 | 超跌反转 | 85.7537 | 10 |
+| 11 | 600633 | 浙数文化 | 1 | 放量突破 | 78.45 | 1 |
+| 12 | 601318 | 中国平安 | 1 | 动量质量 | 74.8641 | 1 |
+| 13 | 600316 | 洪都航空 | 1 | 资金热度 | 74.5314 | 1 |
+| 14 | 601328 | 交通银行 | 1 | 动量质量 | 74.4981 | 2 |
+| 15 | 002292 | 奥飞娱乐 | 1 | 放量突破 | 74.2567 | 2 |
+| 16 | 601166 | 兴业银行 | 1 | 动量质量 | 74.179 | 3 |
+| 17 | 600036 | 招商银行 | 1 | 动量质量 | 74.036 | 4 |
+| 18 | 601601 | 中国太保 | 1 | 动量质量 | 73.9456 | 5 |
+| 19 | 601398 | 工商银行 | 1 | 动量质量 | 73.8926 | 6 |
+| 20 | 300747 | 锐科激光 | 1 | 资金热度 | 73.636 | 2 |
+| 21 | 601988 | 中国银行 | 1 | 动量质量 | 73.5534 | 7 |
+| 22 | 601288 | 农业银行 | 1 | 动量质量 | 73.3792 | 8 |
+| 23 | 601939 | 建设银行 | 1 | 动量质量 | 73.052 | 9 |
+| 24 | 601668 | 中国建筑 | 1 | 动量质量 | 72.8889 | 10 |
+| 25 | 002812 | 恩捷股份 | 1 | 资金热度 | 72.3817 | 3 |
+| 26 | 600938 | 中国海油 | 1 | 资金热度 | 71.906 | 4 |
+| 27 | 601595 | 上海电影 | 1 | 资金热度 | 70.8365 | 5 |
+| 28 | 600621 | 华鑫股份 | 1 | 资金热度 | 70.3363 | 6 |
+| 29 | 301251 | 威尔高 | 1 | 资金热度 | 68.8941 | 7 |
+| 30 | 600869 | 远东股份 | 1 | 资金热度 | 68.5799 | 8 |
 
 ## 模型明细与原始候选字段
 
@@ -63,528 +63,8 @@
 ```json
 [
   {
-    "code": "600521",
-    "name": "华海药业",
-    "resonance_count": 2,
-    "strategies": [
-      "volume_breakout",
-      "capital_heat"
-    ],
-    "strategy_labels": [
-      "放量突破",
-      "资金热度"
-    ],
-    "best_rank": 2,
-    "best_score": 78.5709,
-    "average_score": 75.48015,
-    "strategy_details": {
-      "volume_breakout": {
-        "rank": 2,
-        "score": 78.5709,
-        "reason": "本地后置评分: capital_confirmed",
-        "raw_candidate": {
-          "rank": 2,
-          "code": "600521",
-          "name": "华海药业",
-          "score": 78.5709,
-          "screen_score": 77.8708791671579,
-          "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [
-            "rsi_overbought"
-          ],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 17.45,
-          "change_pct": 4.8,
-          "amount": 1238170946.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 43.293,
-            "liquidity": 94.7368,
-            "momentum": 74.0947,
-            "reversal": 5.0,
-            "activity": 81.199,
-            "stability": 65.8274,
-            "size": 94.7368,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {
-            "enriched": true,
-            "profile": "pre_rank_light",
-            "news_included": false,
-            "events_included": false,
-            "quote": {
-              "code": "600521",
-              "name": "华海药业",
-              "source": "tencent",
-              "fetched_at": "2026-10-09T16:24:16.694580+00:00",
-              "price": 17.45,
-              "change_pct": 4.8,
-              "change_amount": 0.8,
-              "volume": 72199500,
-              "amount": 1238170946.0,
-              "volume_ratio": 2.52,
-              "turnover_rate": 4.82,
-              "amplitude": 5.29,
-              "open_price": 16.77,
-              "high": 17.46,
-              "low": 16.58,
-              "pre_close": 16.65,
-              "pe_ratio": 41.62,
-              "pb_ratio": 2.74,
-              "total_mv": 26127000000.0,
-              "circ_mv": 26127000000.0
-            },
-            "fundamentals": {
-              "market": "cn",
-              "status": "partial",
-              "coverage": {
-                "valuation": "not_supported",
-                "growth": "failed",
-                "earnings": "failed",
-                "institution": "failed",
-                "capital_flow": "failed",
-                "dragon_tiger": "failed",
-                "boards": "failed"
-              },
-              "valuation": {
-                "status": "not_supported",
-                "data": {
-                  "pe_ratio": null,
-                  "pb_ratio": null,
-                  "total_mv": null,
-                  "circ_mv": null
-                }
-              },
-              "growth": {
-                "status": "failed",
-                "data": {}
-              },
-              "earnings": {
-                "status": "failed",
-                "data": {}
-              },
-              "institution": {
-                "status": "failed",
-                "data": {}
-              },
-              "capital_flow": {
-                "status": "failed",
-                "data": {}
-              },
-              "boards": {
-                "status": "failed",
-                "data": {}
-              },
-              "errors": [
-                "fundamental_valuation timeout",
-                "fundamental stage timeout",
-                "fundamental stage timeout"
-              ]
-            },
-            "news": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "events": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "warnings": []
-          },
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 17.45, 涨跌幅 4.8%",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 2,
-            "code": "600521",
-            "name": "华海药业",
-            "final_score": 78.5709,
-            "screen_score": 77.8708791671579,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 17.45,
-            "change_pct": 4.8,
-            "amount": 1238170946.0,
-            "total_mv": 26127077135.0,
-            "turnover_rate": 4.82,
-            "volume_ratio": 2.52,
-            "pe_ratio": 41.6154219,
-            "pb_ratio": 2.73913113,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": 7.3186,
-            "signal_score": 68.5615,
-            "ma_bullish": false,
-            "price_above_ma20": true,
-            "macd_status": "bullish",
-            "rsi_status": "overbought",
-            "breakout_20d_pct": 2.0468,
-            "range_20d_pct": 15.2475,
-            "volume_ratio_20d": 3.3321,
-            "body_pct": 4.0549,
-            "pullback_to_ma20_pct": 8.3447,
-            "consolidation_days_20d": 13,
-            "volatility_20d_pct": 34.1741,
-            "max_drawdown_20d_pct": -4.6819,
-            "atr_20_pct": 2.6791,
-            "daily_quality_score": 100.0,
-            "daily_quality_flags": "",
-            "daily_source": "dsa:EfinanceFetcher",
-            "factor_scores": {
-              "value": 43.293,
-              "liquidity": 94.7368,
-              "momentum": 74.0947,
-              "reversal": 5.0,
-              "activity": 81.199,
-              "stability": 65.8274,
-              "size": 94.7368,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 12.5,
-            "risk_level": "low",
-            "risk_penalty": 1.5,
-            "risk_flags": [
-              "rsi_overbought"
-            ],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.2
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "600521",
-                "name": "华海药业",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:24:16.694580+00:00",
-                "price": 17.45,
-                "change_pct": 4.8,
-                "change_amount": 0.8,
-                "volume": 72199500,
-                "amount": 1238170946.0,
-                "volume_ratio": 2.52,
-                "turnover_rate": 4.82,
-                "amplitude": 5.29,
-                "open_price": 16.77,
-                "high": 17.46,
-                "low": 16.58,
-                "pre_close": 16.65,
-                "pe_ratio": 41.62,
-                "pb_ratio": 2.74,
-                "total_mv": 26127000000.0,
-                "circ_mv": 26127000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 17.45, 涨跌幅 4.8%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      },
-      "capital_heat": {
-        "rank": 7,
-        "score": 72.3894,
-        "reason": "本地后置评分: capital_confirmed",
-        "raw_candidate": {
-          "rank": 7,
-          "code": "600521",
-          "name": "华海药业",
-          "score": 72.3894,
-          "screen_score": 69.98938756756758,
-          "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 17.45,
-          "change_pct": 4.8,
-          "amount": 1238170946.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 54.9542,
-            "liquidity": 77.2973,
-            "momentum": 72.1,
-            "reversal": 5.0,
-            "activity": 82.1065,
-            "stability": 63.6,
-            "size": 76.2162,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 7,
-            "code": "600521",
-            "name": "华海药业",
-            "final_score": 72.3894,
-            "screen_score": 69.98938756756758,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 17.45,
-            "change_pct": 4.8,
-            "amount": 1238170946.0,
-            "total_mv": 26127077135.0,
-            "turnover_rate": 4.82,
-            "volume_ratio": 2.52,
-            "pe_ratio": 41.6154219,
-            "pb_ratio": 2.73913113,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 54.9542,
-              "liquidity": 77.2973,
-              "momentum": 72.1,
-              "reversal": 5.0,
-              "activity": 82.1065,
-              "stability": 63.6,
-              "size": 76.2162,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "600150",
-    "name": "中国船舶",
+    "code": "601665",
+    "name": "齐鲁银行",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -593,19 +73,19 @@
       "超跌反转"
     ],
     "best_rank": 1,
-    "best_score": 91.6044,
-    "average_score": 91.6044,
+    "best_score": 91.0307,
+    "average_score": 91.0307,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 1,
-        "score": 91.6044,
+        "score": 91.0307,
         "reason": "本地后置评分: value_quality、controlled_reversal",
         "raw_candidate": {
           "rank": 1,
-          "code": "600150",
-          "name": "中国船舶",
-          "score": 91.6044,
-          "screen_score": 87.20438405844155,
+          "code": "601665",
+          "name": "齐鲁银行",
+          "score": 91.0307,
+          "screen_score": 86.63073299773757,
           "reason": "本地后置评分: value_quality、controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -620,18 +100,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 38.54,
-          "change_pct": -3.19,
-          "amount": 4087925871.0,
+          "price": 6.81,
+          "change_pct": -2.99,
+          "amount": 813900757.0,
           "industry": "",
           "factor_scores": {
-            "value": 78.6263,
-            "liquidity": 98.7013,
-            "momentum": 46.1325,
-            "reversal": 95.97,
-            "activity": 79.7324,
-            "stability": 68.43,
-            "size": 98.961,
+            "value": 89.78,
+            "liquidity": 90.1961,
+            "momentum": 46.7825,
+            "reversal": 93.37,
+            "activity": 81.2774,
+            "stability": 69.03,
+            "size": 89.7436,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -641,26 +121,26 @@
             "news_included": false,
             "events_included": false,
             "quote": {
-              "code": "600150",
-              "name": "中国船舶",
+              "code": "601665",
+              "name": "齐鲁银行",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:26:25.921675+00:00",
-              "price": 38.54,
-              "change_pct": -3.19,
-              "change_amount": -1.27,
-              "volume": 105602400,
-              "amount": 4087925871.0,
-              "volume_ratio": 1.13,
-              "turnover_rate": 1.4,
-              "amplitude": 5.75,
-              "open_price": 39.99,
-              "high": 40.47,
-              "low": 38.18,
-              "pre_close": 39.81,
-              "pe_ratio": 20.68,
-              "pb_ratio": 1.9,
-              "total_mv": 290037000000.0,
-              "circ_mv": 290037000000.0
+              "fetched_at": "2026-10-14T14:38:52.848693+00:00",
+              "price": 6.81,
+              "change_pct": -2.99,
+              "change_amount": -0.21,
+              "volume": 118554600,
+              "amount": 813900757.0,
+              "volume_ratio": 2.15,
+              "turnover_rate": 1.93,
+              "amplitude": 4.27,
+              "open_price": 7.02,
+              "high": 7.06,
+              "low": 6.76,
+              "pre_close": 7.02,
+              "pe_ratio": 6.81,
+              "pb_ratio": 0.81,
+              "total_mv": 41908000000.0,
+              "circ_mv": 41908000000.0
             },
             "fundamentals": {
               "market": "cn",
@@ -725,7 +205,7 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 38.54, 涨跌幅 -3.19%",
+          "dsa_analysis_summary": "DSA行情: 现价 6.81, 涨跌幅 -2.99%",
           "post_analysis_summaries": {
             "scorecard": "本地后置评分: value_quality、controlled_reversal"
           },
@@ -735,21 +215,21 @@
           ],
           "raw": {
             "rank": 1,
-            "code": "600150",
-            "name": "中国船舶",
-            "final_score": 91.6044,
-            "screen_score": 87.20438405844155,
+            "code": "601665",
+            "name": "齐鲁银行",
+            "final_score": 91.0307,
+            "screen_score": 86.63073299773757,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 38.54,
-            "change_pct": -3.19,
-            "amount": 4087925871.0,
-            "total_mv": 290037444440.0,
-            "turnover_rate": 1.4,
-            "volume_ratio": 1.13,
-            "pe_ratio": 20.680584,
-            "pb_ratio": 1.90350436,
+            "price": 6.81,
+            "change_pct": -2.99,
+            "amount": 813900757.0,
+            "total_mv": 41907667595.0,
+            "turnover_rate": 1.93,
+            "volume_ratio": 2.15,
+            "pe_ratio": 6.81132436,
+            "pb_ratio": 0.80565084,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -783,13 +263,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 78.6263,
-              "liquidity": 98.7013,
-              "momentum": 46.1325,
-              "reversal": 95.97,
-              "activity": 79.7324,
-              "stability": 68.43,
-              "size": 98.961,
+              "value": 89.78,
+              "liquidity": 90.1961,
+              "momentum": 46.7825,
+              "reversal": 93.37,
+              "activity": 81.2774,
+              "stability": 69.03,
+              "size": 89.7436,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -838,26 +318,26 @@
               "news_included": false,
               "events_included": false,
               "quote": {
-                "code": "600150",
-                "name": "中国船舶",
+                "code": "601665",
+                "name": "齐鲁银行",
                 "source": "tencent",
-                "fetched_at": "2026-10-09T16:26:25.921675+00:00",
-                "price": 38.54,
-                "change_pct": -3.19,
-                "change_amount": -1.27,
-                "volume": 105602400,
-                "amount": 4087925871.0,
-                "volume_ratio": 1.13,
-                "turnover_rate": 1.4,
-                "amplitude": 5.75,
-                "open_price": 39.99,
-                "high": 40.47,
-                "low": 38.18,
-                "pre_close": 39.81,
-                "pe_ratio": 20.68,
-                "pb_ratio": 1.9,
-                "total_mv": 290037000000.0,
-                "circ_mv": 290037000000.0
+                "fetched_at": "2026-10-14T14:38:52.848693+00:00",
+                "price": 6.81,
+                "change_pct": -2.99,
+                "change_amount": -0.21,
+                "volume": 118554600,
+                "amount": 813900757.0,
+                "volume_ratio": 2.15,
+                "turnover_rate": 1.93,
+                "amplitude": 4.27,
+                "open_price": 7.02,
+                "high": 7.06,
+                "low": 6.76,
+                "pre_close": 7.02,
+                "pe_ratio": 6.81,
+                "pb_ratio": 0.81,
+                "total_mv": 41908000000.0,
+                "circ_mv": 41908000000.0
               },
               "fundamentals": {
                 "market": "cn",
@@ -921,7 +401,540 @@
               "warnings": []
             },
             "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 38.54, 涨跌幅 -3.19%",
+            "dsa_analysis_summary": "DSA行情: 现价 6.81, 涨跌幅 -2.99%",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "000338",
+    "name": "潍柴动力",
+    "resonance_count": 1,
+    "strategies": [
+      "oversold_reversal"
+    ],
+    "strategy_labels": [
+      "超跌反转"
+    ],
+    "best_rank": 2,
+    "best_score": 88.9162,
+    "average_score": 88.9162,
+    "strategy_details": {
+      "oversold_reversal": {
+        "rank": 2,
+        "score": 88.9162,
+        "reason": "本地后置评分: controlled_reversal",
+        "raw_candidate": {
+          "rank": 2,
+          "code": "000338",
+          "name": "潍柴动力",
+          "score": 88.9162,
+          "screen_score": 86.91620687782806,
+          "reason": "本地后置评分: controlled_reversal",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 22.6,
+          "change_pct": -3.46,
+          "amount": 1696187981.3,
+          "industry": "",
+          "factor_scores": {
+            "value": 71.9779,
+            "liquidity": 96.3801,
+            "momentum": 45.255,
+            "reversal": 99.48,
+            "activity": 78.922,
+            "stability": 67.62,
+            "size": 99.6983,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {
+            "enriched": true,
+            "profile": "pre_rank_light",
+            "news_included": false,
+            "events_included": false,
+            "quote": {
+              "code": "000338",
+              "name": "潍柴动力",
+              "source": "tencent",
+              "fetched_at": "2026-10-14T14:38:39.982338+00:00",
+              "price": 22.6,
+              "change_pct": -3.46,
+              "change_amount": -0.81,
+              "volume": 74052400,
+              "amount": 1696187981.0,
+              "volume_ratio": 0.88,
+              "turnover_rate": 1.49,
+              "amplitude": 3.67,
+              "open_price": 23.31,
+              "high": 23.41,
+              "low": 22.55,
+              "pre_close": 23.41,
+              "pe_ratio": 15.03,
+              "pb_ratio": 2.03,
+              "total_mv": 195269000000.0,
+              "circ_mv": 112014000000.00002
+            },
+            "fundamentals": {
+              "market": "cn",
+              "status": "partial",
+              "coverage": {
+                "valuation": "not_supported",
+                "growth": "failed",
+                "earnings": "failed",
+                "institution": "failed",
+                "capital_flow": "failed",
+                "dragon_tiger": "failed",
+                "boards": "failed"
+              },
+              "valuation": {
+                "status": "not_supported",
+                "data": {
+                  "pe_ratio": null,
+                  "pb_ratio": null,
+                  "total_mv": null,
+                  "circ_mv": null
+                }
+              },
+              "growth": {
+                "status": "failed",
+                "data": {}
+              },
+              "earnings": {
+                "status": "failed",
+                "data": {}
+              },
+              "institution": {
+                "status": "failed",
+                "data": {}
+              },
+              "capital_flow": {
+                "status": "failed",
+                "data": {}
+              },
+              "boards": {
+                "status": "failed",
+                "data": {}
+              },
+              "errors": [
+                "fundamental_valuation timeout",
+                "fundamental stage timeout",
+                "fundamental stage timeout"
+              ]
+            },
+            "news": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "events": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "warnings": []
+          },
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "DSA行情: 现价 22.6, 涨跌幅 -3.46%",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: controlled_reversal"
+          },
+          "post_analysis_tags": [
+            "controlled_reversal"
+          ],
+          "raw": {
+            "rank": 2,
+            "code": "000338",
+            "name": "潍柴动力",
+            "final_score": 88.9162,
+            "screen_score": 86.91620687782806,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 22.6,
+            "change_pct": -3.46,
+            "amount": 1696187981.3,
+            "total_mv": 195268986035.0,
+            "turnover_rate": 1.49,
+            "volume_ratio": 0.88,
+            "pe_ratio": 15.03420249,
+            "pb_ratio": 2.03190006,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 71.9779,
+              "liquidity": 96.3801,
+              "momentum": 45.255,
+              "reversal": 99.48,
+              "activity": 78.922,
+              "stability": 67.62,
+              "size": 99.6983,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: controlled_reversal"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 2.0
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "controlled_reversal"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "controlled_reversal"
+            ],
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "000338",
+                "name": "潍柴动力",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:38:39.982338+00:00",
+                "price": 22.6,
+                "change_pct": -3.46,
+                "change_amount": -0.81,
+                "volume": 74052400,
+                "amount": 1696187981.0,
+                "volume_ratio": 0.88,
+                "turnover_rate": 1.49,
+                "amplitude": 3.67,
+                "open_price": 23.31,
+                "high": 23.41,
+                "low": 22.55,
+                "pre_close": 23.41,
+                "pe_ratio": 15.03,
+                "pb_ratio": 2.03,
+                "total_mv": 195269000000.0,
+                "circ_mv": 112014000000.00002
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
+            "dsa_news": [],
+            "dsa_analysis_summary": "DSA行情: 现价 22.6, 涨跌幅 -3.46%",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "002497",
+    "name": "雅化集团",
+    "resonance_count": 1,
+    "strategies": [
+      "oversold_reversal"
+    ],
+    "strategy_labels": [
+      "超跌反转"
+    ],
+    "best_rank": 3,
+    "best_score": 88.9129,
+    "average_score": 88.9129,
+    "strategy_details": {
+      "oversold_reversal": {
+        "rank": 3,
+        "score": 88.9129,
+        "reason": "本地后置评分: value_quality、controlled_reversal",
+        "raw_candidate": {
+          "rank": 3,
+          "code": "002497",
+          "name": "雅化集团",
+          "score": 88.9129,
+          "screen_score": 84.51293424208146,
+          "reason": "本地后置评分: value_quality、controlled_reversal",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 14.2,
+          "change_pct": -3.27,
+          "amount": 401519587.35,
+          "industry": "",
+          "factor_scores": {
+            "value": 85.1963,
+            "liquidity": 74.6606,
+            "momentum": 45.8725,
+            "reversal": 97.01,
+            "activity": 83.3436,
+            "stability": 68.19,
+            "size": 73.454,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality、controlled_reversal"
+          },
+          "post_analysis_tags": [
+            "value_quality",
+            "controlled_reversal"
+          ],
+          "raw": {
+            "rank": 3,
+            "code": "002497",
+            "name": "雅化集团",
+            "final_score": 88.9129,
+            "screen_score": 84.51293424208146,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 14.2,
+            "change_pct": -3.27,
+            "amount": 401519587.35,
+            "total_mv": 16366387784.0,
+            "turnover_rate": 2.63,
+            "volume_ratio": 0.95,
+            "pe_ratio": 9.55739134,
+            "pb_ratio": 1.3447481,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 85.1963,
+              "liquidity": 74.6606,
+              "momentum": 45.8725,
+              "reversal": 97.01,
+              "activity": 83.3436,
+              "stability": 68.19,
+              "size": 73.454,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality、controlled_reversal"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 4.4
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality",
+                  "controlled_reversal"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality",
+              "controlled_reversal"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -947,730 +960,20 @@
     "strategy_labels": [
       "超跌反转"
     ],
-    "best_rank": 2,
-    "best_score": 90.0841,
-    "average_score": 90.0841,
-    "strategy_details": {
-      "oversold_reversal": {
-        "rank": 2,
-        "score": 90.0841,
-        "reason": "本地后置评分: value_quality、controlled_reversal",
-        "raw_candidate": {
-          "rank": 2,
-          "code": "002074",
-          "name": "国轩高科",
-          "score": 90.0841,
-          "screen_score": 85.6840674025974,
-          "reason": "本地后置评分: value_quality、controlled_reversal",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 30.41,
-          "change_pct": -2.84,
-          "amount": 3451359095.78,
-          "industry": "",
-          "factor_scores": {
-            "value": 81.3945,
-            "liquidity": 98.4416,
-            "momentum": 47.27,
-            "reversal": 91.42,
-            "activity": 74.6245,
-            "stability": 69.48,
-            "size": 92.7273,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {
-            "enriched": true,
-            "profile": "pre_rank_light",
-            "news_included": false,
-            "events_included": false,
-            "quote": {
-              "code": "002074",
-              "name": "国轩高科",
-              "source": "tencent",
-              "fetched_at": "2026-10-09T16:26:36.259295+00:00",
-              "price": 30.41,
-              "change_pct": -2.84,
-              "change_amount": -0.89,
-              "volume": 112261300,
-              "amount": 3451359096.0,
-              "volume_ratio": 1.72,
-              "turnover_rate": 6.46,
-              "amplitude": 6.87,
-              "open_price": 30.36,
-              "high": 32.0,
-              "low": 29.85,
-              "pre_close": 31.3,
-              "pe_ratio": 16.22,
-              "pb_ratio": 1.84,
-              "total_mv": 55186000000.0,
-              "circ_mv": 52812000000.0
-            },
-            "fundamentals": {
-              "market": "cn",
-              "status": "partial",
-              "coverage": {
-                "valuation": "not_supported",
-                "growth": "failed",
-                "earnings": "failed",
-                "institution": "failed",
-                "capital_flow": "failed",
-                "dragon_tiger": "failed",
-                "boards": "failed"
-              },
-              "valuation": {
-                "status": "not_supported",
-                "data": {
-                  "pe_ratio": null,
-                  "pb_ratio": null,
-                  "total_mv": null,
-                  "circ_mv": null
-                }
-              },
-              "growth": {
-                "status": "failed",
-                "data": {}
-              },
-              "earnings": {
-                "status": "failed",
-                "data": {}
-              },
-              "institution": {
-                "status": "failed",
-                "data": {}
-              },
-              "capital_flow": {
-                "status": "failed",
-                "data": {}
-              },
-              "boards": {
-                "status": "failed",
-                "data": {}
-              },
-              "errors": [
-                "fundamental_valuation timeout",
-                "fundamental stage timeout",
-                "fundamental stage timeout"
-              ]
-            },
-            "news": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "events": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "warnings": []
-          },
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 30.41, 涨跌幅 -2.84%",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality、controlled_reversal"
-          },
-          "post_analysis_tags": [
-            "value_quality",
-            "controlled_reversal"
-          ],
-          "raw": {
-            "rank": 2,
-            "code": "002074",
-            "name": "国轩高科",
-            "final_score": 90.0841,
-            "screen_score": 85.6840674025974,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 30.41,
-            "change_pct": -2.84,
-            "amount": 3451359095.78,
-            "total_mv": 55185797650.0,
-            "turnover_rate": 6.46,
-            "volume_ratio": 1.72,
-            "pe_ratio": 16.21827653,
-            "pb_ratio": 1.83139517,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 81.3945,
-              "liquidity": 98.4416,
-              "momentum": 47.27,
-              "reversal": 91.42,
-              "activity": 74.6245,
-              "stability": 69.48,
-              "size": 92.7273,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality、controlled_reversal"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 4.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality",
-                  "controlled_reversal"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality",
-              "controlled_reversal"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "002074",
-                "name": "国轩高科",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:26:36.259295+00:00",
-                "price": 30.41,
-                "change_pct": -2.84,
-                "change_amount": -0.89,
-                "volume": 112261300,
-                "amount": 3451359096.0,
-                "volume_ratio": 1.72,
-                "turnover_rate": 6.46,
-                "amplitude": 6.87,
-                "open_price": 30.36,
-                "high": 32.0,
-                "low": 29.85,
-                "pre_close": 31.3,
-                "pe_ratio": 16.22,
-                "pb_ratio": 1.84,
-                "total_mv": 55186000000.0,
-                "circ_mv": 52812000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 30.41, 涨跌幅 -2.84%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "601975",
-    "name": "招商南油",
-    "resonance_count": 1,
-    "strategies": [
-      "oversold_reversal"
-    ],
-    "strategy_labels": [
-      "超跌反转"
-    ],
-    "best_rank": 3,
-    "best_score": 89.7194,
-    "average_score": 89.7194,
-    "strategy_details": {
-      "oversold_reversal": {
-        "rank": 3,
-        "score": 89.7194,
-        "reason": "本地后置评分: value_quality、controlled_reversal",
-        "raw_candidate": {
-          "rank": 3,
-          "code": "601975",
-          "name": "招商南油",
-          "score": 89.7194,
-          "screen_score": 85.31938675324676,
-          "reason": "本地后置评分: value_quality、controlled_reversal",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 4.78,
-          "change_pct": -3.82,
-          "amount": 2059249564.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 81.9036,
-            "liquidity": 94.026,
-            "momentum": 44.085,
-            "reversal": 95.84,
-            "activity": 60.769,
-            "stability": 66.54,
-            "size": 82.0779,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {
-            "enriched": true,
-            "profile": "pre_rank_light",
-            "news_included": false,
-            "events_included": false,
-            "quote": {
-              "code": "601975",
-              "name": "招商南油",
-              "source": "tencent",
-              "fetched_at": "2026-10-09T16:26:46.664819+00:00",
-              "price": 4.78,
-              "change_pct": -3.82,
-              "change_amount": -0.19,
-              "volume": 432855400,
-              "amount": 2059249564.0,
-              "volume_ratio": 2.56,
-              "turnover_rate": 9.25,
-              "amplitude": 10.87,
-              "open_price": 4.98,
-              "high": 5.08,
-              "low": 4.54,
-              "pre_close": 4.97,
-              "pe_ratio": 14.4,
-              "pb_ratio": 1.84,
-              "total_mv": 22372000000.0,
-              "circ_mv": 22372000000.0
-            },
-            "fundamentals": {
-              "market": "cn",
-              "status": "partial",
-              "coverage": {
-                "valuation": "not_supported",
-                "growth": "failed",
-                "earnings": "failed",
-                "institution": "failed",
-                "capital_flow": "failed",
-                "dragon_tiger": "failed",
-                "boards": "failed"
-              },
-              "valuation": {
-                "status": "not_supported",
-                "data": {
-                  "pe_ratio": null,
-                  "pb_ratio": null,
-                  "total_mv": null,
-                  "circ_mv": null
-                }
-              },
-              "growth": {
-                "status": "failed",
-                "data": {}
-              },
-              "earnings": {
-                "status": "failed",
-                "data": {}
-              },
-              "institution": {
-                "status": "failed",
-                "data": {}
-              },
-              "capital_flow": {
-                "status": "failed",
-                "data": {}
-              },
-              "boards": {
-                "status": "failed",
-                "data": {}
-              },
-              "errors": [
-                "fundamental_valuation timeout",
-                "fundamental stage timeout",
-                "fundamental stage timeout"
-              ]
-            },
-            "news": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "events": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "warnings": []
-          },
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 4.78, 涨跌幅 -3.82%",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality、controlled_reversal"
-          },
-          "post_analysis_tags": [
-            "value_quality",
-            "controlled_reversal"
-          ],
-          "raw": {
-            "rank": 3,
-            "code": "601975",
-            "name": "招商南油",
-            "final_score": 89.7194,
-            "screen_score": 85.31938675324676,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 4.78,
-            "change_pct": -3.82,
-            "amount": 2059249564.0,
-            "total_mv": 22372047561.0,
-            "turnover_rate": 9.25,
-            "volume_ratio": 2.56,
-            "pe_ratio": 14.4026074,
-            "pb_ratio": 1.835117,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 81.9036,
-              "liquidity": 94.026,
-              "momentum": 44.085,
-              "reversal": 95.84,
-              "activity": 60.769,
-              "stability": 66.54,
-              "size": 82.0779,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality、controlled_reversal"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 4.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality",
-                  "controlled_reversal"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality",
-              "controlled_reversal"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "601975",
-                "name": "招商南油",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:26:46.664819+00:00",
-                "price": 4.78,
-                "change_pct": -3.82,
-                "change_amount": -0.19,
-                "volume": 432855400,
-                "amount": 2059249564.0,
-                "volume_ratio": 2.56,
-                "turnover_rate": 9.25,
-                "amplitude": 10.87,
-                "open_price": 4.98,
-                "high": 5.08,
-                "low": 4.54,
-                "pre_close": 4.97,
-                "pe_ratio": 14.4,
-                "pb_ratio": 1.84,
-                "total_mv": 22372000000.0,
-                "circ_mv": 22372000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 4.78, 涨跌幅 -3.82%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "300456",
-    "name": "赛微电子",
-    "resonance_count": 1,
-    "strategies": [
-      "oversold_reversal"
-    ],
-    "strategy_labels": [
-      "超跌反转"
-    ],
     "best_rank": 4,
-    "best_score": 89.5463,
-    "average_score": 89.5463,
+    "best_score": 88.5806,
+    "average_score": 88.5806,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 4,
-        "score": 89.5463,
+        "score": 88.5806,
         "reason": "本地后置评分: value_quality、controlled_reversal",
         "raw_candidate": {
           "rank": 4,
-          "code": "300456",
-          "name": "赛微电子",
-          "score": 89.5463,
-          "screen_score": 85.14634412337664,
+          "code": "002074",
+          "name": "国轩高科",
+          "score": 88.5806,
+          "screen_score": 84.18062090874811,
           "reason": "本地后置评分: value_quality、controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -1685,18 +988,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 31.88,
-          "change_pct": -3.57,
-          "amount": 934646385.72,
+          "price": 27.59,
+          "change_pct": -2.61,
+          "amount": 1586850845.55,
           "industry": "",
           "factor_scores": {
-            "value": 75.9536,
-            "liquidity": 84.4156,
-            "momentum": 44.8975,
-            "reversal": 99.09,
-            "activity": 78.4161,
-            "stability": 67.29,
-            "size": 82.3377,
+            "value": 78.5179,
+            "liquidity": 96.0784,
+            "momentum": 48.0175,
+            "reversal": 88.43,
+            "activity": 81.9606,
+            "stability": 70.17,
+            "size": 92.6094,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -1713,21 +1016,21 @@
           ],
           "raw": {
             "rank": 4,
-            "code": "300456",
-            "name": "赛微电子",
-            "final_score": 89.5463,
-            "screen_score": 85.14634412337664,
+            "code": "002074",
+            "name": "国轩高科",
+            "final_score": 88.5806,
+            "screen_score": 84.18062090874811,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 31.88,
-            "change_pct": -3.57,
-            "amount": 934646385.72,
-            "total_mv": 23342954712.0,
-            "turnover_rate": 4.89,
-            "volume_ratio": 1.07,
-            "pe_ratio": 5.58936189,
-            "pb_ratio": 2.5822242,
+            "price": 27.59,
+            "change_pct": -2.61,
+            "amount": 1586850845.55,
+            "total_mv": 50068272186.0,
+            "turnover_rate": 3.25,
+            "volume_ratio": 0.55,
+            "pe_ratio": 14.71431271,
+            "pb_ratio": 1.66156504,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -1761,13 +1064,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 75.9536,
-              "liquidity": 84.4156,
-              "momentum": 44.8975,
-              "reversal": 99.09,
-              "activity": 78.4161,
-              "stability": 67.29,
-              "size": 82.3377,
+              "value": 78.5179,
+              "liquidity": 96.0784,
+              "momentum": 48.0175,
+              "reversal": 88.43,
+              "activity": 81.9606,
+              "stability": 70.17,
+              "size": 92.6094,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -1829,8 +1132,8 @@
     }
   },
   {
-    "code": "002273",
-    "name": "水晶光电",
+    "code": "600801",
+    "name": "华新建材",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -1839,20 +1142,20 @@
       "超跌反转"
     ],
     "best_rank": 5,
-    "best_score": 85.6391,
-    "average_score": 85.6391,
+    "best_score": 88.3638,
+    "average_score": 88.3638,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 5,
-        "score": 85.6391,
-        "reason": "本地后置评分: controlled_reversal",
+        "score": 88.3638,
+        "reason": "本地后置评分: value_quality、controlled_reversal",
         "raw_candidate": {
           "rank": 5,
-          "code": "002273",
-          "name": "水晶光电",
-          "score": 85.6391,
-          "screen_score": 83.63908185064936,
-          "reason": "本地后置评分: controlled_reversal",
+          "code": "600801",
+          "name": "华新建材",
+          "score": 88.3638,
+          "screen_score": 83.96377240573152,
+          "reason": "本地后置评分: value_quality、controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -1866,18 +1169,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 22.37,
-          "change_pct": -3.37,
-          "amount": 1289088416.88,
+          "price": 20.7,
+          "change_pct": -3.27,
+          "amount": 377955069.0,
           "industry": "",
           "factor_scores": {
-            "value": 61.1471,
-            "liquidity": 89.3506,
-            "momentum": 45.5475,
-            "reversal": 98.31,
-            "activity": 81.1739,
-            "stability": 67.89,
-            "size": 86.7532,
+            "value": 84.8226,
+            "liquidity": 72.549,
+            "momentum": 45.8725,
+            "reversal": 97.01,
+            "activity": 81.5223,
+            "stability": 68.19,
+            "size": 90.3469,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -1886,28 +1189,29 @@
           "dsa_events": [],
           "dsa_analysis_summary": "",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: controlled_reversal"
+            "scorecard": "本地后置评分: value_quality、controlled_reversal"
           },
           "post_analysis_tags": [
+            "value_quality",
             "controlled_reversal"
           ],
           "raw": {
             "rank": 5,
-            "code": "002273",
-            "name": "水晶光电",
-            "final_score": 85.6391,
-            "screen_score": 83.63908185064936,
+            "code": "600801",
+            "name": "华新建材",
+            "final_score": 88.3638,
+            "screen_score": 83.96377240573152,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 22.37,
-            "change_pct": -3.37,
-            "amount": 1289088416.88,
-            "total_mv": 31108442784.0,
-            "turnover_rate": 4.25,
-            "volume_ratio": 1.17,
-            "pe_ratio": 26.0085497,
-            "pb_ratio": 3.04793772,
+            "price": 20.7,
+            "change_pct": -3.27,
+            "amount": 377955069.0,
+            "total_mv": 43035209934.0,
+            "turnover_rate": 1.33,
+            "volume_ratio": 1.58,
+            "pe_ratio": 12.42844213,
+            "pb_ratio": 1.29603482,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -1941,13 +1245,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 61.1471,
-              "liquidity": 89.3506,
-              "momentum": 45.5475,
-              "reversal": 98.31,
-              "activity": 81.1739,
-              "stability": 67.89,
-              "size": 86.7532,
+              "value": 84.8226,
+              "liquidity": 72.549,
+              "momentum": 45.8725,
+              "reversal": 97.01,
+              "activity": 81.5223,
+              "stability": 68.19,
+              "size": 90.3469,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -1972,20 +1276,22 @@
               "scorecard": "completed"
             },
             "post_analysis_summaries": {
-              "scorecard": "本地后置评分: controlled_reversal"
+              "scorecard": "本地后置评分: value_quality、controlled_reversal"
             },
             "post_analysis_score_deltas": {
-              "scorecard": 2.0
+              "scorecard": 4.4
             },
             "post_analysis_results": {
               "scorecard": {
                 "risk_flags": [],
                 "tags": [
+                  "value_quality",
                   "controlled_reversal"
                 ]
               }
             },
             "post_analysis_tags": [
+              "value_quality",
               "controlled_reversal"
             ],
             "dsa_context": {},
@@ -2007,8 +1313,8 @@
     }
   },
   {
-    "code": "601609",
-    "name": "金田股份",
+    "code": "603799",
+    "name": "华友钴业",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -2017,19 +1323,19 @@
       "超跌反转"
     ],
     "best_rank": 6,
-    "best_score": 85.6176,
-    "average_score": 85.6176,
+    "best_score": 88.0213,
+    "average_score": 88.0213,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 6,
-        "score": 85.6176,
+        "score": 88.0213,
         "reason": "本地后置评分: value_quality、controlled_reversal",
         "raw_candidate": {
           "rank": 6,
-          "code": "601609",
-          "name": "金田股份",
-          "score": 85.6176,
-          "screen_score": 81.21756438311688,
+          "code": "603799",
+          "name": "华友钴业",
+          "score": 88.0213,
+          "screen_score": 83.621335953997,
           "reason": "本地后置评分: value_quality、controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -2044,18 +1350,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 10.78,
-          "change_pct": -2.97,
-          "amount": 474657602.0,
+          "price": 33.24,
+          "change_pct": -2.46,
+          "amount": 931961793.0,
           "industry": "",
           "factor_scores": {
-            "value": 77.914,
-            "liquidity": 70.6494,
-            "momentum": 46.8475,
-            "reversal": 93.11,
-            "activity": 82.8741,
-            "stability": 69.09,
-            "size": 77.1429,
+            "value": 86.5258,
+            "liquidity": 90.9502,
+            "momentum": 48.505,
+            "reversal": 86.48,
+            "activity": 78.1694,
+            "stability": 70.62,
+            "size": 93.9668,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -2072,21 +1378,21 @@
           ],
           "raw": {
             "rank": 6,
-            "code": "601609",
-            "name": "金田股份",
-            "final_score": 85.6176,
-            "screen_score": 81.21756438311688,
+            "code": "603799",
+            "name": "华友钴业",
+            "final_score": 88.0213,
+            "screen_score": 83.621335953997,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 10.78,
-            "change_pct": -2.97,
-            "amount": 474657602.0,
-            "total_mv": 18634719721.0,
-            "turnover_rate": 2.55,
-            "volume_ratio": 0.91,
-            "pe_ratio": 22.68873291,
-            "pb_ratio": 1.8270895,
+            "price": 33.24,
+            "change_pct": -2.46,
+            "amount": 931961793.0,
+            "total_mv": 62940854665.0,
+            "turnover_rate": 1.47,
+            "volume_ratio": 0.73,
+            "pe_ratio": 9.11281876,
+            "pb_ratio": 1.23726959,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -2120,13 +1426,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 77.914,
-              "liquidity": 70.6494,
-              "momentum": 46.8475,
-              "reversal": 93.11,
-              "activity": 82.8741,
-              "stability": 69.09,
-              "size": 77.1429,
+              "value": 86.5258,
+              "liquidity": 90.9502,
+              "momentum": 48.505,
+              "reversal": 86.48,
+              "activity": 78.1694,
+              "stability": 70.62,
+              "size": 93.9668,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -2188,8 +1494,8 @@
     }
   },
   {
-    "code": "002008",
-    "name": "大族激光",
+    "code": "000725",
+    "name": "京东方A",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -2198,19 +1504,19 @@
       "超跌反转"
     ],
     "best_rank": 7,
-    "best_score": 84.6968,
-    "average_score": 84.6968,
+    "best_score": 87.693,
+    "average_score": 87.693,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 7,
-        "score": 84.6968,
+        "score": 87.693,
         "reason": "本地后置评分: controlled_reversal",
         "raw_candidate": {
           "rank": 7,
-          "code": "002008",
-          "name": "大族激光",
-          "score": 84.6968,
-          "screen_score": 82.69677451298702,
+          "code": "000725",
+          "name": "京东方A",
+          "score": 87.693,
+          "screen_score": 85.6929747285068,
           "reason": "本地后置评分: controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -2225,25 +1531,112 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 75.5,
-          "change_pct": -3.34,
-          "amount": 3016487600.44,
+          "price": 5.19,
+          "change_pct": -2.99,
+          "amount": 3937859261.48,
           "industry": "",
           "factor_scores": {
-            "value": 46.736,
-            "liquidity": 97.6623,
-            "momentum": 45.645,
-            "reversal": 97.92,
-            "activity": 81.2631,
-            "stability": 67.98,
-            "size": 94.8052,
+            "value": 73.2822,
+            "liquidity": 99.6983,
+            "momentum": 46.7825,
+            "reversal": 93.37,
+            "activity": 81.1353,
+            "stability": 69.03,
+            "size": 99.5475,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
-          "dsa_context": {},
+          "dsa_context": {
+            "enriched": true,
+            "profile": "pre_rank_light",
+            "news_included": false,
+            "events_included": false,
+            "quote": {
+              "code": "000725",
+              "name": "京东方Ａ",
+              "source": "tencent",
+              "fetched_at": "2026-10-14T14:39:04.656594+00:00",
+              "price": 5.19,
+              "change_pct": -2.99,
+              "change_amount": -0.16,
+              "volume": 751620000,
+              "amount": 3937859261.0,
+              "volume_ratio": 0.86,
+              "turnover_rate": 2.13,
+              "amplitude": 2.99,
+              "open_price": 5.32,
+              "high": 5.33,
+              "low": 5.17,
+              "pre_close": 5.35,
+              "pe_ratio": 24.47,
+              "pb_ratio": 1.44,
+              "total_mv": 192260000000.0,
+              "circ_mv": 183555000000.0
+            },
+            "fundamentals": {
+              "market": "cn",
+              "status": "partial",
+              "coverage": {
+                "valuation": "not_supported",
+                "growth": "failed",
+                "earnings": "failed",
+                "institution": "failed",
+                "capital_flow": "failed",
+                "dragon_tiger": "failed",
+                "boards": "failed"
+              },
+              "valuation": {
+                "status": "not_supported",
+                "data": {
+                  "pe_ratio": null,
+                  "pb_ratio": null,
+                  "total_mv": null,
+                  "circ_mv": null
+                }
+              },
+              "growth": {
+                "status": "failed",
+                "data": {}
+              },
+              "earnings": {
+                "status": "failed",
+                "data": {}
+              },
+              "institution": {
+                "status": "failed",
+                "data": {}
+              },
+              "capital_flow": {
+                "status": "failed",
+                "data": {}
+              },
+              "boards": {
+                "status": "failed",
+                "data": {}
+              },
+              "errors": [
+                "fundamental_valuation timeout",
+                "fundamental stage timeout",
+                "fundamental stage timeout"
+              ]
+            },
+            "news": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "events": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "warnings": []
+          },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "",
+          "dsa_analysis_summary": "DSA行情: 现价 5.19, 涨跌幅 -2.99%",
           "post_analysis_summaries": {
             "scorecard": "本地后置评分: controlled_reversal"
           },
@@ -2252,21 +1645,21 @@
           ],
           "raw": {
             "rank": 7,
-            "code": "002008",
-            "name": "大族激光",
-            "final_score": 84.6968,
-            "screen_score": 82.69677451298702,
+            "code": "000725",
+            "name": "京东方A",
+            "final_score": 87.693,
+            "screen_score": 85.6929747285068,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 75.5,
-            "change_pct": -3.34,
-            "amount": 3016487600.44,
-            "total_mv": 77735057304.0,
-            "turnover_rate": 4.2,
-            "volume_ratio": 1.15,
-            "pe_ratio": 39.07271385,
-            "pb_ratio": 3.6220913,
+            "price": 5.19,
+            "change_pct": -2.99,
+            "amount": 3937859261.48,
+            "total_mv": 192260062652.0,
+            "turnover_rate": 2.13,
+            "volume_ratio": 0.86,
+            "pe_ratio": 24.46759971,
+            "pb_ratio": 1.44408237,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -2300,13 +1693,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 46.736,
-              "liquidity": 97.6623,
-              "momentum": 45.645,
-              "reversal": 97.92,
-              "activity": 81.2631,
-              "stability": 67.98,
-              "size": 94.8052,
+              "value": 73.2822,
+              "liquidity": 99.6983,
+              "momentum": 46.7825,
+              "reversal": 93.37,
+              "activity": 81.1353,
+              "stability": 69.03,
+              "size": 99.5475,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -2347,9 +1740,96 @@
             "post_analysis_tags": [
               "controlled_reversal"
             ],
-            "dsa_context": {},
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "000725",
+                "name": "京东方Ａ",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:39:04.656594+00:00",
+                "price": 5.19,
+                "change_pct": -2.99,
+                "change_amount": -0.16,
+                "volume": 751620000,
+                "amount": 3937859261.0,
+                "volume_ratio": 0.86,
+                "turnover_rate": 2.13,
+                "amplitude": 2.99,
+                "open_price": 5.32,
+                "high": 5.33,
+                "low": 5.17,
+                "pre_close": 5.35,
+                "pe_ratio": 24.47,
+                "pb_ratio": 1.44,
+                "total_mv": 192260000000.0,
+                "circ_mv": 183555000000.0
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
             "dsa_news": [],
-            "dsa_analysis_summary": "",
+            "dsa_analysis_summary": "DSA行情: 现价 5.19, 涨跌幅 -2.99%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -2366,8 +1846,8 @@
     }
   },
   {
-    "code": "603606",
-    "name": "东方电缆",
+    "code": "600522",
+    "name": "中天科技",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -2376,19 +1856,19 @@
       "超跌反转"
     ],
     "best_rank": 8,
-    "best_score": 84.6839,
-    "average_score": 84.6839,
+    "best_score": 86.3855,
+    "average_score": 86.3855,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 8,
-        "score": 84.6839,
+        "score": 86.3855,
         "reason": "本地后置评分: controlled_reversal",
         "raw_candidate": {
           "rank": 8,
-          "code": "603606",
-          "name": "东方电缆",
-          "score": 84.6839,
-          "screen_score": 82.6839002922078,
+          "code": "600522",
+          "name": "中天科技",
+          "score": 86.3855,
+          "screen_score": 84.38554128959277,
           "reason": "本地后置评分: controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -2403,18 +1883,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 36.3,
-          "change_pct": -3.3,
-          "amount": 1017885404.0,
+          "price": 27.67,
+          "change_pct": -3.66,
+          "amount": 2278126359.0,
           "industry": "",
           "factor_scores": {
-            "value": 59.6977,
-            "liquidity": 85.7143,
-            "momentum": 45.775,
-            "reversal": 97.4,
-            "activity": 85.3949,
-            "stability": 68.1,
-            "size": 86.2338,
+            "value": 57.8388,
+            "liquidity": 98.19,
+            "momentum": 44.605,
+            "reversal": 97.92,
+            "activity": 81.4188,
+            "stability": 67.02,
+            "size": 96.9834,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -2430,21 +1910,21 @@
           ],
           "raw": {
             "rank": 8,
-            "code": "603606",
-            "name": "东方电缆",
-            "final_score": 84.6839,
-            "screen_score": 82.6839002922078,
+            "code": "600522",
+            "name": "中天科技",
+            "final_score": 86.3855,
+            "screen_score": 84.38554128959277,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 36.3,
-            "change_pct": -3.3,
-            "amount": 1017885404.0,
-            "total_mv": 29940548114.0,
-            "turnover_rate": 3.38,
-            "volume_ratio": 1.79,
-            "pe_ratio": 21.96291674,
-            "pb_ratio": 3.54052726,
+            "price": 27.67,
+            "change_pct": -3.66,
+            "amount": 2278126359.0,
+            "total_mv": 94436316871.0,
+            "turnover_rate": 2.36,
+            "volume_ratio": 0.74,
+            "pe_ratio": 25.37208878,
+            "pb_ratio": 2.45639869,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -2478,13 +1958,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 59.6977,
-              "liquidity": 85.7143,
-              "momentum": 45.775,
-              "reversal": 97.4,
-              "activity": 85.3949,
-              "stability": 68.1,
-              "size": 86.2338,
+              "value": 57.8388,
+              "liquidity": 98.19,
+              "momentum": 44.605,
+              "reversal": 97.92,
+              "activity": 81.4188,
+              "stability": 67.02,
+              "size": 96.9834,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -2544,8 +2024,8 @@
     }
   },
   {
-    "code": "300207",
-    "name": "欣旺达",
+    "code": "300073",
+    "name": "当升科技",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -2554,19 +2034,19 @@
       "超跌反转"
     ],
     "best_rank": 9,
-    "best_score": 84.6554,
-    "average_score": 84.6554,
+    "best_score": 86.2724,
+    "average_score": 86.2724,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 9,
-        "score": 84.6554,
+        "score": 86.2724,
         "reason": "本地后置评分: controlled_reversal",
         "raw_candidate": {
           "rank": 9,
-          "code": "300207",
-          "name": "欣旺达",
-          "score": 84.6554,
-          "screen_score": 82.65543211038961,
+          "code": "300073",
+          "name": "当升科技",
+          "score": 86.2724,
+          "screen_score": 84.27243035067875,
           "reason": "本地后置评分: controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -2581,18 +2061,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 20.66,
-          "change_pct": -3.91,
-          "amount": 3313374715.58,
+          "price": 38.8,
+          "change_pct": -3.07,
+          "amount": 809374877.98,
           "industry": "",
           "factor_scores": {
-            "value": 63.3276,
-            "liquidity": 97.9221,
-            "momentum": 43.7925,
-            "reversal": 94.67,
-            "activity": 62.9174,
-            "stability": 66.27,
-            "size": 89.3506,
+            "value": 73.6114,
+            "liquidity": 90.0452,
+            "momentum": 46.5225,
+            "reversal": 94.41,
+            "activity": 79.4076,
+            "stability": 68.79,
+            "size": 79.4872,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -2608,21 +2088,21 @@
           ],
           "raw": {
             "rank": 9,
-            "code": "300207",
-            "name": "欣旺达",
-            "final_score": 84.6554,
-            "screen_score": 82.65543211038961,
+            "code": "300073",
+            "name": "当升科技",
+            "final_score": 86.2724,
+            "screen_score": 84.27243035067875,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 20.66,
-            "change_pct": -3.91,
-            "amount": 3313374715.58,
-            "total_mv": 38168574134.0,
-            "turnover_rate": 9.17,
-            "volume_ratio": 1.05,
-            "pe_ratio": 47.47346017,
-            "pb_ratio": 1.5796139,
+            "price": 38.8,
+            "change_pct": -3.07,
+            "amount": 809374877.98,
+            "total_mv": 21118594318.0,
+            "turnover_rate": 4.06,
+            "volume_ratio": 0.63,
+            "pe_ratio": 25.0937224,
+            "pb_ratio": 1.40314449,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -2656,13 +2136,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 63.3276,
-              "liquidity": 97.9221,
-              "momentum": 43.7925,
-              "reversal": 94.67,
-              "activity": 62.9174,
-              "stability": 66.27,
-              "size": 89.3506,
+              "value": 73.6114,
+              "liquidity": 90.0452,
+              "momentum": 46.5225,
+              "reversal": 94.41,
+              "activity": 79.4076,
+              "stability": 68.79,
+              "size": 79.4872,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -2722,8 +2202,8 @@
     }
   },
   {
-    "code": "603063",
-    "name": "禾望电气",
+    "code": "002241",
+    "name": "歌尔股份",
     "resonance_count": 1,
     "strategies": [
       "oversold_reversal"
@@ -2732,19 +2212,19 @@
       "超跌反转"
     ],
     "best_rank": 10,
-    "best_score": 84.0582,
-    "average_score": 84.0582,
+    "best_score": 85.7537,
+    "average_score": 85.7537,
     "strategy_details": {
       "oversold_reversal": {
         "rank": 10,
-        "score": 84.0582,
+        "score": 85.7537,
         "reason": "本地后置评分: controlled_reversal",
         "raw_candidate": {
           "rank": 10,
-          "code": "603063",
-          "name": "禾望电气",
-          "score": 84.0582,
-          "screen_score": 82.05816762987014,
+          "code": "002241",
+          "name": "歌尔股份",
+          "score": 85.7537,
+          "screen_score": 83.75367567496231,
           "reason": "本地后置评分: controlled_reversal",
           "risk_level": "low",
           "risk_flags": [],
@@ -2759,18 +2239,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 25.76,
-          "change_pct": -3.38,
-          "amount": 475131710.0,
+          "price": 20.03,
+          "change_pct": -2.91,
+          "amount": 1031398082.95,
           "industry": "",
           "factor_scores": {
-            "value": 70.714,
-            "liquidity": 70.9091,
-            "momentum": 45.515,
-            "reversal": 98.44,
-            "activity": 83.8716,
-            "stability": 67.86,
-            "size": 62.5974,
+            "value": 72.1427,
+            "liquidity": 92.7602,
+            "momentum": 47.0425,
+            "reversal": 92.33,
+            "activity": 78.8001,
+            "stability": 69.27,
+            "size": 94.8718,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -2786,21 +2266,21 @@
           ],
           "raw": {
             "rank": 10,
-            "code": "603063",
-            "name": "禾望电气",
-            "final_score": 84.0582,
-            "screen_score": 82.05816762987014,
+            "code": "002241",
+            "name": "歌尔股份",
+            "final_score": 85.7537,
+            "screen_score": 83.75367567496231,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 25.76,
-            "change_pct": -3.38,
-            "amount": 475131710.0,
-            "total_mv": 11973643004.0,
-            "turnover_rate": 4.03,
-            "volume_ratio": 1.61,
-            "pe_ratio": 26.92399022,
-            "pb_ratio": 2.19306519,
+            "price": 20.03,
+            "change_pct": -2.91,
+            "amount": 1031398082.95,
+            "total_mv": 71267993838.0,
+            "turnover_rate": 1.62,
+            "volume_ratio": 0.75,
+            "pe_ratio": 17.86477686,
+            "pb_ratio": 1.87518091,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -2834,13 +2314,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 70.714,
-              "liquidity": 70.9091,
-              "momentum": 45.515,
-              "reversal": 98.44,
-              "activity": 83.8716,
-              "stability": 67.86,
-              "size": 62.5974,
+              "value": 72.1427,
+              "liquidity": 92.7602,
+              "momentum": 47.0425,
+              "reversal": 92.33,
+              "activity": 78.8001,
+              "stability": 69.27,
+              "size": 94.8718,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -2900,8 +2380,8 @@
     }
   },
   {
-    "code": "300457",
-    "name": "赢合科技",
+    "code": "600633",
+    "name": "浙数文化",
     "resonance_count": 1,
     "strategies": [
       "volume_breakout"
@@ -2910,20 +2390,20 @@
       "放量突破"
     ],
     "best_rank": 1,
-    "best_score": 79.4588,
-    "average_score": 79.4588,
+    "best_score": 78.45,
+    "average_score": 78.45,
     "strategy_details": {
       "volume_breakout": {
         "rank": 1,
-        "score": 79.4588,
-        "reason": "本地后置评分: capital_confirmed",
+        "score": 78.45,
+        "reason": "本地后置评分: value_quality、capital_confirmed",
         "raw_candidate": {
           "rank": 1,
-          "code": "300457",
-          "name": "赢合科技",
-          "score": 79.4588,
-          "screen_score": 77.25875206063158,
-          "reason": "本地后置评分: capital_confirmed",
+          "code": "600633",
+          "name": "浙数文化",
+          "score": 78.45,
+          "screen_score": 73.85001186400001,
+          "reason": "本地后置评分: value_quality、capital_confirmed",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -2937,18 +2417,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 22.72,
-          "change_pct": 3.74,
-          "amount": 736947392.18,
+          "price": 10.86,
+          "change_pct": 4.12,
+          "amount": 529388370.0,
           "industry": "",
           "factor_scores": {
-            "value": 72.2241,
-            "liquidity": 78.9474,
-            "momentum": 80.9919,
+            "value": 90.375,
+            "liquidity": 75.0,
+            "momentum": 75.5017,
             "reversal": 5.0,
-            "activity": 81.445,
-            "stability": 71.6832,
-            "size": 73.6842,
+            "activity": 79.7301,
+            "stability": 68.6503,
+            "size": 75.0,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -2958,26 +2438,26 @@
             "news_included": false,
             "events_included": false,
             "quote": {
-              "code": "300457",
-              "name": "赢合科技",
+              "code": "600633",
+              "name": "浙数文化",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:24:28.586450+00:00",
-              "price": 22.72,
-              "change_pct": 3.74,
-              "change_amount": 0.82,
-              "volume": 32781000,
-              "amount": 736947392.0,
-              "volume_ratio": 2.36,
-              "turnover_rate": 5.09,
-              "amplitude": 6.62,
-              "open_price": 21.78,
-              "high": 23.2,
-              "low": 21.75,
-              "pre_close": 21.9,
-              "pe_ratio": 23.72,
-              "pb_ratio": 2.06,
-              "total_mv": 14656000000.0,
-              "circ_mv": 14624000000.0
+              "fetched_at": "2026-10-14T14:37:05.473652+00:00",
+              "price": 10.86,
+              "change_pct": 4.12,
+              "change_amount": 0.43,
+              "volume": 49116000,
+              "amount": 529388370.0,
+              "volume_ratio": 2.95,
+              "turnover_rate": 3.87,
+              "amplitude": 6.71,
+              "open_price": 10.36,
+              "high": 11.03,
+              "low": 10.33,
+              "pre_close": 10.43,
+              "pe_ratio": 27.73,
+              "pb_ratio": 1.35,
+              "total_mv": 13771000000.0,
+              "circ_mv": 13771000000.0
             },
             "fundamentals": {
               "market": "cn",
@@ -3042,30 +2522,31 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 22.72, 涨跌幅 3.74%",
+          "dsa_analysis_summary": "DSA行情: 现价 10.86, 涨跌幅 4.12%",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
+            "scorecard": "本地后置评分: value_quality、capital_confirmed"
           },
           "post_analysis_tags": [
+            "value_quality",
             "capital_confirmed"
           ],
           "raw": {
             "rank": 1,
-            "code": "300457",
-            "name": "赢合科技",
-            "final_score": 79.4588,
-            "screen_score": 77.25875206063158,
+            "code": "600633",
+            "name": "浙数文化",
+            "final_score": 78.45,
+            "screen_score": 73.85001186400001,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 22.72,
-            "change_pct": 3.74,
-            "amount": 736947392.18,
-            "total_mv": 14655919241.0,
-            "turnover_rate": 5.09,
-            "volume_ratio": 2.36,
-            "pe_ratio": 23.72059354,
-            "pb_ratio": 2.05917777,
+            "price": 10.86,
+            "change_pct": 4.12,
+            "amount": 529388370.0,
+            "total_mv": 13771288766.0,
+            "turnover_rate": 3.87,
+            "volume_ratio": 2.95,
+            "pe_ratio": 27.72998583,
+            "pb_ratio": 1.33272259,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -3080,32 +2561,32 @@
             "board_heat_observations": null,
             "board_heat_state": "",
             "board_heat_summary": "",
-            "change_60d": 13.8847,
-            "signal_score": 90.8596,
-            "ma_bullish": true,
+            "change_60d": 8.8176,
+            "signal_score": 75.0862,
+            "ma_bullish": false,
             "price_above_ma20": true,
             "macd_status": "bullish",
             "rsi_status": "neutral",
-            "breakout_20d_pct": 1.3833,
-            "range_20d_pct": 17.0535,
-            "volume_ratio_20d": 3.0118,
-            "body_pct": 4.3159,
-            "pullback_to_ma20_pct": 7.1976,
-            "consolidation_days_20d": 12,
-            "volatility_20d_pct": 40.4485,
-            "max_drawdown_20d_pct": -8.5701,
-            "atr_20_pct": 3.4837,
+            "breakout_20d_pct": 1.306,
+            "range_20d_pct": 13.0123,
+            "volume_ratio_20d": 3.6864,
+            "body_pct": 4.8263,
+            "pullback_to_ma20_pct": 6.6798,
+            "consolidation_days_20d": 20,
+            "volatility_20d_pct": 28.8318,
+            "max_drawdown_20d_pct": -5.8429,
+            "atr_20_pct": 2.4033,
             "daily_quality_score": 100.0,
             "daily_quality_flags": "",
             "daily_source": "dsa:AkshareFetcher",
             "factor_scores": {
-              "value": 72.2241,
-              "liquidity": 78.9474,
-              "momentum": 80.9919,
+              "value": 90.375,
+              "liquidity": 75.0,
+              "momentum": 75.5017,
               "reversal": 5.0,
-              "activity": 81.445,
-              "stability": 71.6832,
-              "size": 73.6842,
+              "activity": 79.7301,
+              "stability": 68.6503,
+              "size": 75.0,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -3130,997 +2611,114 @@
               "scorecard": "completed"
             },
             "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
+              "scorecard": "本地后置评分: value_quality、capital_confirmed"
             },
             "post_analysis_score_deltas": {
-              "scorecard": 2.2
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "300457",
-                "name": "赢合科技",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:24:28.586450+00:00",
-                "price": 22.72,
-                "change_pct": 3.74,
-                "change_amount": 0.82,
-                "volume": 32781000,
-                "amount": 736947392.0,
-                "volume_ratio": 2.36,
-                "turnover_rate": 5.09,
-                "amplitude": 6.62,
-                "open_price": 21.78,
-                "high": 23.2,
-                "low": 21.75,
-                "pre_close": 21.9,
-                "pe_ratio": 23.72,
-                "pb_ratio": 2.06,
-                "total_mv": 14656000000.0,
-                "circ_mv": 14624000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 22.72, 涨跌幅 3.74%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "600988",
-    "name": "赤峰黄金",
-    "resonance_count": 1,
-    "strategies": [
-      "capital_heat"
-    ],
-    "strategy_labels": [
-      "资金热度"
-    ],
-    "best_rank": 1,
-    "best_score": 75.3049,
-    "average_score": 75.3049,
-    "strategy_details": {
-      "capital_heat": {
-        "rank": 1,
-        "score": 75.3049,
-        "reason": "本地后置评分: capital_confirmed",
-        "raw_candidate": {
-          "rank": 1,
-          "code": "600988",
-          "name": "赤峰黄金",
-          "score": 75.3049,
-          "screen_score": 72.90492756756758,
-          "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 41.38,
-          "change_pct": 5.91,
-          "amount": 3097807476.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 50.0485,
-            "liquidity": 97.2973,
-            "momentum": 75.7075,
-            "reversal": 5.0,
-            "activity": 78.157,
-            "stability": 60.27,
-            "size": 96.7568,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {
-            "enriched": true,
-            "profile": "pre_rank_light",
-            "news_included": false,
-            "events_included": false,
-            "quote": {
-              "code": "600988",
-              "name": "赤峰黄金",
-              "source": "tencent",
-              "fetched_at": "2026-10-09T16:24:59.298127+00:00",
-              "price": 41.38,
-              "change_pct": 5.91,
-              "change_amount": 2.31,
-              "volume": 76223100,
-              "amount": 3097807476.0,
-              "volume_ratio": 1.84,
-              "turnover_rate": 4.58,
-              "amplitude": 6.4,
-              "open_price": 39.68,
-              "high": 42.0,
-              "low": 39.5,
-              "pre_close": 39.07,
-              "pe_ratio": 21.21,
-              "pb_ratio": 5.49,
-              "total_mv": 78639000000.0,
-              "circ_mv": 68853000000.0
-            },
-            "fundamentals": {
-              "market": "cn",
-              "status": "partial",
-              "coverage": {
-                "valuation": "not_supported",
-                "growth": "failed",
-                "earnings": "failed",
-                "institution": "failed",
-                "capital_flow": "failed",
-                "dragon_tiger": "failed",
-                "boards": "failed"
-              },
-              "valuation": {
-                "status": "not_supported",
-                "data": {
-                  "pe_ratio": null,
-                  "pb_ratio": null,
-                  "total_mv": null,
-                  "circ_mv": null
-                }
-              },
-              "growth": {
-                "status": "failed",
-                "data": {}
-              },
-              "earnings": {
-                "status": "failed",
-                "data": {}
-              },
-              "institution": {
-                "status": "failed",
-                "data": {}
-              },
-              "capital_flow": {
-                "status": "failed",
-                "data": {}
-              },
-              "boards": {
-                "status": "failed",
-                "data": {}
-              },
-              "errors": [
-                "fundamental_valuation timeout",
-                "fundamental stage timeout",
-                "fundamental stage timeout"
-              ]
-            },
-            "news": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "events": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "warnings": []
-          },
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 41.38, 涨跌幅 5.91%",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 1,
-            "code": "600988",
-            "name": "赤峰黄金",
-            "final_score": 75.3049,
-            "screen_score": 72.90492756756758,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 41.38,
-            "change_pct": 5.91,
-            "amount": 3097807476.0,
-            "total_mv": 78639014546.0,
-            "turnover_rate": 4.58,
-            "volume_ratio": 1.84,
-            "pe_ratio": 21.20931373,
-            "pb_ratio": 5.48930063,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 50.0485,
-              "liquidity": 97.2973,
-              "momentum": 75.7075,
-              "reversal": 5.0,
-              "activity": 78.157,
-              "stability": 60.27,
-              "size": 96.7568,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "600988",
-                "name": "赤峰黄金",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:24:59.298127+00:00",
-                "price": 41.38,
-                "change_pct": 5.91,
-                "change_amount": 2.31,
-                "volume": 76223100,
-                "amount": 3097807476.0,
-                "volume_ratio": 1.84,
-                "turnover_rate": 4.58,
-                "amplitude": 6.4,
-                "open_price": 39.68,
-                "high": 42.0,
-                "low": 39.5,
-                "pre_close": 39.07,
-                "pe_ratio": 21.21,
-                "pb_ratio": 5.49,
-                "total_mv": 78639000000.0,
-                "circ_mv": 68853000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 41.38, 涨跌幅 5.91%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "600256",
-    "name": "广汇能源",
-    "resonance_count": 1,
-    "strategies": [
-      "capital_heat"
-    ],
-    "strategy_labels": [
-      "资金热度"
-    ],
-    "best_rank": 2,
-    "best_score": 74.8361,
-    "average_score": 74.8361,
-    "strategy_details": {
-      "capital_heat": {
-        "rank": 2,
-        "score": 74.8361,
-        "reason": "本地后置评分: capital_confirmed",
-        "raw_candidate": {
-          "rank": 2,
-          "code": "600256",
-          "name": "广汇能源",
-          "score": 74.8361,
-          "screen_score": 72.43607324324326,
-          "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 7.2,
-          "change_pct": 5.88,
-          "amount": 2000957759.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 73.7706,
-            "liquidity": 90.2703,
-            "momentum": 75.61,
-            "reversal": 5.0,
-            "activity": 80.5773,
-            "stability": 60.36,
-            "size": 89.1892,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {
-            "enriched": true,
-            "profile": "pre_rank_light",
-            "news_included": false,
-            "events_included": false,
-            "quote": {
-              "code": "600256",
-              "name": "广汇能源",
-              "source": "tencent",
-              "fetched_at": "2026-10-09T16:25:12.304435+00:00",
-              "price": 7.2,
-              "change_pct": 5.88,
-              "change_amount": 0.4,
-              "volume": 279227900,
-              "amount": 2000957759.0,
-              "volume_ratio": 2.54,
-              "turnover_rate": 4.37,
-              "amplitude": 5.0,
-              "open_price": 7.06,
-              "high": 7.33,
-              "low": 6.99,
-              "pre_close": 6.8,
-              "pe_ratio": 26.0,
-              "pb_ratio": 1.84,
-              "total_mv": 46022000000.0,
-              "circ_mv": 46022000000.0
-            },
-            "fundamentals": {
-              "market": "cn",
-              "status": "partial",
-              "coverage": {
-                "valuation": "not_supported",
-                "growth": "failed",
-                "earnings": "failed",
-                "institution": "failed",
-                "capital_flow": "failed",
-                "dragon_tiger": "failed",
-                "boards": "failed"
-              },
-              "valuation": {
-                "status": "not_supported",
-                "data": {
-                  "pe_ratio": null,
-                  "pb_ratio": null,
-                  "total_mv": null,
-                  "circ_mv": null
-                }
-              },
-              "growth": {
-                "status": "failed",
-                "data": {}
-              },
-              "earnings": {
-                "status": "failed",
-                "data": {}
-              },
-              "institution": {
-                "status": "failed",
-                "data": {}
-              },
-              "capital_flow": {
-                "status": "failed",
-                "data": {}
-              },
-              "boards": {
-                "status": "failed",
-                "data": {}
-              },
-              "errors": [
-                "fundamental_valuation timeout",
-                "fundamental stage timeout",
-                "fundamental stage timeout"
-              ]
-            },
-            "news": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "events": {
-              "success": false,
-              "skipped": true,
-              "reason": "pre_rank_light_context",
-              "results": []
-            },
-            "warnings": []
-          },
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 7.2, 涨跌幅 5.88%",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 2,
-            "code": "600256",
-            "name": "广汇能源",
-            "final_score": 74.8361,
-            "screen_score": 72.43607324324326,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 7.2,
-            "change_pct": 5.88,
-            "amount": 2000957759.0,
-            "total_mv": 46022421341.0,
-            "turnover_rate": 4.37,
-            "volume_ratio": 2.54,
-            "pe_ratio": 25.99792262,
-            "pb_ratio": 1.84170239,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 73.7706,
-              "liquidity": 90.2703,
-              "momentum": 75.61,
-              "reversal": 5.0,
-              "activity": 80.5773,
-              "stability": 60.36,
-              "size": 89.1892,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {
-              "enriched": true,
-              "profile": "pre_rank_light",
-              "news_included": false,
-              "events_included": false,
-              "quote": {
-                "code": "600256",
-                "name": "广汇能源",
-                "source": "tencent",
-                "fetched_at": "2026-10-09T16:25:12.304435+00:00",
-                "price": 7.2,
-                "change_pct": 5.88,
-                "change_amount": 0.4,
-                "volume": 279227900,
-                "amount": 2000957759.0,
-                "volume_ratio": 2.54,
-                "turnover_rate": 4.37,
-                "amplitude": 5.0,
-                "open_price": 7.06,
-                "high": 7.33,
-                "low": 6.99,
-                "pre_close": 6.8,
-                "pe_ratio": 26.0,
-                "pb_ratio": 1.84,
-                "total_mv": 46022000000.0,
-                "circ_mv": 46022000000.0
-              },
-              "fundamentals": {
-                "market": "cn",
-                "status": "partial",
-                "coverage": {
-                  "valuation": "not_supported",
-                  "growth": "failed",
-                  "earnings": "failed",
-                  "institution": "failed",
-                  "capital_flow": "failed",
-                  "dragon_tiger": "failed",
-                  "boards": "failed"
-                },
-                "valuation": {
-                  "status": "not_supported",
-                  "data": {
-                    "pe_ratio": null,
-                    "pb_ratio": null,
-                    "total_mv": null,
-                    "circ_mv": null
-                  }
-                },
-                "growth": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "earnings": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "institution": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "capital_flow": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "boards": {
-                  "status": "failed",
-                  "data": {}
-                },
-                "errors": [
-                  "fundamental_valuation timeout",
-                  "fundamental stage timeout",
-                  "fundamental stage timeout"
-                ]
-              },
-              "news": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "events": {
-                "success": false,
-                "skipped": true,
-                "reason": "pre_rank_light_context",
-                "results": []
-              },
-              "warnings": []
-            },
-            "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 7.2, 涨跌幅 5.88%",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "601398",
-    "name": "工商银行",
-    "resonance_count": 1,
-    "strategies": [
-      "momentum_quality"
-    ],
-    "strategy_labels": [
-      "动量质量"
-    ],
-    "best_rank": 1,
-    "best_score": 74.7189,
-    "average_score": 74.7189,
-    "strategy_details": {
-      "momentum_quality": {
-        "rank": 1,
-        "score": 74.7189,
-        "reason": "本地后置评分: value_quality、controlled_reversal",
-        "raw_candidate": {
-          "rank": 1,
-          "code": "601398",
-          "name": "工商银行",
-          "score": 74.7189,
-          "screen_score": 71.71894810842433,
-          "reason": "本地后置评分: value_quality、controlled_reversal",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 8.22,
-          "change_pct": -1.08,
-          "amount": 2810588785.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 85.7159,
-            "liquidity": 94.3838,
-            "momentum": 52.99,
-            "reversal": 75.04,
-            "activity": 67.0832,
-            "stability": 74.76,
-            "size": 100.0,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality、controlled_reversal"
-          },
-          "post_analysis_tags": [
-            "value_quality",
-            "controlled_reversal"
-          ],
-          "raw": {
-            "rank": 1,
-            "code": "601398",
-            "name": "工商银行",
-            "final_score": 74.7189,
-            "screen_score": 71.71894810842433,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 8.22,
-            "change_pct": -1.08,
-            "amount": 2810588785.0,
-            "total_mv": 2929659433272.0,
-            "turnover_rate": 0.13,
-            "volume_ratio": 1.14,
-            "pe_ratio": 7.8303619,
-            "pb_ratio": 0.73937832,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 85.7159,
-              "liquidity": 94.3838,
-              "momentum": 52.99,
-              "reversal": 75.04,
-              "activity": 67.0832,
-              "stability": 74.76,
-              "size": 100.0,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality、controlled_reversal"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 3.0
+              "scorecard": 4.6
             },
             "post_analysis_results": {
               "scorecard": {
                 "risk_flags": [],
                 "tags": [
                   "value_quality",
-                  "controlled_reversal"
+                  "capital_confirmed"
                 ]
               }
             },
             "post_analysis_tags": [
               "value_quality",
-              "controlled_reversal"
+              "capital_confirmed"
             ],
-            "dsa_context": {},
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "600633",
+                "name": "浙数文化",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:37:05.473652+00:00",
+                "price": 10.86,
+                "change_pct": 4.12,
+                "change_amount": 0.43,
+                "volume": 49116000,
+                "amount": 529388370.0,
+                "volume_ratio": 2.95,
+                "turnover_rate": 3.87,
+                "amplitude": 6.71,
+                "open_price": 10.36,
+                "high": 11.03,
+                "low": 10.33,
+                "pre_close": 10.43,
+                "pe_ratio": 27.73,
+                "pb_ratio": 1.35,
+                "total_mv": 13771000000.0,
+                "circ_mv": 13771000000.0
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
             "dsa_news": [],
-            "dsa_analysis_summary": "",
+            "dsa_analysis_summary": "DSA行情: 现价 10.86, 涨跌幅 4.12%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -4146,20 +2744,20 @@
     "strategy_labels": [
       "动量质量"
     ],
-    "best_rank": 2,
-    "best_score": 74.6381,
-    "average_score": 74.6381,
+    "best_rank": 1,
+    "best_score": 74.8641,
+    "average_score": 74.8641,
     "strategy_details": {
       "momentum_quality": {
-        "rank": 2,
-        "score": 74.6381,
+        "rank": 1,
+        "score": 74.8641,
         "reason": "本地后置评分: value_quality",
         "raw_candidate": {
-          "rank": 2,
+          "rank": 1,
           "code": "601318",
           "name": "中国平安",
-          "score": 74.6381,
-          "screen_score": 72.83808452613104,
+          "score": 74.8641,
+          "screen_score": 73.06405571466807,
           "reason": "本地后置评分: value_quality",
           "risk_level": "low",
           "risk_flags": [],
@@ -4174,18 +2772,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 52.83,
-          "change_pct": 0.3,
-          "amount": 3153261224.0,
+          "price": 51.23,
+          "change_pct": -0.89,
+          "amount": 4447475952.0,
           "industry": "",
           "factor_scores": {
-            "value": 84.9339,
-            "liquidity": 95.9438,
-            "momentum": 57.475,
-            "reversal": 57.1,
-            "activity": 68.2229,
-            "stability": 77.1,
-            "size": 98.2839,
+            "value": 84.3322,
+            "liquidity": 100.0,
+            "momentum": 53.6075,
+            "reversal": 72.57,
+            "activity": 70.0304,
+            "stability": 75.33,
+            "size": 97.8587,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -4198,23 +2796,23 @@
               "code": "601318",
               "name": "中国平安",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:25:43.140785+00:00",
-              "price": 52.83,
-              "change_pct": 0.3,
-              "change_amount": 0.16,
-              "volume": 59593600,
-              "amount": 3153261224.0,
-              "volume_ratio": 1.05,
-              "turnover_rate": 0.56,
-              "amplitude": 0.89,
-              "open_price": 52.71,
-              "high": 53.15,
-              "low": 52.68,
-              "pre_close": 52.67,
-              "pe_ratio": 6.0,
-              "pb_ratio": 0.95,
-              "total_mv": 956627000000.0,
-              "circ_mv": 563171000000.0
+              "fetched_at": "2026-10-14T14:38:07.191630+00:00",
+              "price": 51.23,
+              "change_pct": -0.89,
+              "change_amount": -0.46,
+              "volume": 86708900,
+              "amount": 4447475952.0,
+              "volume_ratio": 1.25,
+              "turnover_rate": 0.81,
+              "amplitude": 1.84,
+              "open_price": 51.61,
+              "high": 51.77,
+              "low": 50.82,
+              "pre_close": 51.69,
+              "pe_ratio": 5.82,
+              "pb_ratio": 0.92,
+              "total_mv": 927654000000.0001,
+              "circ_mv": 546114999999.99994
             },
             "fundamentals": {
               "market": "cn",
@@ -4279,7 +2877,7 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 52.83, 涨跌幅 0.3%",
+          "dsa_analysis_summary": "DSA行情: 现价 51.23, 涨跌幅 -0.89%",
           "post_analysis_summaries": {
             "scorecard": "本地后置评分: value_quality"
           },
@@ -4287,22 +2885,22 @@
             "value_quality"
           ],
           "raw": {
-            "rank": 2,
+            "rank": 1,
             "code": "601318",
             "name": "中国平安",
-            "final_score": 74.6381,
-            "screen_score": 72.83808452613104,
+            "final_score": 74.8641,
+            "screen_score": 73.06405571466807,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 52.83,
-            "change_pct": 0.3,
-            "amount": 3153261224.0,
-            "total_mv": 956626726596.0,
-            "turnover_rate": 0.56,
-            "volume_ratio": 1.05,
-            "pe_ratio": 6.00458665,
-            "pb_ratio": 0.93049471,
+            "price": 51.23,
+            "change_pct": -0.89,
+            "amount": 4447475952.0,
+            "total_mv": 927654499404.0,
+            "turnover_rate": 0.81,
+            "volume_ratio": 1.25,
+            "pe_ratio": 5.8227328,
+            "pb_ratio": 0.90231392,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -4336,13 +2934,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 84.9339,
-              "liquidity": 95.9438,
-              "momentum": 57.475,
-              "reversal": 57.1,
-              "activity": 68.2229,
-              "stability": 77.1,
-              "size": 98.2839,
+              "value": 84.3322,
+              "liquidity": 100.0,
+              "momentum": 53.6075,
+              "reversal": 72.57,
+              "activity": 70.0304,
+              "stability": 75.33,
+              "size": 97.8587,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -4392,23 +2990,23 @@
                 "code": "601318",
                 "name": "中国平安",
                 "source": "tencent",
-                "fetched_at": "2026-10-09T16:25:43.140785+00:00",
-                "price": 52.83,
-                "change_pct": 0.3,
-                "change_amount": 0.16,
-                "volume": 59593600,
-                "amount": 3153261224.0,
-                "volume_ratio": 1.05,
-                "turnover_rate": 0.56,
-                "amplitude": 0.89,
-                "open_price": 52.71,
-                "high": 53.15,
-                "low": 52.68,
-                "pre_close": 52.67,
-                "pe_ratio": 6.0,
-                "pb_ratio": 0.95,
-                "total_mv": 956627000000.0,
-                "circ_mv": 563171000000.0
+                "fetched_at": "2026-10-14T14:38:07.191630+00:00",
+                "price": 51.23,
+                "change_pct": -0.89,
+                "change_amount": -0.46,
+                "volume": 86708900,
+                "amount": 4447475952.0,
+                "volume_ratio": 1.25,
+                "turnover_rate": 0.81,
+                "amplitude": 1.84,
+                "open_price": 51.61,
+                "high": 51.77,
+                "low": 50.82,
+                "pre_close": 51.69,
+                "pe_ratio": 5.82,
+                "pb_ratio": 0.92,
+                "total_mv": 927654000000.0001,
+                "circ_mv": 546114999999.99994
               },
               "fundamentals": {
                 "market": "cn",
@@ -4472,7 +3070,7 @@
               "warnings": []
             },
             "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 52.83, 涨跌幅 0.3%",
+            "dsa_analysis_summary": "DSA行情: 现价 51.23, 涨跌幅 -0.89%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -4489,30 +3087,30 @@
     }
   },
   {
-    "code": "600036",
-    "name": "招商银行",
+    "code": "600316",
+    "name": "洪都航空",
     "resonance_count": 1,
     "strategies": [
-      "momentum_quality"
+      "capital_heat"
     ],
     "strategy_labels": [
-      "动量质量"
+      "资金热度"
     ],
-    "best_rank": 3,
-    "best_score": 74.5315,
-    "average_score": 74.5315,
+    "best_rank": 1,
+    "best_score": 74.5314,
+    "average_score": 74.5314,
     "strategy_details": {
-      "momentum_quality": {
-        "rank": 3,
-        "score": 74.5315,
-        "reason": "本地后置评分: value_quality",
+      "capital_heat": {
+        "rank": 1,
+        "score": 74.5314,
+        "reason": "本地后置评分: capital_confirmed",
         "raw_candidate": {
-          "rank": 3,
-          "code": "600036",
-          "name": "招商银行",
-          "score": 74.5315,
-          "screen_score": 72.73152960218408,
-          "reason": "本地后置评分: value_quality",
+          "rank": 1,
+          "code": "600316",
+          "name": "洪都航空",
+          "score": 74.5314,
+          "screen_score": 72.13144588235296,
+          "reason": "本地后置评分: capital_confirmed",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -4526,18 +3124,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 41.42,
-          "change_pct": -0.7,
-          "amount": 3607539112.0,
+          "price": 35.56,
+          "change_pct": 5.64,
+          "amount": 1370146310.0,
           "industry": "",
           "factor_scores": {
-            "value": 84.6156,
-            "liquidity": 97.1919,
-            "momentum": 54.225,
-            "reversal": 70.1,
-            "activity": 69.8515,
-            "stability": 75.9,
-            "size": 98.5959,
+            "value": 30.0869,
+            "liquidity": 83.5294,
+            "momentum": 74.83,
+            "reversal": 5.0,
+            "activity": 83.9755,
+            "stability": 61.08,
+            "size": 91.7647,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -4547,26 +3145,26 @@
             "news_included": false,
             "events_included": false,
             "quote": {
-              "code": "600036",
-              "name": "招商银行",
+              "code": "600316",
+              "name": "洪都航空",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:25:55.962786+00:00",
-              "price": 41.42,
-              "change_pct": -0.7,
-              "change_amount": -0.29,
-              "volume": 86192400,
-              "amount": 3607539112.0,
-              "volume_ratio": 1.52,
-              "turnover_rate": 0.42,
-              "amplitude": 1.61,
-              "open_price": 41.72,
-              "high": 42.09,
-              "low": 41.42,
-              "pre_close": 41.71,
-              "pe_ratio": 6.89,
-              "pb_ratio": 0.91,
-              "total_mv": 1044606000000.0,
-              "circ_mv": 854451000000.0
+              "fetched_at": "2026-10-14T14:37:41.118505+00:00",
+              "price": 35.56,
+              "change_pct": 5.64,
+              "change_amount": 1.9,
+              "volume": 39018700,
+              "amount": 1370146310.0,
+              "volume_ratio": 3.16,
+              "turnover_rate": 5.44,
+              "amplitude": 9.69,
+              "open_price": 33.0,
+              "high": 36.2,
+              "low": 32.94,
+              "pre_close": 33.66,
+              "pe_ratio": 537.91,
+              "pb_ratio": 4.74,
+              "total_mv": 25501000000.0,
+              "circ_mv": 25501000000.0
             },
             "fundamentals": {
               "market": "cn",
@@ -4631,30 +3229,30 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 41.42, 涨跌幅 -0.7%",
+          "dsa_analysis_summary": "DSA行情: 现价 35.56, 涨跌幅 5.64%",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
+            "scorecard": "本地后置评分: capital_confirmed"
           },
           "post_analysis_tags": [
-            "value_quality"
+            "capital_confirmed"
           ],
           "raw": {
-            "rank": 3,
-            "code": "600036",
-            "name": "招商银行",
-            "final_score": 74.5315,
-            "screen_score": 72.73152960218408,
+            "rank": 1,
+            "code": "600316",
+            "name": "洪都航空",
+            "final_score": 74.5314,
+            "screen_score": 72.13144588235296,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 41.42,
-            "change_pct": -0.7,
-            "amount": 3607539112.0,
-            "total_mv": 1044606004793.0,
-            "turnover_rate": 0.42,
-            "volume_ratio": 1.52,
-            "pe_ratio": 6.88618029,
-            "pb_ratio": 0.9122846,
+            "price": 35.56,
+            "change_pct": 5.64,
+            "amount": 1370146310.0,
+            "total_mv": 25500592047.0,
+            "turnover_rate": 5.44,
+            "volume_ratio": 3.16,
+            "pe_ratio": 537.90932057,
+            "pb_ratio": 4.73991173,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -4688,13 +3286,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 84.6156,
-              "liquidity": 97.1919,
-              "momentum": 54.225,
-              "reversal": 70.1,
-              "activity": 69.8515,
-              "stability": 75.9,
-              "size": 98.5959,
+              "value": 30.0869,
+              "liquidity": 83.5294,
+              "momentum": 74.83,
+              "reversal": 5.0,
+              "activity": 83.9755,
+              "stability": 61.08,
+              "size": 91.7647,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -4719,21 +3317,21 @@
               "scorecard": "completed"
             },
             "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
+              "scorecard": "本地后置评分: capital_confirmed"
             },
             "post_analysis_score_deltas": {
-              "scorecard": 1.8
+              "scorecard": 2.4
             },
             "post_analysis_results": {
               "scorecard": {
                 "risk_flags": [],
                 "tags": [
-                  "value_quality"
+                  "capital_confirmed"
                 ]
               }
             },
             "post_analysis_tags": [
-              "value_quality"
+              "capital_confirmed"
             ],
             "dsa_context": {
               "enriched": true,
@@ -4741,26 +3339,26 @@
               "news_included": false,
               "events_included": false,
               "quote": {
-                "code": "600036",
-                "name": "招商银行",
+                "code": "600316",
+                "name": "洪都航空",
                 "source": "tencent",
-                "fetched_at": "2026-10-09T16:25:55.962786+00:00",
-                "price": 41.42,
-                "change_pct": -0.7,
-                "change_amount": -0.29,
-                "volume": 86192400,
-                "amount": 3607539112.0,
-                "volume_ratio": 1.52,
-                "turnover_rate": 0.42,
-                "amplitude": 1.61,
-                "open_price": 41.72,
-                "high": 42.09,
-                "low": 41.42,
-                "pre_close": 41.71,
-                "pe_ratio": 6.89,
-                "pb_ratio": 0.91,
-                "total_mv": 1044606000000.0,
-                "circ_mv": 854451000000.0
+                "fetched_at": "2026-10-14T14:37:41.118505+00:00",
+                "price": 35.56,
+                "change_pct": 5.64,
+                "change_amount": 1.9,
+                "volume": 39018700,
+                "amount": 1370146310.0,
+                "volume_ratio": 3.16,
+                "turnover_rate": 5.44,
+                "amplitude": 9.69,
+                "open_price": 33.0,
+                "high": 36.2,
+                "low": 32.94,
+                "pre_close": 33.66,
+                "pe_ratio": 537.91,
+                "pb_ratio": 4.74,
+                "total_mv": 25501000000.0,
+                "circ_mv": 25501000000.0
               },
               "fundamentals": {
                 "market": "cn",
@@ -4824,7 +3422,7 @@
               "warnings": []
             },
             "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 41.42, 涨跌幅 -0.7%",
+            "dsa_analysis_summary": "DSA行情: 现价 35.56, 涨跌幅 5.64%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -4850,20 +3448,20 @@
     "strategy_labels": [
       "动量质量"
     ],
-    "best_rank": 4,
-    "best_score": 74.3862,
-    "average_score": 74.3862,
+    "best_rank": 2,
+    "best_score": 74.4981,
+    "average_score": 74.4981,
     "strategy_details": {
       "momentum_quality": {
-        "rank": 4,
-        "score": 74.3862,
+        "rank": 2,
+        "score": 74.4981,
         "reason": "本地后置评分: value_quality",
         "raw_candidate": {
-          "rank": 4,
+          "rank": 2,
           "code": "601328",
           "name": "交通银行",
-          "score": 74.3862,
-          "screen_score": 72.58618308307332,
+          "score": 74.4981,
+          "screen_score": 72.69814100642397,
           "reason": "本地后置评分: value_quality",
           "risk_level": "low",
           "risk_flags": [],
@@ -4878,18 +3476,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 7.78,
-          "change_pct": -0.64,
-          "amount": 2231787607.0,
+          "price": 8.0,
+          "change_pct": 0.25,
+          "amount": 1815272785.0,
           "industry": "",
           "factor_scores": {
-            "value": 87.1862,
-            "liquidity": 92.1997,
-            "momentum": 54.42,
-            "reversal": 69.32,
-            "activity": 72.1274,
-            "stability": 76.08,
-            "size": 97.6599,
+            "value": 86.1341,
+            "liquidity": 93.576,
+            "momentum": 57.3125,
+            "reversal": 57.75,
+            "activity": 69.112,
+            "stability": 77.25,
+            "size": 97.0021,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -4902,23 +3500,23 @@
               "code": "601328",
               "name": "交通银行",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:26:04.686802+00:00",
-              "price": 7.78,
-              "change_pct": -0.64,
-              "change_amount": -0.05,
-              "volume": 283824800,
-              "amount": 2231787607.0,
-              "volume_ratio": 1.49,
-              "turnover_rate": 1.09,
-              "amplitude": 1.92,
-              "open_price": 7.84,
-              "high": 7.92,
-              "low": 7.77,
-              "pre_close": 7.83,
-              "pe_ratio": 7.05,
-              "pb_ratio": 0.59,
-              "total_mv": 687470000000.0,
-              "circ_mv": 202844000000.0
+              "fetched_at": "2026-10-14T14:38:18.519541+00:00",
+              "price": 8.0,
+              "change_pct": 0.25,
+              "change_amount": 0.02,
+              "volume": 226002200,
+              "amount": 1815272785.0,
+              "volume_ratio": 1.0,
+              "turnover_rate": 0.87,
+              "amplitude": 1.75,
+              "open_price": 7.97,
+              "high": 8.09,
+              "low": 7.95,
+              "pre_close": 7.98,
+              "pe_ratio": 7.25,
+              "pb_ratio": 0.61,
+              "total_mv": 706910000000.0,
+              "circ_mv": 208580000000.00003
             },
             "fundamentals": {
               "market": "cn",
@@ -4983,7 +3581,7 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 7.78, 涨跌幅 -0.64%",
+          "dsa_analysis_summary": "DSA行情: 现价 8.0, 涨跌幅 0.25%",
           "post_analysis_summaries": {
             "scorecard": "本地后置评分: value_quality"
           },
@@ -4991,22 +3589,22 @@
             "value_quality"
           ],
           "raw": {
-            "rank": 4,
+            "rank": 2,
             "code": "601328",
             "name": "交通银行",
-            "final_score": 74.3862,
-            "screen_score": 72.58618308307332,
+            "final_score": 74.4981,
+            "screen_score": 72.69814100642397,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 7.78,
-            "change_pct": -0.64,
-            "amount": 2231787607.0,
-            "total_mv": 687470241255.0,
-            "turnover_rate": 1.09,
-            "volume_ratio": 1.49,
-            "pe_ratio": 7.05242348,
-            "pb_ratio": 0.58866817,
+            "price": 8.0,
+            "change_pct": 0.25,
+            "amount": 1815272785.0,
+            "total_mv": 706910273784.0,
+            "turnover_rate": 0.87,
+            "volume_ratio": 1.0,
+            "pe_ratio": 7.25184934,
+            "pb_ratio": 0.60531432,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -5040,13 +3638,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 87.1862,
-              "liquidity": 92.1997,
-              "momentum": 54.42,
-              "reversal": 69.32,
-              "activity": 72.1274,
-              "stability": 76.08,
-              "size": 97.6599,
+              "value": 86.1341,
+              "liquidity": 93.576,
+              "momentum": 57.3125,
+              "reversal": 57.75,
+              "activity": 69.112,
+              "stability": 77.25,
+              "size": 97.0021,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -5096,23 +3694,23 @@
                 "code": "601328",
                 "name": "交通银行",
                 "source": "tencent",
-                "fetched_at": "2026-10-09T16:26:04.686802+00:00",
-                "price": 7.78,
-                "change_pct": -0.64,
-                "change_amount": -0.05,
-                "volume": 283824800,
-                "amount": 2231787607.0,
-                "volume_ratio": 1.49,
-                "turnover_rate": 1.09,
-                "amplitude": 1.92,
-                "open_price": 7.84,
-                "high": 7.92,
-                "low": 7.77,
-                "pre_close": 7.83,
-                "pe_ratio": 7.05,
-                "pb_ratio": 0.59,
-                "total_mv": 687470000000.0,
-                "circ_mv": 202844000000.0
+                "fetched_at": "2026-10-14T14:38:18.519541+00:00",
+                "price": 8.0,
+                "change_pct": 0.25,
+                "change_amount": 0.02,
+                "volume": 226002200,
+                "amount": 1815272785.0,
+                "volume_ratio": 1.0,
+                "turnover_rate": 0.87,
+                "amplitude": 1.75,
+                "open_price": 7.97,
+                "high": 8.09,
+                "low": 7.95,
+                "pre_close": 7.98,
+                "pe_ratio": 7.25,
+                "pb_ratio": 0.61,
+                "total_mv": 706910000000.0,
+                "circ_mv": 208580000000.00003
               },
               "fundamentals": {
                 "market": "cn",
@@ -5176,7 +3774,7 @@
               "warnings": []
             },
             "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 7.78, 涨跌幅 -0.64%",
+            "dsa_analysis_summary": "DSA行情: 现价 8.0, 涨跌幅 0.25%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -5193,30 +3791,30 @@
     }
   },
   {
-    "code": "300418",
-    "name": "昆仑万维",
+    "code": "002292",
+    "name": "奥飞娱乐",
     "resonance_count": 1,
     "strategies": [
-      "capital_heat"
+      "volume_breakout"
     ],
     "strategy_labels": [
-      "资金热度"
+      "放量突破"
     ],
-    "best_rank": 3,
-    "best_score": 74.2168,
-    "average_score": 74.2168,
+    "best_rank": 2,
+    "best_score": 74.2567,
+    "average_score": 74.2567,
     "strategy_details": {
-      "capital_heat": {
-        "rank": 3,
-        "score": 74.2168,
-        "reason": "本地后置评分: capital_confirmed",
+      "volume_breakout": {
+        "rank": 2,
+        "score": 74.2567,
+        "reason": "本地后置评分: 未发现额外加分项",
         "raw_candidate": {
-          "rank": 3,
-          "code": "300418",
-          "name": "昆仑万维",
-          "score": 74.2168,
-          "screen_score": 71.81684567567568,
-          "reason": "本地后置评分: capital_confirmed",
+          "rank": 2,
+          "code": "002292",
+          "name": "奥飞娱乐",
+          "score": 74.2567,
+          "screen_score": 74.25669388,
+          "reason": "本地后置评分: 未发现额外加分项",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -5230,48 +3828,133 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 41.15,
-          "change_pct": 7.27,
-          "amount": 2338896921.86,
+          "price": 9.43,
+          "change_pct": 2.95,
+          "amount": 1387443185.98,
           "industry": "",
           "factor_scores": {
-            "value": 36.3576,
-            "liquidity": 92.973,
-            "momentum": 74.1215,
-            "reversal": 5.0,
-            "activity": 80.0118,
-            "stability": 56.19,
-            "size": 92.4324,
+            "value": 44.7083,
+            "liquidity": 100.0,
+            "momentum": 84.2636,
+            "reversal": 7.05,
+            "activity": 52.6424,
+            "stability": 65.5249,
+            "size": 100.0,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
-          "dsa_context": {},
+          "dsa_context": {
+            "enriched": true,
+            "profile": "pre_rank_light",
+            "news_included": false,
+            "events_included": false,
+            "quote": {
+              "code": "002292",
+              "name": "奥飞娱乐",
+              "source": "tencent",
+              "fetched_at": "2026-10-14T14:36:56.935417+00:00",
+              "price": 9.43,
+              "change_pct": 2.95,
+              "change_amount": 0.27,
+              "volume": 147829900,
+              "amount": 1387443186.0,
+              "volume_ratio": 2.05,
+              "turnover_rate": 14.52,
+              "amplitude": 7.64,
+              "open_price": 9.16,
+              "high": 9.61,
+              "low": 8.91,
+              "pre_close": 9.16,
+              "pe_ratio": 66.7,
+              "pb_ratio": 4.6,
+              "total_mv": 13944000000.0,
+              "circ_mv": 9599000000.0
+            },
+            "fundamentals": {
+              "market": "cn",
+              "status": "partial",
+              "coverage": {
+                "valuation": "not_supported",
+                "growth": "failed",
+                "earnings": "failed",
+                "institution": "failed",
+                "capital_flow": "failed",
+                "dragon_tiger": "failed",
+                "boards": "failed"
+              },
+              "valuation": {
+                "status": "not_supported",
+                "data": {
+                  "pe_ratio": null,
+                  "pb_ratio": null,
+                  "total_mv": null,
+                  "circ_mv": null
+                }
+              },
+              "growth": {
+                "status": "failed",
+                "data": {}
+              },
+              "earnings": {
+                "status": "failed",
+                "data": {}
+              },
+              "institution": {
+                "status": "failed",
+                "data": {}
+              },
+              "capital_flow": {
+                "status": "failed",
+                "data": {}
+              },
+              "boards": {
+                "status": "failed",
+                "data": {}
+              },
+              "errors": [
+                "fundamental_valuation timeout",
+                "fundamental stage timeout",
+                "fundamental stage timeout"
+              ]
+            },
+            "news": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "events": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "warnings": []
+          },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "",
+          "dsa_analysis_summary": "DSA行情: 现价 9.43, 涨跌幅 2.95%",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
+            "scorecard": "本地后置评分: 未发现额外加分项"
           },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
+          "post_analysis_tags": [],
           "raw": {
-            "rank": 3,
-            "code": "300418",
-            "name": "昆仑万维",
-            "final_score": 74.2168,
-            "screen_score": 71.81684567567568,
+            "rank": 2,
+            "code": "002292",
+            "name": "奥飞娱乐",
+            "final_score": 74.2567,
+            "screen_score": 74.25669388,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 41.15,
-            "change_pct": 7.27,
-            "amount": 2338896921.86,
-            "total_mv": 52879178522.0,
-            "turnover_rate": 5.07,
-            "volume_ratio": 1.86,
-            "pe_ratio": 150.72858998,
-            "pb_ratio": 3.57269128,
+            "price": 9.43,
+            "change_pct": 2.95,
+            "amount": 1387443185.98,
+            "total_mv": 13944138143.0,
+            "turnover_rate": 14.52,
+            "volume_ratio": 2.05,
+            "pe_ratio": 66.69707501,
+            "pb_ratio": 4.60000872,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -5286,32 +3969,32 @@
             "board_heat_observations": null,
             "board_heat_state": "",
             "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
+            "change_60d": 26.0695,
+            "signal_score": 95.1243,
+            "ma_bullish": true,
+            "price_above_ma20": true,
+            "macd_status": "bullish",
+            "rsi_status": "neutral",
+            "breakout_20d_pct": 1.726,
+            "range_20d_pct": 18.7886,
+            "volume_ratio_20d": 2.9421,
+            "body_pct": 2.9476,
+            "pullback_to_ma20_pct": 8.0245,
+            "consolidation_days_20d": 12,
+            "volatility_20d_pct": 43.5896,
+            "max_drawdown_20d_pct": -7.9956,
+            "atr_20_pct": 4.1729,
+            "daily_quality_score": 100.0,
             "daily_quality_flags": "",
-            "daily_source": "",
+            "daily_source": "dsa:AkshareFetcher",
             "factor_scores": {
-              "value": 36.3576,
-              "liquidity": 92.973,
-              "momentum": 74.1215,
-              "reversal": 5.0,
-              "activity": 80.0118,
-              "stability": 56.19,
-              "size": 92.4324,
+              "value": 44.7083,
+              "liquidity": 100.0,
+              "momentum": 84.2636,
+              "reversal": 7.05,
+              "activity": 52.6424,
+              "stability": 65.5249,
+              "size": 100.0,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -5336,25 +4019,108 @@
               "scorecard": "completed"
             },
             "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
+              "scorecard": "本地后置评分: 未发现额外加分项"
             },
             "post_analysis_score_deltas": {
-              "scorecard": 2.4
+              "scorecard": 0.0
             },
             "post_analysis_results": {
               "scorecard": {
                 "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
+                "tags": []
               }
             },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {},
+            "post_analysis_tags": [],
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "002292",
+                "name": "奥飞娱乐",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:36:56.935417+00:00",
+                "price": 9.43,
+                "change_pct": 2.95,
+                "change_amount": 0.27,
+                "volume": 147829900,
+                "amount": 1387443186.0,
+                "volume_ratio": 2.05,
+                "turnover_rate": 14.52,
+                "amplitude": 7.64,
+                "open_price": 9.16,
+                "high": 9.61,
+                "low": 8.91,
+                "pre_close": 9.16,
+                "pe_ratio": 66.7,
+                "pb_ratio": 4.6,
+                "total_mv": 13944000000.0,
+                "circ_mv": 9599000000.0
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
             "dsa_news": [],
-            "dsa_analysis_summary": "",
+            "dsa_analysis_summary": "DSA行情: 现价 9.43, 涨跌幅 2.95%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -5371,8 +4137,8 @@
     }
   },
   {
-    "code": "601939",
-    "name": "建设银行",
+    "code": "601166",
+    "name": "兴业银行",
     "resonance_count": 1,
     "strategies": [
       "momentum_quality"
@@ -5380,21 +4146,21 @@
     "strategy_labels": [
       "动量质量"
     ],
-    "best_rank": 5,
-    "best_score": 73.6338,
-    "average_score": 73.6338,
+    "best_rank": 3,
+    "best_score": 74.179,
+    "average_score": 74.179,
     "strategy_details": {
       "momentum_quality": {
-        "rank": 5,
-        "score": 73.6338,
-        "reason": "本地后置评分: value_quality、controlled_reversal",
+        "rank": 3,
+        "score": 74.179,
+        "reason": "本地后置评分: value_quality",
         "raw_candidate": {
-          "rank": 5,
-          "code": "601939",
-          "name": "建设银行",
-          "score": 73.6338,
-          "screen_score": 70.63383638845552,
-          "reason": "本地后置评分: value_quality、controlled_reversal",
+          "rank": 3,
+          "code": "601166",
+          "name": "兴业银行",
+          "score": 74.179,
+          "screen_score": 72.37904120717343,
+          "reason": "本地后置评分: value_quality",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -5408,49 +4174,135 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 10.98,
-          "change_pct": -1.52,
-          "amount": 1405255982.0,
+          "price": 18.25,
+          "change_pct": 0.55,
+          "amount": 1488872485.0,
           "industry": "",
           "factor_scores": {
-            "value": 84.5821,
-            "liquidity": 87.0515,
-            "momentum": 51.56,
-            "reversal": 80.76,
-            "activity": 72.0025,
-            "stability": 73.44,
-            "size": 99.844,
+            "value": 88.9719,
+            "liquidity": 91.4347,
+            "momentum": 58.2875,
+            "reversal": 53.85,
+            "activity": 66.8849,
+            "stability": 76.35,
+            "size": 95.2891,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
-          "dsa_context": {},
+          "dsa_context": {
+            "enriched": true,
+            "profile": "pre_rank_light",
+            "news_included": false,
+            "events_included": false,
+            "quote": {
+              "code": "601166",
+              "name": "兴业银行",
+              "source": "tencent",
+              "fetched_at": "2026-10-14T14:38:29.650821+00:00",
+              "price": 18.25,
+              "change_pct": 0.55,
+              "change_amount": 0.1,
+              "volume": 81571400,
+              "amount": 1488872485.0,
+              "volume_ratio": 0.89,
+              "turnover_rate": 0.39,
+              "amplitude": 1.21,
+              "open_price": 18.13,
+              "high": 18.33,
+              "low": 18.11,
+              "pre_close": 18.15,
+              "pe_ratio": 5.12,
+              "pb_ratio": 0.46,
+              "total_mv": 386222000000.0,
+              "circ_mv": 386222000000.0
+            },
+            "fundamentals": {
+              "market": "cn",
+              "status": "partial",
+              "coverage": {
+                "valuation": "not_supported",
+                "growth": "failed",
+                "earnings": "failed",
+                "institution": "failed",
+                "capital_flow": "failed",
+                "dragon_tiger": "failed",
+                "boards": "failed"
+              },
+              "valuation": {
+                "status": "not_supported",
+                "data": {
+                  "pe_ratio": null,
+                  "pb_ratio": null,
+                  "total_mv": null,
+                  "circ_mv": null
+                }
+              },
+              "growth": {
+                "status": "failed",
+                "data": {}
+              },
+              "earnings": {
+                "status": "failed",
+                "data": {}
+              },
+              "institution": {
+                "status": "failed",
+                "data": {}
+              },
+              "capital_flow": {
+                "status": "failed",
+                "data": {}
+              },
+              "boards": {
+                "status": "failed",
+                "data": {}
+              },
+              "errors": [
+                "fundamental_valuation timeout",
+                "fundamental stage timeout",
+                "fundamental stage timeout"
+              ]
+            },
+            "news": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "events": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "warnings": []
+          },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "",
+          "dsa_analysis_summary": "DSA行情: 现价 18.25, 涨跌幅 0.55%",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality、controlled_reversal"
+            "scorecard": "本地后置评分: value_quality"
           },
           "post_analysis_tags": [
-            "value_quality",
-            "controlled_reversal"
+            "value_quality"
           ],
           "raw": {
-            "rank": 5,
-            "code": "601939",
-            "name": "建设银行",
-            "final_score": 73.6338,
-            "screen_score": 70.63383638845552,
+            "rank": 3,
+            "code": "601166",
+            "name": "兴业银行",
+            "final_score": 74.179,
+            "screen_score": 72.37904120717343,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 10.98,
-            "change_pct": -1.52,
-            "amount": 1405255982.0,
-            "total_mv": 2872372188420.0,
-            "turnover_rate": 1.32,
-            "volume_ratio": 1.28,
-            "pe_ratio": 8.29221115,
-            "pb_ratio": 0.80229266,
+            "price": 18.25,
+            "change_pct": 0.55,
+            "amount": 1488872485.0,
+            "total_mv": 386222280136.0,
+            "turnover_rate": 0.39,
+            "volume_ratio": 0.89,
+            "pe_ratio": 5.11830637,
+            "pb_ratio": 0.46189003,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -5484,13 +4336,457 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 84.5821,
-              "liquidity": 87.0515,
-              "momentum": 51.56,
-              "reversal": 80.76,
-              "activity": 72.0025,
-              "stability": 73.44,
-              "size": 99.844,
+              "value": 88.9719,
+              "liquidity": 91.4347,
+              "momentum": 58.2875,
+              "reversal": 53.85,
+              "activity": 66.8849,
+              "stability": 76.35,
+              "size": 95.2891,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "601166",
+                "name": "兴业银行",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:38:29.650821+00:00",
+                "price": 18.25,
+                "change_pct": 0.55,
+                "change_amount": 0.1,
+                "volume": 81571400,
+                "amount": 1488872485.0,
+                "volume_ratio": 0.89,
+                "turnover_rate": 0.39,
+                "amplitude": 1.21,
+                "open_price": 18.13,
+                "high": 18.33,
+                "low": 18.11,
+                "pre_close": 18.15,
+                "pe_ratio": 5.12,
+                "pb_ratio": 0.46,
+                "total_mv": 386222000000.0,
+                "circ_mv": 386222000000.0
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
+            "dsa_news": [],
+            "dsa_analysis_summary": "DSA行情: 现价 18.25, 涨跌幅 0.55%",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "600036",
+    "name": "招商银行",
+    "resonance_count": 1,
+    "strategies": [
+      "momentum_quality"
+    ],
+    "strategy_labels": [
+      "动量质量"
+    ],
+    "best_rank": 4,
+    "best_score": 74.036,
+    "average_score": 74.036,
+    "strategy_details": {
+      "momentum_quality": {
+        "rank": 4,
+        "score": 74.036,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 4,
+          "code": "600036",
+          "name": "招商银行",
+          "score": 74.036,
+          "screen_score": 72.235990243576,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 42.67,
+          "change_pct": -0.3,
+          "amount": 2521262236.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 82.6057,
+            "liquidity": 97.8587,
+            "momentum": 55.525,
+            "reversal": 64.9,
+            "activity": 65.7989,
+            "stability": 77.1,
+            "size": 98.2869,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 4,
+            "code": "600036",
+            "name": "招商银行",
+            "final_score": 74.036,
+            "screen_score": 72.235990243576,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 42.67,
+            "change_pct": -0.3,
+            "amount": 2521262236.0,
+            "total_mv": 1076130811795.0,
+            "turnover_rate": 0.29,
+            "volume_ratio": 0.73,
+            "pe_ratio": 7.09399596,
+            "pb_ratio": 0.93981612,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 82.6057,
+              "liquidity": 97.8587,
+              "momentum": 55.525,
+              "reversal": 64.9,
+              "activity": 65.7989,
+              "stability": 77.1,
+              "size": 98.2869,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "601601",
+    "name": "中国太保",
+    "resonance_count": 1,
+    "strategies": [
+      "momentum_quality"
+    ],
+    "strategy_labels": [
+      "动量质量"
+    ],
+    "best_rank": 5,
+    "best_score": 73.9456,
+    "average_score": 73.9456,
+    "strategy_details": {
+      "momentum_quality": {
+        "rank": 5,
+        "score": 73.9456,
+        "reason": "本地后置评分: value_quality、controlled_reversal",
+        "raw_candidate": {
+          "rank": 5,
+          "code": "601601",
+          "name": "中国太保",
+          "score": 73.9456,
+          "screen_score": 70.94564725910064,
+          "reason": "本地后置评分: value_quality、controlled_reversal",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 29.32,
+          "change_pct": -2.59,
+          "amount": 1872088210.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 85.7524,
+            "liquidity": 94.0043,
+            "momentum": 46.932,
+            "reversal": 94.67,
+            "activity": 72.958,
+            "stability": 70.23,
+            "size": 93.1478,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality、controlled_reversal"
+          },
+          "post_analysis_tags": [
+            "value_quality",
+            "controlled_reversal"
+          ],
+          "raw": {
+            "rank": 5,
+            "code": "601601",
+            "name": "中国太保",
+            "final_score": 73.9456,
+            "screen_score": 70.94564725910064,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 29.32,
+            "change_pct": -2.59,
+            "amount": 1872088210.0,
+            "total_mv": 282068411461.0,
+            "turnover_rate": 0.93,
+            "volume_ratio": 1.8,
+            "pe_ratio": 5.00165638,
+            "pb_ratio": 0.88368404,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 85.7524,
+              "liquidity": 94.0043,
+              "momentum": 46.932,
+              "reversal": 94.67,
+              "activity": 72.958,
+              "stability": 70.23,
+              "size": 93.1478,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -5552,186 +4848,8 @@
     }
   },
   {
-    "code": "688099",
-    "name": "晶晨股份",
-    "resonance_count": 1,
-    "strategies": [
-      "capital_heat"
-    ],
-    "strategy_labels": [
-      "资金热度"
-    ],
-    "best_rank": 4,
-    "best_score": 73.519,
-    "average_score": 73.519,
-    "strategy_details": {
-      "capital_heat": {
-        "rank": 4,
-        "score": 73.519,
-        "reason": "本地后置评分: capital_confirmed",
-        "raw_candidate": {
-          "rank": 4,
-          "code": "688099",
-          "name": "晶晨股份",
-          "score": 73.519,
-          "screen_score": 71.11898054054056,
-          "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 99.71,
-          "change_pct": 5.44,
-          "amount": 3913551804.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 40.6095,
-            "liquidity": 98.3784,
-            "momentum": 74.18,
-            "reversal": 5.0,
-            "activity": 72.403,
-            "stability": 61.68,
-            "size": 87.5676,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 4,
-            "code": "688099",
-            "name": "晶晨股份",
-            "final_score": 73.519,
-            "screen_score": 71.11898054054056,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 99.71,
-            "change_pct": 5.44,
-            "amount": 3913551804.0,
-            "total_mv": 42209236701.0,
-            "turnover_rate": 9.22,
-            "volume_ratio": 3.6,
-            "pe_ratio": 42.75626985,
-            "pb_ratio": 5.29415235,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 40.6095,
-              "liquidity": 98.3784,
-              "momentum": 74.18,
-              "reversal": 5.0,
-              "activity": 72.403,
-              "stability": 61.68,
-              "size": 87.5676,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "601288",
-    "name": "农业银行",
+    "code": "601398",
+    "name": "工商银行",
     "resonance_count": 1,
     "strategies": [
       "momentum_quality"
@@ -5740,19 +4858,19 @@
       "动量质量"
     ],
     "best_rank": 6,
-    "best_score": 73.4069,
-    "average_score": 73.4069,
+    "best_score": 73.8926,
+    "average_score": 73.8926,
     "strategy_details": {
       "momentum_quality": {
         "rank": 6,
-        "score": 73.4069,
+        "score": 73.8926,
         "reason": "本地后置评分: value_quality",
         "raw_candidate": {
           "rank": 6,
-          "code": "601288",
-          "name": "农业银行",
-          "score": 73.4069,
-          "screen_score": 71.60689321372855,
+          "code": "601398",
+          "name": "工商银行",
+          "score": 73.8926,
+          "screen_score": 72.0925521547109,
           "reason": "本地后置评分: value_quality",
           "risk_level": "low",
           "risk_flags": [],
@@ -5767,18 +4885,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 6.98,
-          "change_pct": -0.57,
-          "amount": 2406076600.0,
+          "price": 8.45,
+          "change_pct": -0.47,
+          "amount": 2194159660.0,
           "industry": "",
           "factor_scores": {
-            "value": 84.3138,
-            "liquidity": 92.8237,
-            "momentum": 54.6475,
-            "reversal": 68.41,
-            "activity": 67.102,
-            "stability": 76.29,
-            "size": 99.688,
+            "value": 84.4815,
+            "liquidity": 96.3597,
+            "momentum": 54.9725,
+            "reversal": 67.11,
+            "activity": 65.3871,
+            "stability": 76.59,
+            "size": 100.0,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -5794,21 +4912,21 @@
           ],
           "raw": {
             "rank": 6,
-            "code": "601288",
-            "name": "农业银行",
-            "final_score": 73.4069,
-            "screen_score": 71.60689321372855,
+            "code": "601398",
+            "name": "工商银行",
+            "final_score": 73.8926,
+            "screen_score": 72.0925521547109,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 6.98,
-            "change_pct": -0.57,
-            "amount": 2406076600.0,
-            "total_mv": 2442881576434.0,
-            "turnover_rate": 0.11,
-            "volume_ratio": 1.16,
-            "pe_ratio": 8.20001066,
-            "pb_ratio": 0.85474794,
+            "price": 8.45,
+            "change_pct": -0.47,
+            "amount": 2194159660.0,
+            "total_mv": 3011632872402.0,
+            "turnover_rate": 0.1,
+            "volume_ratio": 0.79,
+            "pe_ratio": 8.04945962,
+            "pb_ratio": 0.76006652,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -5842,13 +4960,13 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 84.3138,
-              "liquidity": 92.8237,
-              "momentum": 54.6475,
-              "reversal": 68.41,
-              "activity": 67.102,
-              "stability": 76.29,
-              "size": 99.688,
+              "value": 84.4815,
+              "liquidity": 96.3597,
+              "momentum": 54.9725,
+              "reversal": 67.11,
+              "activity": 65.3871,
+              "stability": 76.59,
+              "size": 100.0,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -5908,186 +5026,8 @@
     }
   },
   {
-    "code": "601166",
-    "name": "兴业银行",
-    "resonance_count": 1,
-    "strategies": [
-      "momentum_quality"
-    ],
-    "strategy_labels": [
-      "动量质量"
-    ],
-    "best_rank": 7,
-    "best_score": 73.3591,
-    "average_score": 73.3591,
-    "strategy_details": {
-      "momentum_quality": {
-        "rank": 7,
-        "score": 73.3591,
-        "reason": "本地后置评分: value_quality",
-        "raw_candidate": {
-          "rank": 7,
-          "code": "601166",
-          "name": "兴业银行",
-          "score": 73.3591,
-          "screen_score": 71.55912745709827,
-          "reason": "本地后置评分: value_quality",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 18.05,
-          "change_pct": -1.04,
-          "amount": 1665697163.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 89.4085,
-            "liquidity": 88.7676,
-            "momentum": 53.12,
-            "reversal": 74.52,
-            "activity": 69.343,
-            "stability": 74.88,
-            "size": 96.4119,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
-          },
-          "post_analysis_tags": [
-            "value_quality"
-          ],
-          "raw": {
-            "rank": 7,
-            "code": "601166",
-            "name": "兴业银行",
-            "final_score": 73.3591,
-            "screen_score": 71.55912745709827,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 18.05,
-            "change_pct": -1.04,
-            "amount": 1665697163.0,
-            "total_mv": 381989707203.0,
-            "turnover_rate": 0.43,
-            "volume_ratio": 1.4,
-            "pe_ratio": 5.06221534,
-            "pb_ratio": 0.45682822,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 89.4085,
-              "liquidity": 88.7676,
-              "momentum": 53.12,
-              "reversal": 74.52,
-              "activity": 69.343,
-              "stability": 74.88,
-              "size": 96.4119,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 1.8
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "002460",
-    "name": "赣锋锂业",
+    "code": "300747",
+    "name": "锐科激光",
     "resonance_count": 1,
     "strategies": [
       "capital_heat"
@@ -6095,915 +5035,21 @@
     "strategy_labels": [
       "资金热度"
     ],
-    "best_rank": 5,
-    "best_score": 73.2374,
-    "average_score": 73.2374,
+    "best_rank": 2,
+    "best_score": 73.636,
+    "average_score": 73.636,
     "strategy_details": {
       "capital_heat": {
-        "rank": 5,
-        "score": 73.2374,
-        "reason": "本地后置评分: value_quality",
-        "raw_candidate": {
-          "rank": 5,
-          "code": "002460",
-          "name": "赣锋锂业",
-          "score": 73.2374,
-          "screen_score": 70.83735959459459,
-          "reason": "本地后置评分: value_quality",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 45.47,
-          "change_pct": 2.85,
-          "amount": 2623862284.35,
-          "industry": "",
-          "factor_scores": {
-            "value": 79.9833,
-            "liquidity": 96.2162,
-            "momentum": 65.7625,
-            "reversal": 9.15,
-            "activity": 78.8849,
-            "stability": 69.45,
-            "size": 97.2973,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
-          },
-          "post_analysis_tags": [
-            "value_quality"
-          ],
-          "raw": {
-            "rank": 5,
-            "code": "002460",
-            "name": "赣锋锂业",
-            "final_score": 73.2374,
-            "screen_score": 70.83735959459459,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 45.47,
-            "change_pct": 2.85,
-            "amount": 2623862284.35,
-            "total_mv": 95336694550.0,
-            "turnover_rate": 4.82,
-            "volume_ratio": 1.81,
-            "pe_ratio": 14.89313532,
-            "pb_ratio": 1.97799237,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 79.9833,
-              "liquidity": 96.2162,
-              "momentum": 65.7625,
-              "reversal": 9.15,
-              "activity": 78.8849,
-              "stability": 69.45,
-              "size": 97.2973,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.4
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "600030",
-    "name": "中信证券",
-    "resonance_count": 1,
-    "strategies": [
-      "momentum_quality"
-    ],
-    "strategy_labels": [
-      "动量质量"
-    ],
-    "best_rank": 8,
-    "best_score": 73.1272,
-    "average_score": 73.1272,
-    "strategy_details": {
-      "momentum_quality": {
-        "rank": 8,
-        "score": 73.1272,
-        "reason": "本地后置评分: value_quality",
-        "raw_candidate": {
-          "rank": 8,
-          "code": "600030",
-          "name": "中信证券",
-          "score": 73.1272,
-          "screen_score": 71.32720785881436,
-          "reason": "本地后置评分: value_quality",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 25.91,
-          "change_pct": 2.01,
-          "amount": 2720888490.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 75.9858,
-            "liquidity": 94.2278,
-            "momentum": 63.0325,
-            "reversal": 26.79,
-            "activity": 71.1993,
-            "stability": 71.97,
-            "size": 96.5679,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
-          },
-          "post_analysis_tags": [
-            "value_quality"
-          ],
-          "raw": {
-            "rank": 8,
-            "code": "600030",
-            "name": "中信证券",
-            "final_score": 73.1272,
-            "screen_score": 71.32720785881436,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 25.91,
-            "change_pct": 2.01,
-            "amount": 2720888490.0,
-            "total_mv": 404824893013.0,
-            "turnover_rate": 0.87,
-            "volume_ratio": 1.46,
-            "pe_ratio": 10.20847689,
-            "pb_ratio": 1.37008491,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 75.9858,
-              "liquidity": 94.2278,
-              "momentum": 63.0325,
-              "reversal": 26.79,
-              "activity": 71.1993,
-              "stability": 71.97,
-              "size": 96.5679,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 1.8
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "601988",
-    "name": "中国银行",
-    "resonance_count": 1,
-    "strategies": [
-      "momentum_quality"
-    ],
-    "strategy_labels": [
-      "动量质量"
-    ],
-    "best_rank": 9,
-    "best_score": 73.1033,
-    "average_score": 73.1033,
-    "strategy_details": {
-      "momentum_quality": {
-        "rank": 9,
-        "score": 73.1033,
-        "reason": "本地后置评分: value_quality",
-        "raw_candidate": {
-          "rank": 9,
-          "code": "601988",
-          "name": "中国银行",
-          "score": 73.1033,
-          "screen_score": 71.30325797581901,
-          "reason": "本地后置评分: value_quality",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 6.77,
-          "change_pct": -0.59,
-          "amount": 2032058745.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 84.4581,
-            "liquidity": 90.9516,
-            "momentum": 54.5825,
-            "reversal": 68.67,
-            "activity": 67.3008,
-            "stability": 76.23,
-            "size": 99.532,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
-          },
-          "post_analysis_tags": [
-            "value_quality"
-          ],
-          "raw": {
-            "rank": 9,
-            "code": "601988",
-            "name": "中国银行",
-            "final_score": 73.1033,
-            "screen_score": 71.30325797581901,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 6.77,
-            "change_pct": -0.59,
-            "amount": 2032058745.0,
-            "total_mv": 2181378027981.0,
-            "turnover_rate": 0.14,
-            "volume_ratio": 1.18,
-            "pe_ratio": 8.75971002,
-            "pb_ratio": 0.79302911,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 84.4581,
-              "liquidity": 90.9516,
-              "momentum": 54.5825,
-              "reversal": 68.67,
-              "activity": 67.3008,
-              "stability": 76.23,
-              "size": 99.532,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 1.8
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "603799",
-    "name": "华友钴业",
-    "resonance_count": 1,
-    "strategies": [
-      "momentum_quality"
-    ],
-    "strategy_labels": [
-      "动量质量"
-    ],
-    "best_rank": 10,
-    "best_score": 72.7023,
-    "average_score": 72.7023,
-    "strategy_details": {
-      "momentum_quality": {
-        "rank": 10,
-        "score": 72.7023,
-        "reason": "本地后置评分: value_quality",
-        "raw_candidate": {
-          "rank": 10,
-          "code": "603799",
-          "name": "华友钴业",
-          "score": 72.7023,
-          "screen_score": 70.90233067472698,
-          "reason": "本地后置评分: value_quality",
-          "risk_level": "low",
-          "risk_flags": [],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 35.6,
-          "change_pct": 1.05,
-          "amount": 1541264163.0,
-          "industry": "",
-          "factor_scores": {
-            "value": 77.0638,
-            "liquidity": 88.1435,
-            "momentum": 59.9125,
-            "reversal": 46.95,
-            "activity": 75.8748,
-            "stability": 74.85,
-            "size": 73.0109,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: value_quality"
-          },
-          "post_analysis_tags": [
-            "value_quality"
-          ],
-          "raw": {
-            "rank": 10,
-            "code": "603799",
-            "name": "华友钴业",
-            "final_score": 72.7023,
-            "screen_score": 70.90233067472698,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 35.6,
-            "change_pct": 1.05,
-            "amount": 1541264163.0,
-            "total_mv": 67409579605.0,
-            "turnover_rate": 2.32,
-            "volume_ratio": 1.34,
-            "pe_ratio": 9.75981793,
-            "pb_ratio": 1.32511424,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": null,
-            "signal_score": null,
-            "ma_bullish": null,
-            "price_above_ma20": null,
-            "macd_status": "",
-            "rsi_status": "",
-            "breakout_20d_pct": null,
-            "range_20d_pct": null,
-            "volume_ratio_20d": null,
-            "body_pct": null,
-            "pullback_to_ma20_pct": null,
-            "consolidation_days_20d": null,
-            "volatility_20d_pct": null,
-            "max_drawdown_20d_pct": null,
-            "atr_20_pct": null,
-            "daily_quality_score": null,
-            "daily_quality_flags": "",
-            "daily_source": "",
-            "factor_scores": {
-              "value": 77.0638,
-              "liquidity": 88.1435,
-              "momentum": 59.9125,
-              "reversal": 46.95,
-              "activity": 75.8748,
-              "stability": 74.85,
-              "size": 73.0109,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 0.0,
-            "risk_level": "low",
-            "risk_penalty": 0.0,
-            "risk_flags": [],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: value_quality"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 1.8
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "value_quality"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "value_quality"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "301238",
-    "name": "瑞泰新材",
-    "resonance_count": 1,
-    "strategies": [
-      "volume_breakout"
-    ],
-    "strategy_labels": [
-      "放量突破"
-    ],
-    "best_rank": 3,
-    "best_score": 72.6329,
-    "average_score": 72.6329,
-    "strategy_details": {
-      "volume_breakout": {
-        "rank": 3,
-        "score": 72.6329,
+        "rank": 2,
+        "score": 73.636,
         "reason": "本地后置评分: capital_confirmed",
         "raw_candidate": {
-          "rank": 3,
-          "code": "301238",
-          "name": "瑞泰新材",
-          "score": 72.6329,
-          "screen_score": 71.93291520378948,
+          "rank": 2,
+          "code": "300747",
+          "name": "锐科激光",
+          "score": 73.636,
+          "screen_score": 71.23600529411765,
           "reason": "本地后置评分: capital_confirmed",
-          "risk_level": "low",
-          "risk_flags": [
-            "rsi_overbought"
-          ],
-          "llm_score": null,
-          "llm_confidence": null,
-          "llm_sector": "",
-          "llm_theme": "",
-          "llm_tags": [],
-          "llm_thesis": "",
-          "llm_catalysts": [],
-          "llm_risks": [],
-          "llm_watch_items": [],
-          "llm_invalidators": [],
-          "llm_style_fit": "",
-          "price": 17.43,
-          "change_pct": 5.76,
-          "amount": 659699021.28,
-          "industry": "",
-          "factor_scores": {
-            "value": 64.3433,
-            "liquidity": 73.6842,
-            "momentum": 72.5207,
-            "reversal": 5.0,
-            "activity": 79.4706,
-            "stability": 62.64,
-            "size": 63.1579,
-            "theme_heat": 50.0,
-            "topic_alignment": 50.0
-          },
-          "dsa_context": {},
-          "dsa_news": [],
-          "dsa_events": [],
-          "dsa_analysis_summary": "",
-          "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
-          },
-          "post_analysis_tags": [
-            "capital_confirmed"
-          ],
-          "raw": {
-            "rank": 3,
-            "code": "301238",
-            "name": "瑞泰新材",
-            "final_score": 72.6329,
-            "screen_score": 71.93291520378948,
-            "llm_score": null,
-            "ranking_reason": "",
-            "risk_summary": "",
-            "price": 17.43,
-            "change_pct": 5.76,
-            "amount": 659699021.28,
-            "total_mv": 12781999419.0,
-            "turnover_rate": 5.26,
-            "volume_ratio": 4.21,
-            "pe_ratio": 39.77468661,
-            "pb_ratio": 1.75346005,
-            "industry": "",
-            "concepts": "",
-            "industry_rank": null,
-            "industry_change_pct": null,
-            "industry_heat_score": null,
-            "concept_heat_score": null,
-            "board_heat_score": null,
-            "board_heat_latest_score": null,
-            "board_heat_trend_score": null,
-            "board_heat_persistence_score": null,
-            "board_heat_cooling_score": null,
-            "board_heat_observations": null,
-            "board_heat_state": "",
-            "board_heat_summary": "",
-            "change_60d": -1.0783,
-            "signal_score": 66.0,
-            "ma_bullish": false,
-            "price_above_ma20": true,
-            "macd_status": "bullish",
-            "rsi_status": "overbought",
-            "breakout_20d_pct": 4.6218,
-            "range_20d_pct": 18.2796,
-            "volume_ratio_20d": 5.2993,
-            "body_pct": 6.9325,
-            "pullback_to_ma20_pct": 10.299,
-            "consolidation_days_20d": 20,
-            "volatility_20d_pct": 33.7932,
-            "max_drawdown_20d_pct": -4.872,
-            "atr_20_pct": 2.7367,
-            "daily_quality_score": 100.0,
-            "daily_quality_flags": "",
-            "daily_source": "dsa:AkshareFetcher",
-            "factor_scores": {
-              "value": 64.3433,
-              "liquidity": 73.6842,
-              "momentum": 72.5207,
-              "reversal": 5.0,
-              "activity": 79.4706,
-              "stability": 62.64,
-              "size": 63.1579,
-              "theme_heat": 50.0,
-              "topic_alignment": 50.0
-            },
-            "llm_confidence": null,
-            "llm_sector": "",
-            "llm_theme": "",
-            "llm_tags": [],
-            "llm_catalysts": [],
-            "llm_risks": [],
-            "llm_thesis": "",
-            "llm_style_fit": "",
-            "llm_watch_items": [],
-            "llm_invalidators": [],
-            "risk_score": 12.5,
-            "risk_level": "low",
-            "risk_penalty": 1.5,
-            "risk_flags": [
-              "rsi_overbought"
-            ],
-            "excluded_by_risk": false,
-            "portfolio_penalty": 0.0,
-            "portfolio_flags": [],
-            "post_analysis_status": {
-              "scorecard": "completed"
-            },
-            "post_analysis_summaries": {
-              "scorecard": "本地后置评分: capital_confirmed"
-            },
-            "post_analysis_score_deltas": {
-              "scorecard": 2.2
-            },
-            "post_analysis_results": {
-              "scorecard": {
-                "risk_flags": [],
-                "tags": [
-                  "capital_confirmed"
-                ]
-              }
-            },
-            "post_analysis_tags": [
-              "capital_confirmed"
-            ],
-            "dsa_context": {},
-            "dsa_news": [],
-            "dsa_analysis_summary": "",
-            "deep_analysis_status": "not_requested",
-            "deep_analysis_query_id": "",
-            "deep_analysis_summary": "",
-            "deep_analysis_error": "",
-            "deep_analysis_result": null,
-            "deep_analysis_signal_score": null,
-            "deep_analysis_sentiment_score": null,
-            "deep_analysis_operation_advice": "",
-            "deep_analysis_trend_prediction": "",
-            "deep_analysis_risk_flags": []
-          }
-        }
-      }
-    }
-  },
-  {
-    "code": "002044",
-    "name": "美年健康",
-    "resonance_count": 1,
-    "strategies": [
-      "volume_breakout"
-    ],
-    "strategy_labels": [
-      "放量突破"
-    ],
-    "best_rank": 4,
-    "best_score": 72.6161,
-    "average_score": 72.6161,
-    "strategy_details": {
-      "volume_breakout": {
-        "rank": 4,
-        "score": 72.6161,
-        "reason": "本地后置评分: 未发现额外加分项",
-        "raw_candidate": {
-          "rank": 4,
-          "code": "002044",
-          "name": "美年健康",
-          "score": 72.6161,
-          "screen_score": 72.6160752303158,
-          "reason": "本地后置评分: 未发现额外加分项",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -7017,18 +5063,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 4.9,
-          "change_pct": 8.41,
-          "amount": 1234575413.06,
+          "price": 37.5,
+          "change_pct": 5.04,
+          "amount": 1312602327.1,
           "industry": "",
           "factor_scores": {
-            "value": 43.8239,
-            "liquidity": 89.4737,
-            "momentum": 68.3421,
+            "value": 33.1968,
+            "liquidity": 81.1765,
+            "momentum": 72.88,
             "reversal": 5.0,
-            "activity": 77.2098,
-            "stability": 54.4367,
-            "size": 89.4737,
+            "activity": 83.7078,
+            "stability": 62.88,
+            "size": 89.4118,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -7038,26 +5084,26 @@
             "news_included": false,
             "events_included": false,
             "quote": {
-              "code": "002044",
-              "name": "美年健康",
+              "code": "300747",
+              "name": "锐科激光",
               "source": "tencent",
-              "fetched_at": "2026-10-09T16:24:39.607378+00:00",
-              "price": 4.9,
-              "change_pct": 8.41,
-              "change_amount": 0.38,
-              "volume": 259616700,
-              "amount": 1234575413.0,
-              "volume_ratio": 4.74,
-              "turnover_rate": 6.7,
-              "amplitude": 10.18,
-              "open_price": 4.52,
-              "high": 4.96,
-              "low": 4.5,
-              "pre_close": 4.52,
-              "pe_ratio": 59.14,
-              "pb_ratio": 2.41,
-              "total_mv": 19180000000.0,
-              "circ_mv": 18984000000.0
+              "fetched_at": "2026-10-14T14:37:54.193238+00:00",
+              "price": 37.5,
+              "change_pct": 5.04,
+              "change_amount": 1.8,
+              "volume": 35024400,
+              "amount": 1312602327.0,
+              "volume_ratio": 2.5,
+              "turnover_rate": 6.71,
+              "amplitude": 9.24,
+              "open_price": 35.51,
+              "high": 38.78,
+              "low": 35.48,
+              "pre_close": 35.7,
+              "pe_ratio": 71.2,
+              "pb_ratio": 5.79,
+              "total_mv": 21060000000.0,
+              "circ_mv": 19574000000.0
             },
             "fundamentals": {
               "market": "cn",
@@ -7122,28 +5168,30 @@
           },
           "dsa_news": [],
           "dsa_events": [],
-          "dsa_analysis_summary": "DSA行情: 现价 4.9, 涨跌幅 8.41%",
+          "dsa_analysis_summary": "DSA行情: 现价 37.5, 涨跌幅 5.04%",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: 未发现额外加分项"
+            "scorecard": "本地后置评分: capital_confirmed"
           },
-          "post_analysis_tags": [],
+          "post_analysis_tags": [
+            "capital_confirmed"
+          ],
           "raw": {
-            "rank": 4,
-            "code": "002044",
-            "name": "美年健康",
-            "final_score": 72.6161,
-            "screen_score": 72.6160752303158,
+            "rank": 2,
+            "code": "300747",
+            "name": "锐科激光",
+            "final_score": 73.636,
+            "screen_score": 71.23600529411765,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 4.9,
-            "change_pct": 8.41,
-            "amount": 1234575413.06,
-            "total_mv": 19179844223.0,
-            "turnover_rate": 6.7,
-            "volume_ratio": 4.74,
-            "pe_ratio": 59.14203791,
-            "pb_ratio": 2.41227133,
+            "price": 37.5,
+            "change_pct": 5.04,
+            "amount": 1312602327.1,
+            "total_mv": 21060000000.0,
+            "turnover_rate": 6.71,
+            "volume_ratio": 2.5,
+            "pe_ratio": 71.19532925,
+            "pb_ratio": 5.94977903,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -7158,32 +5206,32 @@
             "board_heat_observations": null,
             "board_heat_state": "",
             "board_heat_summary": "",
-            "change_60d": 11.1111,
-            "signal_score": 63.8889,
-            "ma_bullish": false,
-            "price_above_ma20": true,
-            "macd_status": "neutral",
-            "rsi_status": "neutral",
-            "breakout_20d_pct": 2.9412,
-            "range_20d_pct": 15.3488,
-            "volume_ratio_20d": 4.2287,
-            "body_pct": 8.4071,
-            "pullback_to_ma20_pct": 8.0009,
-            "consolidation_days_20d": 20,
-            "volatility_20d_pct": 43.2431,
-            "max_drawdown_20d_pct": -8.2627,
-            "atr_20_pct": 3.0102,
-            "daily_quality_score": 100.0,
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
             "daily_quality_flags": "",
-            "daily_source": "dsa:EfinanceFetcher",
+            "daily_source": "",
             "factor_scores": {
-              "value": 43.8239,
-              "liquidity": 89.4737,
-              "momentum": 68.3421,
+              "value": 33.1968,
+              "liquidity": 81.1765,
+              "momentum": 72.88,
               "reversal": 5.0,
-              "activity": 77.2098,
-              "stability": 54.4367,
-              "size": 89.4737,
+              "activity": 83.7078,
+              "stability": 62.88,
+              "size": 89.4118,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -7208,44 +5256,48 @@
               "scorecard": "completed"
             },
             "post_analysis_summaries": {
-              "scorecard": "本地后置评分: 未发现额外加分项"
+              "scorecard": "本地后置评分: capital_confirmed"
             },
             "post_analysis_score_deltas": {
-              "scorecard": 0.0
+              "scorecard": 2.4
             },
             "post_analysis_results": {
               "scorecard": {
                 "risk_flags": [],
-                "tags": []
+                "tags": [
+                  "capital_confirmed"
+                ]
               }
             },
-            "post_analysis_tags": [],
+            "post_analysis_tags": [
+              "capital_confirmed"
+            ],
             "dsa_context": {
               "enriched": true,
               "profile": "pre_rank_light",
               "news_included": false,
               "events_included": false,
               "quote": {
-                "code": "002044",
-                "name": "美年健康",
+                "code": "300747",
+                "name": "锐科激光",
                 "source": "tencent",
-                "fetched_at": "2026-10-09T16:24:39.607378+00:00",
-                "price": 4.9,
-                "change_pct": 8.41,
-                "change_amount": 0.38,
-                "volume": 259616700,
-                "amount": 1234575413.0,
-                "volume_ratio": 4.74,
-                "turnover_rate": 6.7,
-                "amplitude": 10.18,
-                "open_price": 4.52,
-                "high": 4.96,
-                "low": 4.5,
-                "pre_close": 4.52,
-                "pe_ratio": 59.14,
-                "pb_ratio": 2.41,
-                "total_mv": 19180000000.0,
-                "circ_mv": 18984000000.0
+                "fetched_at": "2026-10-14T14:37:54.193238+00:00",
+                "price": 37.5,
+                "change_pct": 5.04,
+                "change_amount": 1.8,
+                "volume": 35024400,
+                "amount": 1312602327.0,
+                "volume_ratio": 2.5,
+                "turnover_rate": 6.71,
+                "amplitude": 9.24,
+                "open_price": 35.51,
+                "high": 38.78,
+                "low": 35.48,
+                "pre_close": 35.7,
+                "pe_ratio": 71.2,
+                "pb_ratio": 5.79,
+                "total_mv": 21060000000.0,
+                "circ_mv": 19574000000.0
               },
               "fundamentals": {
                 "market": "cn",
@@ -7309,7 +5361,7 @@
               "warnings": []
             },
             "dsa_news": [],
-            "dsa_analysis_summary": "DSA行情: 现价 4.9, 涨跌幅 8.41%",
+            "dsa_analysis_summary": "DSA行情: 现价 37.5, 涨跌幅 5.04%",
             "deep_analysis_status": "not_requested",
             "deep_analysis_query_id": "",
             "deep_analysis_summary": "",
@@ -7326,30 +5378,30 @@
     }
   },
   {
-    "code": "603236",
-    "name": "移远通信",
+    "code": "601988",
+    "name": "中国银行",
     "resonance_count": 1,
     "strategies": [
-      "capital_heat"
+      "momentum_quality"
     ],
     "strategy_labels": [
-      "资金热度"
+      "动量质量"
     ],
-    "best_rank": 6,
-    "best_score": 72.4233,
-    "average_score": 72.4233,
+    "best_rank": 7,
+    "best_score": 73.5534,
+    "average_score": 73.5534,
     "strategy_details": {
-      "capital_heat": {
-        "rank": 6,
-        "score": 72.4233,
-        "reason": "本地后置评分: capital_confirmed",
+      "momentum_quality": {
+        "rank": 7,
+        "score": 73.5534,
+        "reason": "本地后置评分: value_quality",
         "raw_candidate": {
-          "rank": 6,
-          "code": "603236",
-          "name": "移远通信",
-          "score": 72.4233,
-          "screen_score": 70.02329945945948,
-          "reason": "本地后置评分: capital_confirmed",
+          "rank": 7,
+          "code": "601988",
+          "name": "中国银行",
+          "score": 73.5534,
+          "screen_score": 71.75337454496787,
+          "reason": "本地后置评分: value_quality",
           "risk_level": "low",
           "risk_flags": [],
           "llm_score": null,
@@ -7363,18 +5415,18 @@
           "llm_watch_items": [],
           "llm_invalidators": [],
           "llm_style_fit": "",
-          "price": 72.2,
-          "change_pct": 5.42,
-          "amount": 1329209733.0,
+          "price": 7.03,
+          "change_pct": -0.57,
+          "amount": 2094807575.0,
           "industry": "",
           "factor_scores": {
-            "value": 50.5198,
-            "liquidity": 81.6216,
-            "momentum": 74.115,
-            "reversal": 5.0,
-            "activity": 78.118,
-            "stability": 61.74,
-            "size": 79.4595,
+            "value": 82.5993,
+            "liquidity": 95.7173,
+            "momentum": 54.6475,
+            "reversal": 68.41,
+            "activity": 66.3933,
+            "stability": 76.29,
+            "size": 99.1435,
             "theme_heat": 50.0,
             "topic_alignment": 50.0
           },
@@ -7383,28 +5435,28 @@
           "dsa_events": [],
           "dsa_analysis_summary": "",
           "post_analysis_summaries": {
-            "scorecard": "本地后置评分: capital_confirmed"
+            "scorecard": "本地后置评分: value_quality"
           },
           "post_analysis_tags": [
-            "capital_confirmed"
+            "value_quality"
           ],
           "raw": {
-            "rank": 6,
-            "code": "603236",
-            "name": "移远通信",
-            "final_score": 72.4233,
-            "screen_score": 70.02329945945948,
+            "rank": 7,
+            "code": "601988",
+            "name": "中国银行",
+            "final_score": 73.5534,
+            "screen_score": 71.75337454496787,
             "llm_score": null,
             "ranking_reason": "",
             "risk_summary": "",
-            "price": 72.2,
-            "change_pct": 5.42,
-            "amount": 1329209733.0,
-            "total_mv": 29339307087.0,
-            "turnover_rate": 4.67,
-            "volume_ratio": 1.76,
-            "pe_ratio": 30.30166368,
-            "pb_ratio": 3.98486643,
+            "price": 7.03,
+            "change_pct": -0.57,
+            "amount": 2094807575.0,
+            "total_mv": 2265153255052.0,
+            "turnover_rate": 0.14,
+            "volume_ratio": 0.98,
+            "pe_ratio": 9.09612429,
+            "pb_ratio": 0.82348517,
             "industry": "",
             "concepts": "",
             "industry_rank": null,
@@ -7438,13 +5490,1249 @@
             "daily_quality_flags": "",
             "daily_source": "",
             "factor_scores": {
-              "value": 50.5198,
-              "liquidity": 81.6216,
-              "momentum": 74.115,
+              "value": 82.5993,
+              "liquidity": 95.7173,
+              "momentum": 54.6475,
+              "reversal": 68.41,
+              "activity": 66.3933,
+              "stability": 76.29,
+              "size": 99.1435,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "601288",
+    "name": "农业银行",
+    "resonance_count": 1,
+    "strategies": [
+      "momentum_quality"
+    ],
+    "strategy_labels": [
+      "动量质量"
+    ],
+    "best_rank": 8,
+    "best_score": 73.3792,
+    "average_score": 73.3792,
+    "strategy_details": {
+      "momentum_quality": {
+        "rank": 8,
+        "score": 73.3792,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 8,
+          "code": "601288",
+          "name": "农业银行",
+          "score": 73.3792,
+          "screen_score": 71.57923588062097,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 7.18,
+          "change_pct": -0.97,
+          "amount": 2205430558.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 82.6336,
+            "liquidity": 96.5739,
+            "momentum": 53.3475,
+            "reversal": 73.61,
+            "activity": 66.1131,
+            "stability": 75.09,
+            "size": 99.5717,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 8,
+            "code": "601288",
+            "name": "农业银行",
+            "final_score": 73.3792,
+            "screen_score": 71.57923588062097,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 7.18,
+            "change_pct": -0.97,
+            "amount": 2205430558.0,
+            "total_mv": 2512878183208.0,
+            "turnover_rate": 0.1,
+            "volume_ratio": 0.95,
+            "pe_ratio": 8.43496799,
+            "pb_ratio": 0.87923928,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 82.6336,
+              "liquidity": 96.5739,
+              "momentum": 53.3475,
+              "reversal": 73.61,
+              "activity": 66.1131,
+              "stability": 75.09,
+              "size": 99.5717,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "601939",
+    "name": "建设银行",
+    "resonance_count": 1,
+    "strategies": [
+      "momentum_quality"
+    ],
+    "strategy_labels": [
+      "动量质量"
+    ],
+    "best_rank": 9,
+    "best_score": 73.052,
+    "average_score": 73.052,
+    "strategy_details": {
+      "momentum_quality": {
+        "rank": 9,
+        "score": 73.052,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 9,
+          "code": "601939",
+          "name": "建设银行",
+          "score": 73.052,
+          "screen_score": 71.25197730192717,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 11.4,
+          "change_pct": 0.26,
+          "amount": 1195264099.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 82.8857,
+            "liquidity": 87.5803,
+            "momentum": 57.345,
+            "reversal": 57.62,
+            "activity": 69.541,
+            "stability": 77.22,
+            "size": 99.7859,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 9,
+            "code": "601939",
+            "name": "建设银行",
+            "final_score": 73.052,
+            "screen_score": 71.25197730192717,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 11.4,
+            "change_pct": 0.26,
+            "amount": 1195264099.0,
+            "total_mv": 2982244348633.0,
+            "turnover_rate": 1.09,
+            "volume_ratio": 0.92,
+            "pe_ratio": 8.60939955,
+            "pb_ratio": 0.83298145,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 82.8857,
+              "liquidity": 87.5803,
+              "momentum": 57.345,
+              "reversal": 57.62,
+              "activity": 69.541,
+              "stability": 77.22,
+              "size": 99.7859,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "601668",
+    "name": "中国建筑",
+    "resonance_count": 1,
+    "strategies": [
+      "momentum_quality"
+    ],
+    "strategy_labels": [
+      "动量质量"
+    ],
+    "best_rank": 10,
+    "best_score": 72.8889,
+    "average_score": 72.8889,
+    "strategy_details": {
+      "momentum_quality": {
+        "rank": 10,
+        "score": 72.8889,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 10,
+          "code": "601668",
+          "name": "中国建筑",
+          "score": 72.8889,
+          "screen_score": 71.08894132762312,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 4.47,
+          "change_pct": 1.13,
+          "amount": 1062277709.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 88.5918,
+            "liquidity": 84.7966,
+            "momentum": 60.1725,
+            "reversal": 45.27,
+            "activity": 67.705,
+            "stability": 74.61,
+            "size": 88.4368,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 10,
+            "code": "601668",
+            "name": "中国建筑",
+            "final_score": 72.8889,
+            "screen_score": 71.08894132762312,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 4.47,
+            "change_pct": 1.13,
+            "amount": 1062277709.0,
+            "total_mv": 184702145285.0,
+            "turnover_rate": 0.58,
+            "volume_ratio": 0.92,
+            "pe_ratio": 5.83220383,
+            "pb_ratio": 0.37317504,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 88.5918,
+              "liquidity": 84.7966,
+              "momentum": 60.1725,
+              "reversal": 45.27,
+              "activity": 67.705,
+              "stability": 74.61,
+              "size": 88.4368,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 1.8
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "002812",
+    "name": "恩捷股份",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 3,
+    "best_score": 72.3817,
+    "average_score": 72.3817,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 3,
+        "score": 72.3817,
+        "reason": "本地后置评分: 未发现额外加分项",
+        "raw_candidate": {
+          "rank": 3,
+          "code": "002812",
+          "name": "恩捷股份",
+          "score": 72.3817,
+          "screen_score": 72.38168852941178,
+          "reason": "本地后置评分: 未发现额外加分项",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 46.4,
+          "change_pct": 4.46,
+          "amount": 2306175681.92,
+          "industry": "",
+          "factor_scores": {
+            "value": 67.4652,
+            "liquidity": 94.1176,
+            "momentum": 70.995,
+            "reversal": 5.0,
+            "activity": 81.9374,
+            "stability": 64.62,
+            "size": 97.6471,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {
+            "enriched": true,
+            "profile": "pre_rank_light",
+            "news_included": false,
+            "events_included": false,
+            "quote": {
+              "code": "002812",
+              "name": "恩捷股份",
+              "source": "tencent",
+              "fetched_at": "2026-10-14T14:37:27.927489+00:00",
+              "price": 46.4,
+              "change_pct": 4.46,
+              "change_amount": 1.98,
+              "volume": 48554900,
+              "amount": 2306175682.0,
+              "volume_ratio": 1.61,
+              "turnover_rate": 5.92,
+              "amplitude": 6.15,
+              "open_price": 47.3,
+              "high": 48.86,
+              "low": 46.13,
+              "pre_close": 44.42,
+              "pe_ratio": 43.12,
+              "pb_ratio": 1.75,
+              "total_mv": 45533000000.0,
+              "circ_mv": 38027000000.0
+            },
+            "fundamentals": {
+              "market": "cn",
+              "status": "partial",
+              "coverage": {
+                "valuation": "not_supported",
+                "growth": "failed",
+                "earnings": "failed",
+                "institution": "failed",
+                "capital_flow": "failed",
+                "dragon_tiger": "failed",
+                "boards": "failed"
+              },
+              "valuation": {
+                "status": "not_supported",
+                "data": {
+                  "pe_ratio": null,
+                  "pb_ratio": null,
+                  "total_mv": null,
+                  "circ_mv": null
+                }
+              },
+              "growth": {
+                "status": "failed",
+                "data": {}
+              },
+              "earnings": {
+                "status": "failed",
+                "data": {}
+              },
+              "institution": {
+                "status": "failed",
+                "data": {}
+              },
+              "capital_flow": {
+                "status": "failed",
+                "data": {}
+              },
+              "boards": {
+                "status": "failed",
+                "data": {}
+              },
+              "errors": [
+                "fundamental_valuation timeout",
+                "fundamental stage timeout",
+                "fundamental stage timeout"
+              ]
+            },
+            "news": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "events": {
+              "success": false,
+              "skipped": true,
+              "reason": "pre_rank_light_context",
+              "results": []
+            },
+            "warnings": []
+          },
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "DSA行情: 现价 46.4, 涨跌幅 4.46%",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: 未发现额外加分项"
+          },
+          "post_analysis_tags": [],
+          "raw": {
+            "rank": 3,
+            "code": "002812",
+            "name": "恩捷股份",
+            "final_score": 72.3817,
+            "screen_score": 72.38168852941178,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 46.4,
+            "change_pct": 4.46,
+            "amount": 2306175681.92,
+            "total_mv": 45533179235.0,
+            "turnover_rate": 5.92,
+            "volume_ratio": 1.61,
+            "pe_ratio": 43.11921152,
+            "pb_ratio": 1.74785951,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 67.4652,
+              "liquidity": 94.1176,
+              "momentum": 70.995,
               "reversal": 5.0,
-              "activity": 78.118,
-              "stability": 61.74,
-              "size": 79.4595,
+              "activity": 81.9374,
+              "stability": 64.62,
+              "size": 97.6471,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: 未发现额外加分项"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 0.0
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": []
+              }
+            },
+            "post_analysis_tags": [],
+            "dsa_context": {
+              "enriched": true,
+              "profile": "pre_rank_light",
+              "news_included": false,
+              "events_included": false,
+              "quote": {
+                "code": "002812",
+                "name": "恩捷股份",
+                "source": "tencent",
+                "fetched_at": "2026-10-14T14:37:27.927489+00:00",
+                "price": 46.4,
+                "change_pct": 4.46,
+                "change_amount": 1.98,
+                "volume": 48554900,
+                "amount": 2306175682.0,
+                "volume_ratio": 1.61,
+                "turnover_rate": 5.92,
+                "amplitude": 6.15,
+                "open_price": 47.3,
+                "high": 48.86,
+                "low": 46.13,
+                "pre_close": 44.42,
+                "pe_ratio": 43.12,
+                "pb_ratio": 1.75,
+                "total_mv": 45533000000.0,
+                "circ_mv": 38027000000.0
+              },
+              "fundamentals": {
+                "market": "cn",
+                "status": "partial",
+                "coverage": {
+                  "valuation": "not_supported",
+                  "growth": "failed",
+                  "earnings": "failed",
+                  "institution": "failed",
+                  "capital_flow": "failed",
+                  "dragon_tiger": "failed",
+                  "boards": "failed"
+                },
+                "valuation": {
+                  "status": "not_supported",
+                  "data": {
+                    "pe_ratio": null,
+                    "pb_ratio": null,
+                    "total_mv": null,
+                    "circ_mv": null
+                  }
+                },
+                "growth": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "earnings": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "institution": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "capital_flow": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "boards": {
+                  "status": "failed",
+                  "data": {}
+                },
+                "errors": [
+                  "fundamental_valuation timeout",
+                  "fundamental stage timeout",
+                  "fundamental stage timeout"
+                ]
+              },
+              "news": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "events": {
+                "success": false,
+                "skipped": true,
+                "reason": "pre_rank_light_context",
+                "results": []
+              },
+              "warnings": []
+            },
+            "dsa_news": [],
+            "dsa_analysis_summary": "DSA行情: 现价 46.4, 涨跌幅 4.46%",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "600938",
+    "name": "中国海油",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 4,
+    "best_score": 71.906,
+    "average_score": 71.906,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 4,
+        "score": 71.906,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 4,
+          "code": "600938",
+          "name": "中国海油",
+          "score": 71.906,
+          "screen_score": 69.50596882352943,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 35.75,
+          "change_pct": 4.26,
+          "amount": 2616352462.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 79.8349,
+            "liquidity": 95.2941,
+            "momentum": 70.345,
+            "reversal": 5.0,
+            "activity": 71.5233,
+            "stability": 65.22,
+            "size": 100.0,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 4,
+            "code": "600938",
+            "name": "中国海油",
+            "final_score": 71.906,
+            "screen_score": 69.50596882352943,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 35.75,
+            "change_pct": 4.26,
+            "amount": 2616352462.0,
+            "total_mv": 1699195854928.0,
+            "turnover_rate": 2.46,
+            "volume_ratio": 2.06,
+            "pe_ratio": 12.28035482,
+            "pb_ratio": 1.98491667,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 79.8349,
+              "liquidity": 95.2941,
+              "momentum": 70.345,
+              "reversal": 5.0,
+              "activity": 71.5233,
+              "stability": 65.22,
+              "size": 100.0,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 2.4
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "601595",
+    "name": "上海电影",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 5,
+    "best_score": 70.8365,
+    "average_score": 70.8365,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 5,
+        "score": 70.8365,
+        "reason": "本地后置评分: capital_confirmed",
+        "raw_candidate": {
+          "rank": 5,
+          "code": "601595",
+          "name": "上海电影",
+          "score": 70.8365,
+          "screen_score": 68.43646382352942,
+          "reason": "本地后置评分: capital_confirmed",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 29.09,
+          "change_pct": 5.55,
+          "amount": 1060881813.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 19.7471,
+            "liquidity": 75.2941,
+            "momentum": 74.5375,
+            "reversal": 5.0,
+            "activity": 75.7229,
+            "stability": 61.35,
+            "size": 75.2941,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: capital_confirmed"
+          },
+          "post_analysis_tags": [
+            "capital_confirmed"
+          ],
+          "raw": {
+            "rank": 5,
+            "code": "601595",
+            "name": "上海电影",
+            "final_score": 70.8365,
+            "screen_score": 68.43646382352942,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 29.09,
+            "change_pct": 5.55,
+            "amount": 1060881813.0,
+            "total_mv": 13038138000.0,
+            "turnover_rate": 8.26,
+            "volume_ratio": 1.97,
+            "pe_ratio": 175.25842073,
+            "pb_ratio": 7.80490928,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 19.7471,
+              "liquidity": 75.2941,
+              "momentum": 74.5375,
+              "reversal": 5.0,
+              "activity": 75.7229,
+              "stability": 61.35,
+              "size": 75.2941,
               "theme_heat": 50.0,
               "topic_alignment": 50.0
             },
@@ -7485,6 +6773,542 @@
             "post_analysis_tags": [
               "capital_confirmed"
             ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "600621",
+    "name": "华鑫股份",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 6,
+    "best_score": 70.3363,
+    "average_score": 70.3363,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 6,
+        "score": 70.3363,
+        "reason": "本地后置评分: value_quality",
+        "raw_candidate": {
+          "rank": 6,
+          "code": "600621",
+          "name": "华鑫股份",
+          "score": 70.3363,
+          "screen_score": 67.93625911764707,
+          "reason": "本地后置评分: value_quality",
+          "risk_level": "low",
+          "risk_flags": [],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 14.95,
+          "change_pct": 1.15,
+          "amount": 1073068588.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 81.2547,
+            "liquidity": 76.4706,
+            "momentum": 60.2375,
+            "reversal": 44.85,
+            "activity": 79.1999,
+            "stability": 74.55,
+            "size": 85.8824,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: value_quality"
+          },
+          "post_analysis_tags": [
+            "value_quality"
+          ],
+          "raw": {
+            "rank": 6,
+            "code": "600621",
+            "name": "华鑫股份",
+            "final_score": 70.3363,
+            "screen_score": 67.93625911764707,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 14.95,
+            "change_pct": 1.15,
+            "amount": 1073068588.0,
+            "total_mv": 15860444415.0,
+            "turnover_rate": 6.79,
+            "volume_ratio": 1.57,
+            "pe_ratio": 19.48899028,
+            "pb_ratio": 1.73536467,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 81.2547,
+              "liquidity": 76.4706,
+              "momentum": 60.2375,
+              "reversal": 44.85,
+              "activity": 79.1999,
+              "stability": 74.55,
+              "size": 85.8824,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 0.0,
+            "risk_level": "low",
+            "risk_penalty": 0.0,
+            "risk_flags": [],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: value_quality"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 2.4
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "value_quality"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "value_quality"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "301251",
+    "name": "威尔高",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 7,
+    "best_score": 68.8941,
+    "average_score": 68.8941,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 7,
+        "score": 68.8941,
+        "reason": "本地后置评分: capital_confirmed",
+        "raw_candidate": {
+          "rank": 7,
+          "code": "301251",
+          "name": "威尔高",
+          "score": 68.8941,
+          "screen_score": 68.4941355882353,
+          "reason": "本地后置评分: capital_confirmed",
+          "risk_level": "low",
+          "risk_flags": [
+            "high_pb"
+          ],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 80.15,
+          "change_pct": 6.41,
+          "amount": 1315713104.4,
+          "industry": "",
+          "factor_scores": {
+            "value": 16.7766,
+            "liquidity": 82.3529,
+            "momentum": 77.3325,
+            "reversal": 5.0,
+            "activity": 69.6224,
+            "stability": 58.77,
+            "size": 83.5294,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: capital_confirmed"
+          },
+          "post_analysis_tags": [
+            "capital_confirmed"
+          ],
+          "raw": {
+            "rank": 7,
+            "code": "301251",
+            "name": "威尔高",
+            "final_score": 68.8941,
+            "screen_score": 68.4941355882353,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 80.15,
+            "change_pct": 6.41,
+            "amount": 1315713104.4,
+            "total_mv": 15113411493.0,
+            "turnover_rate": 9.4,
+            "volume_ratio": 1.53,
+            "pe_ratio": 227.61217686,
+            "pb_ratio": 9.76702325,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 16.7766,
+              "liquidity": 82.3529,
+              "momentum": 77.3325,
+              "reversal": 5.0,
+              "activity": 69.6224,
+              "stability": 58.77,
+              "size": 83.5294,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 16.6667,
+            "risk_level": "low",
+            "risk_penalty": 2.0,
+            "risk_flags": [
+              "high_pb"
+            ],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: capital_confirmed"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 2.4
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": [
+                  "capital_confirmed"
+                ]
+              }
+            },
+            "post_analysis_tags": [
+              "capital_confirmed"
+            ],
+            "dsa_context": {},
+            "dsa_news": [],
+            "dsa_analysis_summary": "",
+            "deep_analysis_status": "not_requested",
+            "deep_analysis_query_id": "",
+            "deep_analysis_summary": "",
+            "deep_analysis_error": "",
+            "deep_analysis_result": null,
+            "deep_analysis_signal_score": null,
+            "deep_analysis_sentiment_score": null,
+            "deep_analysis_operation_advice": "",
+            "deep_analysis_trend_prediction": "",
+            "deep_analysis_risk_flags": []
+          }
+        }
+      }
+    }
+  },
+  {
+    "code": "600869",
+    "name": "远东股份",
+    "resonance_count": 1,
+    "strategies": [
+      "capital_heat"
+    ],
+    "strategy_labels": [
+      "资金热度"
+    ],
+    "best_rank": 8,
+    "best_score": 68.5799,
+    "average_score": 68.5799,
+    "strategy_details": {
+      "capital_heat": {
+        "rank": 8,
+        "score": 68.5799,
+        "reason": "本地后置评分: 未发现额外加分项",
+        "raw_candidate": {
+          "rank": 8,
+          "code": "600869",
+          "name": "远东股份",
+          "score": 68.5799,
+          "screen_score": 70.57992911764707,
+          "reason": "本地后置评分: 未发现额外加分项",
+          "risk_level": "low",
+          "risk_flags": [
+            "high_pb"
+          ],
+          "llm_score": null,
+          "llm_confidence": null,
+          "llm_sector": "",
+          "llm_theme": "",
+          "llm_tags": [],
+          "llm_thesis": "",
+          "llm_catalysts": [],
+          "llm_risks": [],
+          "llm_watch_items": [],
+          "llm_invalidators": [],
+          "llm_style_fit": "",
+          "price": 16.93,
+          "change_pct": 2.36,
+          "amount": 2874579854.0,
+          "industry": "",
+          "factor_scores": {
+            "value": 16.5501,
+            "liquidity": 96.4706,
+            "momentum": 64.17,
+            "reversal": 19.44,
+            "activity": 77.6451,
+            "stability": 70.92,
+            "size": 96.4706,
+            "theme_heat": 50.0,
+            "topic_alignment": 50.0
+          },
+          "dsa_context": {},
+          "dsa_news": [],
+          "dsa_events": [],
+          "dsa_analysis_summary": "",
+          "post_analysis_summaries": {
+            "scorecard": "本地后置评分: 未发现额外加分项"
+          },
+          "post_analysis_tags": [],
+          "raw": {
+            "rank": 8,
+            "code": "600869",
+            "name": "远东股份",
+            "final_score": 68.5799,
+            "screen_score": 70.57992911764707,
+            "llm_score": null,
+            "ranking_reason": "",
+            "risk_summary": "",
+            "price": 16.93,
+            "change_pct": 2.36,
+            "amount": 2874579854.0,
+            "total_mv": 37573641990.0,
+            "turnover_rate": 7.6,
+            "volume_ratio": 1.87,
+            "pe_ratio": 311.1231973,
+            "pb_ratio": 8.5951367,
+            "industry": "",
+            "concepts": "",
+            "industry_rank": null,
+            "industry_change_pct": null,
+            "industry_heat_score": null,
+            "concept_heat_score": null,
+            "board_heat_score": null,
+            "board_heat_latest_score": null,
+            "board_heat_trend_score": null,
+            "board_heat_persistence_score": null,
+            "board_heat_cooling_score": null,
+            "board_heat_observations": null,
+            "board_heat_state": "",
+            "board_heat_summary": "",
+            "change_60d": null,
+            "signal_score": null,
+            "ma_bullish": null,
+            "price_above_ma20": null,
+            "macd_status": "",
+            "rsi_status": "",
+            "breakout_20d_pct": null,
+            "range_20d_pct": null,
+            "volume_ratio_20d": null,
+            "body_pct": null,
+            "pullback_to_ma20_pct": null,
+            "consolidation_days_20d": null,
+            "volatility_20d_pct": null,
+            "max_drawdown_20d_pct": null,
+            "atr_20_pct": null,
+            "daily_quality_score": null,
+            "daily_quality_flags": "",
+            "daily_source": "",
+            "factor_scores": {
+              "value": 16.5501,
+              "liquidity": 96.4706,
+              "momentum": 64.17,
+              "reversal": 19.44,
+              "activity": 77.6451,
+              "stability": 70.92,
+              "size": 96.4706,
+              "theme_heat": 50.0,
+              "topic_alignment": 50.0
+            },
+            "llm_confidence": null,
+            "llm_sector": "",
+            "llm_theme": "",
+            "llm_tags": [],
+            "llm_catalysts": [],
+            "llm_risks": [],
+            "llm_thesis": "",
+            "llm_style_fit": "",
+            "llm_watch_items": [],
+            "llm_invalidators": [],
+            "risk_score": 16.6667,
+            "risk_level": "low",
+            "risk_penalty": 2.0,
+            "risk_flags": [
+              "high_pb"
+            ],
+            "excluded_by_risk": false,
+            "portfolio_penalty": 0.0,
+            "portfolio_flags": [],
+            "post_analysis_status": {
+              "scorecard": "completed"
+            },
+            "post_analysis_summaries": {
+              "scorecard": "本地后置评分: 未发现额外加分项"
+            },
+            "post_analysis_score_deltas": {
+              "scorecard": 0.0
+            },
+            "post_analysis_results": {
+              "scorecard": {
+                "risk_flags": [],
+                "tags": []
+              }
+            },
+            "post_analysis_tags": [],
             "dsa_context": {},
             "dsa_news": [],
             "dsa_analysis_summary": "",
