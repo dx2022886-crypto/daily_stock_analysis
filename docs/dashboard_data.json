@@ -1,104 +1,109 @@
 {
   "decision_state": "盘后候选已完成，等待下一交易日集合竞价",
-  "generated_at": "2026-10-14T14:40:47+00:00",
+  "generated_at": "2026-10-14T14:44:15+00:00",
   "leaders": [
     {
-      "code": "600825",
+      "code": "603096",
+      "leader_reasons": [
+        "市场最高板",
+        "所属主线题材排名第1",
+        "题材内部存在涨停梯队",
+        "封板时间靠前"
+      ],
+      "leader_score": 68.0944,
+      "market_leader_rank": 3,
+      "name": "新经典",
+      "primary_theme": "出版",
+      "stock_role": "MARKET_LEADER"
+    },
+    {
+      "code": "002343",
       "leader_reasons": [
         "市场最高板",
         "东方财富人气榜Top10",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 77.6866,
+      "leader_score": 73.7865,
       "market_leader_rank": 1,
-      "name": "新华传媒",
-      "primary_theme": "出版",
+      "name": "慈文传媒",
+      "primary_theme": "影视院线",
       "stock_role": "MARKET_LEADER"
     },
     {
-      "code": "600241",
+      "code": "002696",
       "leader_reasons": [
-        "所属主线题材排名第1",
+        "市场最高板",
         "题材内部存在涨停梯队",
         "封板时间靠前"
       ],
-      "leader_score": 67.5263,
+      "leader_score": 70.1498,
       "market_leader_rank": 2,
-      "name": "时代万恒",
-      "primary_theme": "电池",
+      "name": "百洋股份",
+      "primary_theme": "饲料",
       "stock_role": "THEME_LEADER"
     },
     {
-      "code": "002354",
+      "code": "601088",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 10.3954,
-      "name": "天娱数科",
+      "name": "中国神华",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "688836",
+      "code": "002493",
+      "leader_reasons": [
+        "具备可观测的题材或市场数据"
+      ],
+      "leader_score": 10.6489,
+      "name": "荣盛石化",
+      "stock_role": "FRONT_CORE"
+    },
+    {
+      "code": "301010",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 10.9025,
-      "name": "宇树科技-W",
+      "name": "晶雪节能",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "301171",
+      "code": "000833",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.156,
-      "name": "易点天下",
+      "name": "粤桂股份",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "002866",
+      "code": "600487",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.4096,
-      "name": "传艺科技",
+      "name": "亨通光电",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "002636",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 11.6631,
-      "name": "金安国纪",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "603228",
+      "code": "000892",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 11.9167,
-      "name": "景旺电子",
+      "name": "欢瑞世纪",
       "stock_role": "FRONT_CORE"
     },
     {
-      "code": "600722",
+      "code": "002384",
       "leader_reasons": [
         "具备可观测的题材或市场数据"
       ],
       "leader_score": 12.4238,
-      "name": "金牛化工",
-      "stock_role": "FRONT_CORE"
-    },
-    {
-      "code": "000002",
-      "leader_reasons": [
-        "具备可观测的题材或市场数据"
-      ],
-      "leader_score": 12.6773,
-      "name": "万  科Ａ",
+      "name": "东山精密",
       "stock_role": "FRONT_CORE"
     }
   ],
@@ -166,7 +171,7 @@
     "updated_at": {
       "stage1": "2026-10-14T22:39:11+08:00",
       "stage2": "2026-10-14T22:40:25+08:00",
-      "stage3": "2026-10-10T00:31:46+08:00",
+      "stage3": "2026-10-14T22:43:52+08:00",
       "stage4": "2026-10-10T00:45:29+08:00",
       "stage5": null
     }
@@ -580,49 +585,49 @@
   },
   "themes": [
     {
-      "confidence_adjusted": 69.0562,
+      "confidence_adjusted": 59.8367,
       "coverage": 0.85,
       "degraded": true,
       "rank": 1,
-      "theme": "电池",
+      "theme": "出版",
       "theme_role": "MAIN",
-      "theme_score": 74.902
+      "theme_score": 64.902
     },
     {
-      "confidence_adjusted": 66.887,
+      "confidence_adjusted": 55.6788,
       "coverage": 0.85,
       "degraded": true,
       "rank": 2,
-      "theme": "出版",
+      "theme": "影视院线",
       "theme_role": "SECONDARY",
-      "theme_score": 72.5491
+      "theme_score": 60.3921
     },
     {
-      "confidence_adjusted": 58.9327,
+      "confidence_adjusted": 55.6788,
       "coverage": 0.85,
       "degraded": true,
       "rank": 3,
-      "theme": "小家电",
-      "theme_role": "ROTATION",
-      "theme_score": 63.9215
+      "theme": "饲料",
+      "theme_role": "SECONDARY",
+      "theme_score": 60.3921
     },
     {
       "confidence_adjusted": 53.8711,
       "coverage": 0.85,
       "degraded": true,
       "rank": 4,
-      "theme": "服装家纺",
+      "theme": "房地产开",
       "theme_role": "ROTATION",
       "theme_score": 58.4314
     },
     {
-      "confidence_adjusted": 51.1594,
+      "confidence_adjusted": 51.7018,
       "coverage": 0.85,
       "degraded": true,
       "rank": 5,
-      "theme": "化学制药",
+      "theme": "化学制品",
       "theme_role": "ROTATION",
-      "theme_score": 55.4902
+      "theme_score": 56.0785
     }
   ]
 }
